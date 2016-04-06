@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # using     : build ncurses
+# time      : 0.6 sbu
+# params    : none
+# return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
 
 # locate location of this script
@@ -8,30 +11,85 @@ __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
 # use configuration
+# use util
 source $script_dir/configuration.sh
+source $script_dir/util.sh
+
+# define variables
+package_name=ncurses
+source_file=ncurses-6.0.tar.gz
+source_dir=ncurses-6.0
 
 # change working directory to sources directory
 cd $root_sources
 
-# extract source code and change to source code directory
-if [ ! -d ncurses-6.0 ]; then
-   tar -xf ncurses-6.0.tar.gz
+# log start setup
+log_build "$package_name.setup.start" true
+
+# vefify
+if [ ! -f $source_file ]; then
+    log_build "$package_name.verify" false
+    exit 1
+else
+    log_build "$package_name.verify" true
 fi
-cd ncurses-6.0
+
+# extract source code and change to source code directory
+if [ ! -d $source_dir ]; then
+
+    log_build "$package_name.extract.start" true
+
+    tar -vxf $source_file
+
+    if [[ $? != 0 ]]; then
+        log_build "$package_name.extract.finish" false
+        exit 1
+    else
+        log_build "$package_name.extract.finish" true
+    fi
+else
+    log_build "$package_name.extract.idle" true
+fi
+cd $source_dir
 
 # prepare
 sed -i s/mawk// configure
 
 # configure
+log_build "$package_name.configure.start" true
 ./configure --prefix=/tools \
             --with-shared   \
             --without-debug \
             --without-ada   \
             --enable-widec  \
             --enable-overwrite
+if [[ $? != 0 ]]; then
+   log_build "$package_name.configure.finish" false
+   exit 1
+else
+   log_build "$package_name.configure.finish" true
+fi
 
 # build
+log_build "$package_name.make.start" true
 make
+if [[ $? != 0 ]]; then
+    log_build "$package_name.make.finish" false
+    exit 1
+else
+    log_build "$package_name.make.finish" true
+fi
 
 # install
+log_build "$package_name.install.start" true
 make install
+if [[ $? != 0 ]]; then
+    log_build "$package_name.install.finish" false
+    exit 1
+else
+    log_build "$package_name.install.finish" true
+fi
+
+# successfull
+log_build "$package_name.setup.finish" true
+exit 0
