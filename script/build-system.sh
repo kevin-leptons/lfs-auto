@@ -13,6 +13,9 @@ $__dir__/require-root.sh
 # use configuration
 source $__dir__/configuration.sh
 
+# clear log file
+> $log_build_file
+
 # list all script to build package in system
 # each script not contains extension
 packages=( \

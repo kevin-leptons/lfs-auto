@@ -7,7 +7,7 @@
 __dir__="$(dirname "$0")"
 
 # require root permision
-source $__dir__/require-root.sh
+$__dir__/require-root.sh
 
 # use configuration
 source $__dir__/configuration.sh
@@ -17,6 +17,9 @@ $__dir__/create-build-user.sh
 
 # call prepare partition
 $__dir__/prepare-partition.sh
+
+# change ownwer of /lfs-script/log
+sudo chown lfs:lfs -R /lfs-script/log
 
 # continue with bash with lfs user
 sudo -u $build_user bash

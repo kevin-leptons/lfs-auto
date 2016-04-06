@@ -10,6 +10,9 @@ build_temp_system_dir=$__dir__/build-temp-system
 # use configuration
 source $__dir__/configuration.sh
 
+# clear log files
+> $log_build_file
+
 # list all script to build packages
 # each script not contains extension
 tool_packages=( \
