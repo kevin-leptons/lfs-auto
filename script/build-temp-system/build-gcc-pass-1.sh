@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # using     : build gcc package in pass 1
+# time      : 8.5 sbu
 # params    : none
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
@@ -10,12 +11,19 @@ __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
 # use configuration
+# use util
 source $script_dir/configuration.sh
+source $script_dir/util.sh
 
 # change working directory to sources directory
 cd $root_sources
 
 # define variables
+package_name=gcc
+package_mpfr_name=mpfr
+package_gmp_name=gmp
+package_mpc_name=mpc
+package_
 source_file=gcc-5.2.0.tar.bz2
 source_dir=gcc-5.2.0
 build_dir=gcc-build
@@ -26,58 +34,112 @@ mpfr_source_dir=mpfr
 gmp_source_dir=gmp
 mpc_source_dir=mpc
 
-# verify source file
+# log start setup
+log_build "$package_name.setup.start" true
+
+# gcc.verify
 if [ ! -f $source_file ]; then
-    echo "error: source file " $source_file " is not exist"
-fi
-
-# extract source file
-if [ ! -d $source_dir ]; then
-    tar -xf $source_file
-fi
-if $?; then
-    echo "error: extract source file " $source_file
-    echo $?
+    log_build "$package_name:verify" false
     exit 1
+else
+    log_build "$package_name:verify" true
 fi
 
-# resolve dependent package
+# gcc.extract
+# and change to source directory
+if [ ! -d $source_dir ]; then
+
+    log_build "$package_name.extract.start" true
+
+    tar -xf $source_file
+
+    if [[ $? != 0 ]]; then
+        log_build "$package_name.extract.finish" false
+        exit 1
+    else
+        log_build "$package_name.extract.finish" true
+    fi
+else
+    log_build "$package_name.extract.idle" true
+fi
 cd $source_dir
 
+# mpfr.verify
+if [ ! -f $mpfr_source_file ]; then
+    log_build "$package_mpfr_name.verify" false
+else
+    log_build "$package_mpfr_name.verify" true
+fi
+
+# mpfr.extract
 if [ ! -d $mpfr_source_dir ]; then
 
-   tar -xf $mpfr_source_file
-   if $?; then
-       echo "error: extract source file " $mpfr_source_file
-       echo $?
-       exit 1
-   fi
+    log_build "$package_mpfr_name.extract.start"  true
 
-   mv -v mpfr-3.1.3 $mpfr_source_dir
-fi
+    tar -xf $mpfr_source_file
 
-if [ ! -d gmp ]; then
-
-    tar -xf ../gmp-6.0.0a.tar.xz
-    if $?; then
-        echo "error: extract source file " $gmp_source_file
-        echo $?
+    if [[ $? != 0 ]]; then
+        log_build "$package_mpfr_name.extract.finish" false
         exit 1
+    else
+        log_build "$package_mpfr_name.extract.finish" true
     fi
 
-    mv -v gmp-6.0.0 gmp
+    mv -v mpfr-3.1.3 $mpfr_source_dir
+else
+    log_build "$package_mpfr_name.extract.idle" true
 fi
 
-if [ ! -d mpc ]; then
+# gmp.verify
+if [ ! -f $gmp_source_file ]; then
+    log_build "$package_gmp_name.verify" false
+else
+    log_build "$package_gmp_name.verify" true
+fi
 
-   tar -xf ../mpc-1.0.3.tar.gz
-   if $?; then
-       echo "error: extract source file " $mpc_source_file
-       echo $?
-       exit 1
-   fi
+# gmp.extract
+if [ ! -d $gmp_source_dir ]; then
 
-   mv -v mpc-1.0.3 mpc
+    log_build "$package_gmp_name.extract.start" true
+
+    tar -xf $gmp_source_file
+
+    if [[ $? != 0 ]]; then
+        log_build "$package_gmp_name.extract.finish" false
+        exit 1
+    else
+        log_build "$package_gmp_name.extract.finish" true
+    fi
+
+    mv -v gmp-6.0.0 $gmp_source_dir
+else
+    log_build "$package_gmp_name.extract.idle" true
+fi
+
+# mpc vefify
+if [ ! -f $mpc_source_file ]; then
+    log_build "$package_mpc_name.verify" false
+else
+    log_build "$package_mpc_name.verify" true
+fi
+
+# mpc extract
+if [ ! -d $mpc_source_dir ]; then
+
+    log_build "$package_mpc_name.extract.start" true
+
+    tar -xf $mpc_source_file
+
+    if [[ $? != 0 ]]; then
+        log_build "$package_mpc_name.extract.finish" false
+        exit 1
+    else
+        log_build "$package_mpc_name.extract.finish" true
+    fi
+
+    mv -v mpc-1.0.3 mpc
+else
+    log_build "$package_mpc_name.extract.idle" true
 fi
 
 # configure dependent packages
@@ -98,9 +160,10 @@ done
 # create and change to build directory
 cd ../
 mkdir -vp $build_dir
-cd gcc-build
+cd $build_dir
 
 # configure
+log_build "$package_name.configure.start" true
 ../gcc-5.2.0/configure                             \
     --target=$LFS_TGT                              \
     --prefix=/tools                                \
@@ -122,27 +185,33 @@ cd gcc-build
     --disable-libvtv                               \
     --disable-libstdcxx                            \
     --enable-languages=c,c++
-if $?; then
-    echo "error: configure " $source_file
-    echo $?
+if [[ $? != 0 ]]; then
+    log_build "$package_name.configure.finish" false
     exit 1
+else
+    log_build "$package_name.configure.finish" true
 fi
 
 # build
+log_build "$package_name.make.start" true
 make
-if $?; then
-    echo "error: make " $source_file
-    echo $?
+if [[ $? != 0 ]]; then
+    log_build "$package_name.make.finish" false
     exit 1
+else
+    log_build "$package_name.make.finish" true
 fi
 
 # install
+log_build "$package_name.install.start" true
 make install
-if $?; then
-    echo "error: install " $source_file
-    echo $?
+if [[ $? != 0 ]]; then
+    log_build "$package_name.install.finish" false
     exit 1
+else
+    log_build "$package_name.install.finish" true
 fi
 
 # successfull
+log_build "$package_name.setup.finish" true
 exit 0

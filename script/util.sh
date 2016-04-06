@@ -38,7 +38,7 @@ log_build() {
 
     # log to file
     printf "%s\n" "$log_time" >> $log_build_file
-    printf "%-76s%4s\n\n" "$1" "$result" >> $log_build_file
+    printf "%-75s%5s\n\n" "$1" "$result" >> $log_build_file
 
     # log to console
     printf "%s\n" "$log_time"

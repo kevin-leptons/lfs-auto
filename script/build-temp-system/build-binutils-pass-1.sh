@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # using     : build binutils package in pass 1
+# time      : 1 sbu
 # params    : none
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
@@ -24,7 +25,7 @@ source_dir=binutils-2.25.1
 build_dir=binutils-build
 
 # log start setup
-log_build "$package_name.start" true
+log_build "$package_name.setup.start" true
 
 # verify source code
 if [ ! -f $source_file ]; then
@@ -36,8 +37,11 @@ fi
 
 # extract source file
 if [ ! -d $source_dir ]; then
+
     log_build "$package_name.extract.start" true
+
     tar -vxf $source_file
+
     if [[ $? != 0 ]]; then
         log_build "$package_name.extract.finish" false
         exit 1
@@ -101,5 +105,5 @@ else
 fi
 
 # successfull
-log_build "$package_name.finish" true
+log_build "$package_name.setup.finish" true
 exit 0
