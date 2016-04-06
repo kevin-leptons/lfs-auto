@@ -51,7 +51,7 @@ if [ ! -d $source_dir ]; then
 
     log_build "$package_name.extract.start" true
 
-    tar -xf $source_file
+    tar -vxf $source_file
 
     if [[ $? != 0 ]]; then
         log_build "$package_name.extract.finish" false
@@ -76,7 +76,7 @@ if [ ! -d $mpfr_source_dir ]; then
 
     log_build "$package_mpfr_name.extract.start"  true
 
-    tar -xf $mpfr_source_file
+    tar -vxf $mpfr_source_file
 
     if [[ $? != 0 ]]; then
         log_build "$package_mpfr_name.extract.finish" false
@@ -102,7 +102,7 @@ if [ ! -d $gmp_source_dir ]; then
 
     log_build "$package_gmp_name.extract.start" true
 
-    tar -xf $gmp_source_file
+    tar -vxf $gmp_source_file
 
     if [[ $? != 0 ]]; then
         log_build "$package_gmp_name.extract.finish" false
@@ -128,7 +128,7 @@ if [ ! -d $mpc_source_dir ]; then
 
     log_build "$package_mpc_name.extract.start" true
 
-    tar -xf $mpc_source_file
+    tar -vxf $mpc_source_file
 
     if [[ $? != 0 ]]; then
         log_build "$package_mpc_name.extract.finish" false
