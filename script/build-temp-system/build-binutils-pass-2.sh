@@ -49,9 +49,9 @@ if [ ! -d $source_dir ];then
 fi
 
 # create and change to build directory
-rm -rf binutils-build
-mkdir -vp binutils-build
-cd binutils-build
+rm -rf $build_dir
+mkdir -vp $build_dir
+cd $build_dir
 
 # configure
 log_build "$package_name.configure.start" true

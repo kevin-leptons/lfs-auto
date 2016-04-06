@@ -23,7 +23,6 @@ package_name=gcc
 package_mpfr_name=mpfr
 package_gmp_name=gmp
 package_mpc_name=mpc
-package_
 source_file=gcc-5.2.0.tar.bz2
 source_dir=gcc-5.2.0
 build_dir=gcc-build
