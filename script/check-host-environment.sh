@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# using     : check tools of host, it requires some tools with correct version
+#             to build lfs tools
+# author    : kevin.leptons@gmail.com
+
+# variable show that check host environment successfull
+# it set to true, then any error will set it to false
+# check it in bottom of script
+host_env_ok=true
+
+# check tools version
+export LC_ALL=C
+bash --version | head -n1 | cut -d" " -f2-4
+echo "/bin/sh -> `readlink -f /bin/sh`"
+echo -n "Binutils: "; ld --version | head -n1 | cut -d" " -f3-
+bison --version | head -n1
+
+if [ -h /usr/bin/yacc ]; then
+  echo "/usr/bin/yacc -> `readlink -f /usr/bin/yacc`";
+elif [ -x /usr/bin/yacc ]; then
+  echo yacc is `/usr/bin/yacc --version | head -n1`
+else
+  echo "yacc not found"
+fi
+
+bzip2 --version 2>&1 < /dev/null | head -n1 | cut -d" " -f1,6-
+echo -n "Coreutils: "; chown --version | head -n1 | cut -d")" -f2
+diff --version | head -n1
+find --version | head -n1
+gawk --version | head -n1
+
+if [ -h /usr/bin/awk ]; then
+  echo "/usr/bin/awk -> `readlink -f /usr/bin/awk`";
+elif [ -x /usr/bin/awk ]; then
+  echo awk is `/usr/bin/awk --version | head -n1`
+else
+  echo "awk not found"
+fi
+
+gcc --version | head -n1
+g++ --version | head -n1
+ldd --version | head -n1 | cut -d" " -f2-  # glibc version
+grep --version | head -n1
+gzip --version | head -n1
+cat /proc/version
+m4 --version | head -n1
+make --version | head -n1
+patch --version | head -n1
+echo Perl `perl -V:version`
+sed --version | head -n1
+tar --version | head -n1
+makeinfo --version | head -n1
+xz --version | head -n1
+
+# check library
+echo 'int main(){}' > dummy.c && g++ -o dummy dummy.c
+if [ -x dummy ]
+  then echo "g++ compilation OK";
+  else echo "g++ compilation failed"; fi
+rm -f dummy.c dummy
+
+# now, no way to check error
+# set host enviroment to false
+# and do not care about it
+host_env_ok=false
+
+if [ host_env_ok == true ]; then
+    echo "host environments: ok"
+else
+    echo "host environemts: bad"
+fi

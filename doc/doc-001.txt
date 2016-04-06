@@ -1,0 +1,91 @@
+no          : 001
+title       : general build architecture
+created     : 2016-02-06
+updated     : 2016-02-06
+author      : kevin.leptons@gmail.com
+
+
+table of contents
+
+    1. overview
+    2. target
+    3. general architecture
+
+1. overview
+
+    this document give an design to build an gnu/linux system. it is used
+    to build linux from scratch
+
+    section 2 specify target of build system. section 3 describe general
+    architecture of build system. section 4 describe storage architecture
+
+
+2. target
+
+    - reduce damage to real host operating system because build instructions
+      can damage to real host operating system by destroy file system, remove
+      package, etc
+
+    - reduce unnecessary tools installed into real host operating system
+
+    - easy to use, test
+
+
+3. general architecture
+
+    |----------------------------------------------------------------------|
+    | linux from scratch                                                   |
+    |----------------------------------------------------------------------|
+    | docker container                                                     |
+    |----------------------------------------------------------------------|
+    | host operating system                                                |
+    |----------------------------------------------------------------------|
+
+    - host operating system: provide environment to run docker and virtual
+      storage, where store linux from scratch
+
+    - docker container: provide environment to build linux from scratch. it is
+      use to reduce damage and unnecessary tools to host operating system
+
+    - linux from scratch: contains instructions to build linux from scratch,
+      write in shell script
+
+4. storage architecture
+
+    |----------------------------------------------------------------------|
+    | mount directory in container                                         |
+    |----------------------------------------------------------------------|
+            ^
+            |
+          attach
+            |
+    |----------------------------------------------------------------------|
+    | mount directory in host operating system                             |
+    |----------------------------------------------------------------------|
+            ^
+            |
+          mount
+            |
+    |----------------------------------------------------------------------|
+    | virtual disk                                         |
+    |----------------------------------------------------------------------|
+            ^
+            |
+       allocate file system
+            |
+    |----------------------------------------------------------------------|
+    | storage device                                                       |
+    |----------------------------------------------------------------------|
+
+    - storage device: it is physical storage, locate in /dev/sd* as sda, sdb,
+      etc on host operating system
+
+    - virtual disk: an file system, used as disk
+
+    - mount directory in host os: mount directory for virtual disk
+
+    - mount directory in container: mount directory in container from
+      mount directory in host os
+
+    every read/write by lfs on virtual disk, so no file system in host system
+    can be damage. it is easy to use, no real partition required same as lfs
