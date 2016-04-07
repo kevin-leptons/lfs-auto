@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # using     : build texinfo
+# time      : 0.2 sbu
+# params    : none
+# return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
 
 # locate location of this script

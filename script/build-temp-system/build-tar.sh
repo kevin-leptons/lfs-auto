@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # using     : build tar
-# time      : 0.2 sbu
+# time      : 0.4 sbu
 # params    : none
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
