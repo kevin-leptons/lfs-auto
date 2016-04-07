@@ -41,14 +41,14 @@ tool_packages=( \
     build-coreutils \
     build-diffutils \
     build-file \
-    build-fileutils \
+    build-findutils \
     build-gawk \
     build-gettext \
     build-grep \
     build-gzip \
     build-m4 \
     build-make \
-    build-path \
+    build-patch \
     build-perl \
     build-sed \
     build-tar \
