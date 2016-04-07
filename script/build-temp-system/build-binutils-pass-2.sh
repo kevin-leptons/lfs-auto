@@ -17,7 +17,7 @@ source $script_dir/util.sh
 
 # define variable
 package_name=binutils-pass-2
-source_file= binutils-2.25.1.tar.bz2
+source_file=binutils-2.25.1.tar.bz2
 source_dir=binutils-2.25.1
 
 # change working directory to sources directory
