@@ -62,6 +62,16 @@ else
     log_build "$package_name.configure.finish" true
 fi
 
+# build
+log_build "$package_name.make.start" true
+make
+if [[ $? != 0 ]]; then
+    log_build "$package_name.make.finish" false
+    exit 1
+else
+    log_build "$package_name.make.finish" true
+fi
+
 # test
 log_build "$package_name.test.start" true
 make check
