@@ -92,11 +92,6 @@ else
     log_build "$package_name.install.finish" true
 fi
 
-log_build "$package_name.install.start" true
-make install
-if [[ $? != 0 ]]; then
-    log_build "$package_name.install.finish" false
-    exit 1
-else
-    log_build "$package_name.install.finish" true
-fi
+# successfull
+log_build "$package_name.setup.finish" true
+exit 0
