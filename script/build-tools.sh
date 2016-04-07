@@ -8,10 +8,18 @@ __dir__="$(dirname "$0")"
 build_temp_system_dir=$__dir__/build-temp-system
 
 # use configuration
-source $__dir__/configuration.sh
+# use util
+source configuration.sh
+source util.sh
+
+# define variables
+task_name="temp-system.build"
 
 # clear log files
 > $log_build_file
+
+# log start build temp system
+log_build "$task_name.start" true
 
 # list all script to build packages
 # each script not contains extension
@@ -51,6 +59,17 @@ tool_packages=( \
 )
 
 # build each package
+# log is generate by internal build script
+result=done
 for package in ${tool_packages[@]}; do
     $build_temp_system_dir/$package.sh
+    if [[ $? != 0 ]]; then
+        result=error
+        break
+    fi
 done
+if [[ $result == error ]]; then
+    log_build "$task_name.finish" false
+else
+    log_build "$task_name.finish" true
+fi
