@@ -7,9 +7,12 @@
 __dir__="$(dirname "$0")"
 
 # use configuration
+# use util
 source $__dir__/script/configuration.sh
+source $__dir__/util.sh
 
-# list all packages
+# define variables
+task_name="host-package.prepare"
 host_packages=( \
     util-linux \
     e2fsprogs \
@@ -17,30 +20,43 @@ host_packages=( \
 )
 
 # clear log file
-> $log_host_package_file
+clear_log
+echo $log_file
+
+# log check tools start
+log "$task_name.start" true
 
 # check for each packages
 package_ok=true
 for package in "${host_packages[@]}"; do
 
-    state=no
-
     if dpkg -s $package > /dev/null 2>&1; then
-        state=yes
+        log "$package.verify" true
     else
-        package_ok=false
-    fi
 
-    printf "%-76s %3s\n" $package $state >> $log_host_package_file
+        # try install package
+        log "$package.install.start" true
+        sudo apt-get install -y $package
+
+        # check error
+        # error mean that package is not installed
+        # successfull mean that package is avaiable on system
+        if [[ $? != 0 ]]; then
+            package_ok=false
+            log "$package.install.finish" false
+            log "$package.verify" false
+        else
+            log "$package.install.finish" true
+            log "$package.verify" true
+        fi
+    fi
 done
 
-# show scan result in console
-echo "scan packages"
-cat $log_host_package_file
-if [[ $package_ok == false ]]; then
-    echo "error: some package is missing"
-    exit 1
-else
-    echo "package ok"
+# exit
+if [[ $package_ok == true ]]; then
+    log "$task_name.finish" true
     exit 0
+else
+    log "$task_name.finish" false
+    exit 1
 fi
