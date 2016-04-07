@@ -7,13 +7,6 @@
 __dir__="$(dirname "$0")"
 build_temp_system_dir=$__dir__/build-temp-system
 
-# require root permision
-# root permision require for some file system operations
-$__dir__/require-root.sh
-if [[ $? != 0 ]]; then
-    exit 1
-fi
-
 # use configuration
 # use util
 source configuration.sh

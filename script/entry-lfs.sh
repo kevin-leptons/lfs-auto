@@ -23,5 +23,8 @@ if [ -d /lfs-script/log ]; then
     sudo chown lfs:lfs -R /lfs-script/log
 fi
 
+# change ownwership of /mnt/lfs
+sudo chown lfs:lfs -R /mnt/lfs
+
 # continue with bash with lfs user
 sudo -u $build_user bash
