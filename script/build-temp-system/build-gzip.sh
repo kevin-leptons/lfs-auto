@@ -77,7 +77,9 @@ log_build "$package_name.test.start" true
 make check
 if [[ $? != 0 ]]; then
     log_build "$package_name.test.finish" false
-    exit 1
+
+    # do not exit because test is not required
+    # exit 1
 else
     log_build "$package_name.test.finish" true
 fi
