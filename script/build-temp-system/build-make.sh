@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # using     : build make
+# time      : 0.1 sbu
+# params    : none
+# return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
 
 # locate location of this script
@@ -8,22 +11,90 @@ __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
 # use configuration
+# use util
 source $script_dir/configuration.sh
+source $script_dir/util.sh
+
+# define variables
+package_name=make
+source_file=make-4.1.tar.bz2
+source_dir=make-4.1
 
 # change working directory to sources directory
 cd $root_sources
 
-# extract source code and change to source code directory
-if [ ! -d make-4.1 ]; then
-   tar -xf make-4.1.tar.bz2
+# log start setup
+log_build "$package_name.setup.start" true
+
+# verify source code
+if [ ! -f $source_file ]; then
+    log_build "$package_name.verify" false
+    exit 1
+else
+    log_build "$package_name.verify" true
 fi
-cd make-4.1
+
+# extract source code and change to source code directory
+if [ ! -d $source_dir ]; then
+
+    log_build "$package_name.extract.start" true
+
+    tar -vxf $source_file
+
+    if [[ $? != 0 ]]; then
+        log_build "$package_name.extract.finish" false
+        exit 1
+    else
+        log_build "$package_name.extract.finish" true
+    fi
+else
+    log_build "$package_name.extract.idle" true
+fi
+cd $source_dir
 
 # configure
-./configure --prefix=/tools --without-guile &&
+log_build "$package_name.configure.start" true
+./configure --prefix=/tools --without-guile
+if [[ $? != 0 ]]; then
+    log_build "$package_name.configure.finish" false
+    exit 1
+else
+    log_build "$package_name.configure.finish" true
+fi
+
+# build
+log_build "$package_name.make.start" true
+make
+if [[ $? != 0 ]]; then
+    log_build "$package_name.make.finish" false
+    exit 1
+else
+    log_build "$package_name.make.finish" true
+fi
 
 # test
+log_build "$package_name.test.start" true
 make check
+if [[ $? != 0 ]]; then
+    log_build "$package_name.test.finish" false
+
+    # do not exit setup
+    # because test is not required
+    # exit 1
+else
+    log_build "$package_name.test.finish" true
+fi
 
 # install
+log_build "$package_name.install.start" true
 make install
+if [[ $? != 0 ]]; then
+    log_build "$package_name.install.finish" false
+    exit 1
+else
+    log_build "$package_name.install.finish" true
+fi
+
+# successfull
+log_build "$package_name.setup.finish" true
+exit 0
