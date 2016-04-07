@@ -29,10 +29,10 @@ log_build "$package_name.setup.start" true
 
 # verify source file
 if [ ! -f $source_file ]; then
-    log_build "$package_name.vefify" false
+    log_build "$package_name.verify" false
     exit 1
 else
-    log_build "$package_name.vefify" true
+    log_build "$package_name.verify" true
 fi
 
 # extract source code and change to source code directory

@@ -19,7 +19,7 @@ source $script_dir/util.sh
 cd $root_sources
 
 # define variables
-package_name=gcc
+package_name=gcc-pass-1
 package_mpfr_name=mpfr
 package_gmp_name=gmp
 package_mpc_name=mpc
@@ -115,7 +115,7 @@ else
     log_build "$package_gmp_name.extract.idle" true
 fi
 
-# mpc vefify
+# mpc verify
 if [ ! -f $mpc_source_file ]; then
     log_build "$package_mpc_name.verify" false
 else

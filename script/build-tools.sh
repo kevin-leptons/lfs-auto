@@ -7,19 +7,48 @@
 __dir__="$(dirname "$0")"
 build_temp_system_dir=$__dir__/build-temp-system
 
+# require root permision
+# root permision require for some file system operations
+$__dir__/require-root.sh
+if [[ $? != 0 ]]; then
+    exit 1
+fi
+
 # use configuration
 # use util
 source configuration.sh
 source util.sh
 
 # define variables
-task_name="temp-system.build"
+task_name="buil-temp-system"
 
 # clear log files
 > $log_build_file
 
 # log start build temp system
 log_build "$task_name.start" true
+
+# clean source code and old build
+# to avoid error if old build is exists
+$__dir__/clean-build.sh
+if [[ $? != 0 ]]; then
+    log_build "$task_name.clean-build" false
+    exit 1
+else
+    log_build "$task_name.clean-build" true
+fi
+
+# clean installed tools
+# to avoid error when use wrong tools link from /tools
+# and change ownership to lfs
+sudo rm -rf /tools/*
+if [[ $? != 0 ]]; then
+    log_build "$task_name.clean-tools" false
+    exit 1
+else
+    log_build "$task_name.clean-tools" true
+fi
+sudo chown lfs:lfs $root_tools
 
 # list all script to build packages
 # each script not contains extension

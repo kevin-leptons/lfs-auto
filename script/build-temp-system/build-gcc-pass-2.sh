@@ -144,7 +144,7 @@ else
     log_build "$package_gmp_name.extract.idle" true
 fi
 
-# mpc vefify
+# mpc verify
 if [ ! -f $mpc_source_file ]; then
     log_build "$package_mpc_name.verify" false
 else

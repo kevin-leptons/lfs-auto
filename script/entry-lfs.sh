@@ -19,7 +19,9 @@ $__dir__/create-build-user.sh
 $__dir__/prepare-partition.sh
 
 # change ownwer of /lfs-script/log
-sudo chown lfs:lfs -R /lfs-script/log
+if [ -d /lfs-script/log ]; then
+    sudo chown lfs:lfs -R /lfs-script/log
+fi
 
 # continue with bash with lfs user
 sudo -u $build_user bash

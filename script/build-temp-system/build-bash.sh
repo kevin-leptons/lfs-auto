@@ -26,7 +26,7 @@ cd $root_sources
 # log start setup
 log_build "$package_name.setup.start" true
 
-# vefify
+# verify
 if [ ! -f $source_file ]; then
     log_build "$package_name.verify" false
 else

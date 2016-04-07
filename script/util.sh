@@ -29,18 +29,29 @@ log_build() {
     result="?"
 
     if [[ $2 == true ]]; then
-        result="done"
+        result="ok"
     fi
 
     if [[ $2 == false ]];then
-        result="error"
+        result="no"
     fi
 
     # log to file
     printf "%s\n" "$log_time" >> $log_build_file
-    printf "%-75s%5s\n\n" "$1" "$result" >> $log_build_file
+    printf "%-78s%2s\n\n" "$1" "$result" >> $log_build_file
 
     # log to console
     printf "%s\n" "$log_time"
-    printf "%-75s%5s\n" "$1" "$result"
+    printf "%-78s%2s\n\n" "$1" "$result"
+}
+
+# function compare version string
+# params:
+#   $1: first version string
+#   $2: second version string
+# return:
+#   0: on first version greater or equal than second version
+#   1: on first version less than second version
+version_gt() {
+    test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1";
 }
