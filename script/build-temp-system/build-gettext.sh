@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # using     : build gettext
+# time      : 0.9 sbu
+# params    : none
+# return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
 
 # locate location of this script
@@ -10,25 +13,82 @@ script_dir="$(dirname $__dir__)"
 # use configuration
 source $script_dir/configuration.sh
 
+# use configuration
+# use util
+source $script_dir/configuration.sh
+source $script_dir/util.sh
+
+# define variables
+package_name=gettext
+source_file=gettext-0.19.5.1.tar.xz
+source_dir=gettext-0.19.5.1
+
 # change working directory to sources directory
 cd $root_sources
 
-# extract source code and change to source code directory
-if [ ! -d gettext-0.19.5.1 ]; then
-   tar -xf gettext-0.19.5.1.tar.xz
-fi
-cd gettext-0.19.5.1
+# log start setup
+log_build "$package_name.setup.start" true
 
-# prepare
-cd gettext-tools
-EMACS="no" ./configure --prefix=/tools --disable-shared &&
+# verify source code
+if [ ! -f $source_file ]; then
+    log_build "$package_name.verify" false
+    exit 1
+else
+    log_build "$package_name.verify" true
+fi
+
+# extract source code and change to source code directory
+if [ ! -d $source_dir ]; then
+
+    log_build "$package_name.extract.start" true
+
+    tar -vxf $source_file
+
+    if [[ $? != 0 ]]; then
+        log_build "$package_name.extract.finish" false
+        exit 1
+    else
+        log_build "$package_name.extract.finish" true
+    fi
+else
+    log_build "$package_name.extract.idle" true
+fi
+cd $source_dir/gettext-tools
+
+# configure
+log_build "$package_name.configure.start" true
+EMACS="no" ./configure --prefix=/tools --disable-shared
+if [[ $? != 0 ]]; then
+    log_build "$package_name.configure.finish" false
+    exit 1
+else
+    log_build "$package_name.configure.finish" true
+fi
 
 # build
+log_build "$package_name.make.start" true
 make -C gnulib-lib &&
 make -C intl pluralx.c &&
 make -C src msgfmt &&
 make -C src msgmerge &&
-make -C src xgettext &&
+make -C src xgettext
+if [[ $? != 0 ]]; then
+    log_build "$package_name.make.finish" false
+    exit 1
+else
+    log_build "$package_name.make.finish" true
+fi
 
 # install
+log_build "$package_name.install.start" true
 cp -v src/{msgfmt,msgmerge,xgettext} /tools/bin
+if [[ $? != 0 ]]; then
+    log_build "$package_name.install.finish" false
+    exit 1
+else
+    log_build "$package_name.install.finish" true
+fi
+
+# successfull
+log_build "$package_name.setup.finish" true
+exit 0
