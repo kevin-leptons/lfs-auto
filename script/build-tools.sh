@@ -35,7 +35,7 @@ tool_packages=( \
     build-expect \
     build-dejagnu \
     build-check \
-    build-curses \
+    build-ncurses \
     build-bash \
     build-bzip2 \
     build-coreutils \
