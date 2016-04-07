@@ -19,6 +19,7 @@ source $script_dir/util.sh
 package_name=binutils-pass-2
 source_file=binutils-2.25.1.tar.bz2
 source_dir=binutils-2.25.1
+build_dir=binutils-build
 
 # change working directory to sources directory
 cd $root_sources
@@ -46,6 +47,8 @@ if [ ! -d $source_dir ];then
     else
         log_build "$package_name.extract.finish" true
     fi
+else
+    log_build "$package_name.extract.idle" true
 fi
 
 # create and change to build directory
