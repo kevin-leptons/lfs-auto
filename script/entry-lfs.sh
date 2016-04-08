@@ -14,6 +14,9 @@ $__dir__/require-root.sh
 source $__dir__/configuration.sh
 source $__dir__/util.sh
 
+# define variables
+task_name="entry-lfs"
+
 # change to /lfs-script
 cd /lfs-script
 
@@ -21,19 +24,45 @@ cd /lfs-script
 sudo mkdir -vp $__dir__/log
 
 # clear log files
+# log start
 clear_log
 
-# call create user
-$__dir__/create-build-user.sh
+log "$task_name.start" true
 
-# call prepare partition
+# create user
+$__dir__/create-build-user.sh
+if [[ $? != 0 ]]; then
+    log "$task_name.finish" false
+    exit 1
+fi
+
+# prepare partition
 $__dir__/prepare-partition.sh
+if [[ $? != 0 ]]; then
+    log "$task_name.finish" false
+    exit 1
+fi
 
 # change ownwership of /mnt/lfs
 sudo chown lfs:lfs -R /mnt/lfs
+if [[ $? != 0 ]]; then
+    log "/mnt/lfs.chown" false
+    log "$task_name.finish" false
+    exit 1
+else
+    log "/mnt/lfs.chown" true
+fi
 
-# change ownwer of /lfs-script/log
+# change ownwership of /lfs-script/log
 sudo chown lfs:lfs -R $__dir__/log
+if [[ $? != 0 ]]; then
+    log "/lfs-script/log.chown" false
+    log "$task_name.finish" false
+    exit 1
+else
+    log "/lfs-script/log.chown" true
+fi
 
 # continue with bash with lfs user
+log "bash.start" true
 sudo -u $build_user bash

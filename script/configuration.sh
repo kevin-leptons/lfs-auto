@@ -13,6 +13,7 @@ build_user_bashrc_file=build_user_bashrc
 docker_name=kevinleptons/lfs-auto
 docker_lfs_auto=/mnt/lfs-auto
 docker_script_dir=/lfs-script
+lfs_script_dir=/lfs-script
 
 # disk device where lfs partition locate
 # must chose new partition without any important data
@@ -45,4 +46,4 @@ lfs_disk_size=20G
 
 # log files
 log_host_package_file=log/host-package.log
-log_build_file=$(realpath $(pwd))/log/build.log
+log_build_file=$lfs_script_dir/log/build.log
