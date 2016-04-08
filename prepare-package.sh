@@ -19,11 +19,7 @@ host_packages=( \
     docker-engine \
 )
 
-# clear log file
-clear_log
-echo $log_file
-
-# log check tools start
+# log start
 log "$task_name.start" true
 
 # check for each packages

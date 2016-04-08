@@ -14,8 +14,11 @@ source $__dir__/util.sh
 
 # define variables
 task_name="lfs-auto"
+lfs_disk_path=$(realpath $__dir__/disk/$lfs_disk_file)
 
-# log start run
+# clear log file
+# and log start run
+clear_log
 log "$task_name.start" true
 
 # prepare packages
@@ -42,7 +45,7 @@ fi
 # run docker
 # mount hard disk use to build lfs into docker
 # $root:root is mean <host-file-system>:<docker-file-system>
-lfs_disk_path=$(realpath $__dir__/disk/$lfs_disk_file)
+log "$task_name.docker.enter" true
 docker run -ti --privileged -v $root:$root -v \
    $script_dir:$docker_script_dir $docker_name
 if [[ $? != 0 ]]; then
