@@ -18,10 +18,10 @@ $__dir__/create-build-user.sh
 # call prepare partition
 $__dir__/prepare-partition.sh
 
+# create log directory
 # change ownwer of /lfs-script/log
-if [ -d /lfs-script/log ]; then
-    sudo chown lfs:lfs -R /lfs-script/log
-fi
+sudo mkdir -vp $__dir__/log
+sudo chown lfs:lfs -R $__dir__/log
 
 # change ownwership of /mnt/lfs
 sudo chown lfs:lfs -R /mnt/lfs
