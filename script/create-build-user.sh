@@ -20,7 +20,7 @@ source $__dir__/util.sh
 task_name="create-build-user"
 
 # log start
-log "$task_name.start"
+log "$task_name.start" true
 
 # create user group
 groupadd $build_user_group
@@ -51,7 +51,6 @@ fi
 
 # create profile
 cp -v $__dir__/asset/build-user-profile.sh $build_user_home/.profile
-echo -e "$build_user_password\n$build_user_password" | passwd $build_user
 if [[ $? != 0 ]]; then
     log "build-user.profile.create" false
     exit 1
@@ -61,13 +60,14 @@ fi
 
 # create bashrc
 cp -v $__dir__/asset/build-user-bashrc.sh $build_user_home/.bashrc
-echo -e "$build_user_password\n$build_user_password" | passwd $build_user
 if [[ $? != 0 ]]; then
     log "build-user.bashrc.create" false
+    log "$task_name.finish" false
     exit 1
 else
     log "build-user.bashrc.create" true
 fi
 
 # successfull
+log "$task_name.finish" true
 exit 0

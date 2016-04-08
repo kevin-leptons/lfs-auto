@@ -14,10 +14,11 @@ $__dir__/require-root.sh
 source $__dir__/configuration.sh
 source $__dir__/util.sh
 
+# change to /lfs-script
+cd /lfs-script
+
 # create log directory
-# change ownwer of /lfs-script/log
 sudo mkdir -vp $__dir__/log
-sudo chown lfs:lfs -R $__dir__/log
 
 # call create user
 $__dir__/create-build-user.sh
@@ -27,6 +28,9 @@ $__dir__/prepare-partition.sh
 
 # change ownwership of /mnt/lfs
 sudo chown lfs:lfs -R /mnt/lfs
+
+# change ownwer of /lfs-script/log
+sudo chown lfs:lfs -R $__dir__/log
 
 # continue with bash with lfs user
 sudo -u $build_user bash

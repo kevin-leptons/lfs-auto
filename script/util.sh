@@ -8,7 +8,7 @@ __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
 # use configuration
-source $script_dir/configuration.sh
+source $__dir__/configuration.sh
 
 # using     : current time by format
 # return    : date time string format by %Y-%m-%d %H:%M:%S
