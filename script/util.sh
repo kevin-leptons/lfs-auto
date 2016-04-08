@@ -74,6 +74,24 @@ log() {
     printf "%-78s%2s\n\n" "$1" "$result"
 }
 
+# clear log file
+# log file in ./log/build.log
+# return: 0 on successfull, 1 on error
+clear_log() {
+
+    if [ -f $log_build_file ]; then
+        > $log_build_file
+    fi
+
+    # check error
+    if [[ $? != 0 ]]; then
+        return 1
+    fi
+
+    # successfull
+    return 0
+}
+
 # function compare version string
 # params:
 #   $1: first version string
