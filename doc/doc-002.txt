@@ -1,0 +1,113 @@
+no          : 001
+title       : general build architecture
+created     : 2016-02-06
+updated     : 2016-02-06
+author      : kevin.leptons@gmail.com
+
+
+table of contents
+
+    1. overview
+    2. target
+    3. general operations
+    4. setup host
+    5. setup container
+    6. enter container
+    7. setup lfs 
+    8. setup temporary packages
+    9. enter virtual kernel
+    10. setup system 
+    11. setup image
+    12. references
+
+
+1. overview
+
+    this document provide setup linux from scrapt flow. document build on
+    linux from scratch manual. setup flow not only linux from scratch, it is
+    also contains some work to prepare setup environemnt. see doc-001 for
+    information about setup architecture
+
+    section 2 specify target of this document. section 3 describe general
+    operation in all of step. section 4 to section 11 describe setup step. 
+    section 12 show references
+
+
+2. target
+
+    - follow setup architecture in doc-001
+
+    - follow instruction of linux from scrapt to setup gnu/linux system
+
+3. general operations
+
+    make sure that each step and child step is log to log file with 
+    informations
+    
+        - date time: when operation is execute
+
+        - message: an message specify what is operation do
+
+        - result: true on operation successfully, false on operation error
+
+    depend on step, log file will be specify later. path of log file start
+    from root directory of lfs-auto
+
+
+4. setup host
+
+    make sure that below packages is installed on host system
+
+        - docker-engine: use to build, run container
+
+        - util-linux: use create virtual disk as big file system
+
+        - e2fsprogs: use to format virtual disk to ext4 format
+
+    in case package is not installed on host system, install that package
+    auto
+
+    log file: log/process.log 
+
+5. setup container
+
+    make sure that all package required to setup temporary package was 
+    installed inside docker by docker file. do not install package when entered
+    docker, because each time start container, container will reset without
+    packages installed
+
+        - bash                                                           3.2
+        - binutils                                                      2.17
+        - bison                                                          2.3
+        - bzip2                                                        1.0.4
+        - coreutils                                                      6.9
+        - diffutils                                                    2.8.1
+        - findutils                                                   4.2.31
+        - 
+        
+
+
+11. reference
+
+    linux from scratch 7.8
+    http://www.linuxfromscratch.org/lfs/view/7.8/index.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
