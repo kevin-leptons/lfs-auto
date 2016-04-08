@@ -45,14 +45,16 @@ fi
 # run docker
 # mount hard disk use to build lfs into docker
 # $root:root is mean <host-file-system>:<docker-file-system>
-log "$task_name.docker.enter" true
+log "$task_name.docker.start" true
 docker run -ti --privileged -v $root:$root -v \
    $script_dir:$docker_script_dir $docker_name
 if [[ $? != 0 ]]; then
-   log "$task_name.finish" false
-   exit 1
+    log "$task_name.docker.finish" false
+    log "$task_name.finish" false
+    exit 1
 fi
 
 # successfull
+log "$task_name.docker.finish" true
 log "$task_name.finish" true
 exit 0

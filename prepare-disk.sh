@@ -12,7 +12,11 @@ source $__dir__/script/configuration.sh
 source $__dir__/util.sh
 
 # define variables
+task_name="lfs-disk"
 lfs_disk_path=$__dir__/disk/$lfs_disk_file
+
+# log start task
+log "$task_name.start" true
 
 # create directory to store virtual disk
 mkdir -vp $__dir__/disk
@@ -40,20 +44,25 @@ if [ ! -f $lfs_disk_path ]; then
         log "lfs-disk.format.finish" true
     fi
 else
-    log "lfs-disk.idle" true
+    log "lfs-disk.create.idle" true
 fi
 
 # create mount point
 sudo mkdir -pv $root
 
 # mount disk device
+# and exit
 if ! grep -qa $root /proc/mounts; then
     sudo mount -v $lfs_disk_path $root
 fi
 if [[ $? != 0 ]]; then
     log "lfs-disk.mount" false
+    log "$task_name.finish" false
     exit 1
 else
     log "lfs-disk.mount" true
+    log "$task_name.finish" true
     exit 0
 fi
+
+# exit
