@@ -64,5 +64,6 @@ else
 fi
 
 # continue with bash with lfs user
+# or start build
 log "bash.start" true
 sudo -u $build_user bash

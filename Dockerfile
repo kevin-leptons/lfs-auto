@@ -3,7 +3,7 @@ maintainer kevin leptons <kevin.leptons@gmail.com>
 label Version="1.0" \
       Description="automated build linux from scrapt"
 run apt-get update
-run apt-get install -y \ 
+run apt-get install -y \
    vim \
    sudo \
    bash \

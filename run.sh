@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # using     : run docker and build lfs inside docker
+# params    :
 # author    : kevin.leptons@gmail.com
 
 # locate locatin of this script
