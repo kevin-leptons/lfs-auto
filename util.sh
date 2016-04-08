@@ -9,6 +9,9 @@ __dir__="$(dirname "$0")"
 # define variables
 log_file=$__dir__/log/process.log
 
+# create directory to store log file
+mkdir -vp $__dir__/log
+
 # using     : current time by format
 # return    : date time string format by %Y-%m-%d %H:%M:%S
 current_time() {
