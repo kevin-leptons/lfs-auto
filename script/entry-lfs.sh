@@ -10,18 +10,20 @@ __dir__="$(dirname "$0")"
 $__dir__/require-root.sh
 
 # use configuration
+# use util
 source $__dir__/configuration.sh
+source $__dir__/util.sh
+
+# create log directory
+# change ownwer of /lfs-script/log
+sudo mkdir -vp $__dir__/log
+sudo chown lfs:lfs -R $__dir__/log
 
 # call create user
 $__dir__/create-build-user.sh
 
 # call prepare partition
 $__dir__/prepare-partition.sh
-
-# create log directory
-# change ownwer of /lfs-script/log
-sudo mkdir -vp $__dir__/log
-sudo chown lfs:lfs -R $__dir__/log
 
 # change ownwership of /mnt/lfs
 sudo chown lfs:lfs -R /mnt/lfs
