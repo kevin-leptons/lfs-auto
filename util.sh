@@ -14,7 +14,7 @@ mkdir -vp $__dir__/log
 
 # using     : current time by format
 # return    : date time string format by %Y-%m-%d %H:%M:%S
-current_time() {
+current_time() {    
     echo $(date +"%Y-%m-%d %H:%M:%S")
 }
 
