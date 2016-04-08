@@ -10,7 +10,7 @@ document
 
 # requirements
 
-    - operating system: unix, gnu/linux
+    - operating system: unix, gnu/linux (only debian now)
     - disk space about 20GB
 
 # general architecture
