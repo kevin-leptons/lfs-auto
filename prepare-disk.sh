@@ -52,6 +52,8 @@ if ! grep -qa $root /proc/mounts; then
 fi
 if [[ $? != 0 ]]; then
     log "lfs-disk.mount" false
+    exit 1
 else
     log "lfs-disk.mount" true
+    exit 0
 fi
