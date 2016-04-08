@@ -20,6 +20,9 @@ cd /lfs-script
 # create log directory
 sudo mkdir -vp $__dir__/log
 
+# clear log files
+sudo > $log_build_file
+
 # call create user
 $__dir__/create-build-user.sh
 

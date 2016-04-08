@@ -15,9 +15,6 @@ source util.sh
 # define variables
 task_name="buil-temp-system"
 
-# clear log files
-> $log_build_file
-
 # log start build temp system
 log_build "$task_name.start" true
 
