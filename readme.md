@@ -2,6 +2,10 @@
 automated build linux from scrapt in docker environemnt. continue update
 document
 
+# documenation
+
+see [doc directory](./doc)
+
 # specifications
 
    - linux from scratch version 7.8
