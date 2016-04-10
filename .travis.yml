@@ -4,4 +4,4 @@ language: bash
 sudo: required
 
 script:
-    - bash run.sh
+    - cd script && bash build.sh
