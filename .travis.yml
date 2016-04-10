@@ -1,11 +1,7 @@
 
 language: bash
 
-env:
-  global:
-    - CI_HOME=`pwd`/script
-
 sudo: required
 
 script:
-    - bash build.sh
+    - bash entry-travis.sh
