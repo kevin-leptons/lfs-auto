@@ -7,16 +7,16 @@
 __dir__="$(dirname "$0")"
 
 # require root permision
-source $__dir__/require-root.sh
+$__dir__/require-root.sh
 
 # step 1. check host environment
-source $__dir__/check-host-environment.sh
+$__dir__/check-host-environment.sh
 
 # step 2. create user to build
-source $__dir__/create-build-user.sh
+$__dir__/create-build-user.sh
 
 # step 3. prepare ervery thing, make lfs ready to build
-source $__dir__/prepare.sh
+$__dir__/prepare.sh
 
 # step 4. build programm as tools what use to build when enter lfs root
 $__dir__/build-tools.sh
