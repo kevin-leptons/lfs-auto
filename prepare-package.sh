@@ -22,6 +22,15 @@ host_packages=( \
 # log start
 log "$task_name.start" true
 
+# install docker-engine repository
+sudo apt-get install apt-transport-https ca-certificates
+sudo  apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 \
+    --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+cat /etc/apt/sources.list.d/docker.list << EOF
+deb https://apt.dockerproject.org/repo debian-jessie main
+apt-cache policy docker-engine
+EOF
+
 # check for each packages
 package_ok=true
 for package in "${host_packages[@]}"; do
