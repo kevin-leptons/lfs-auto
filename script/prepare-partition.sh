@@ -10,7 +10,7 @@
 __dir__="$(dirname "$0")"
 
 # require root permision
-source $__dir__/require-root.sh
+$__dir__/require-root.sh
 
 # use configuration
 source $__dir__/configuration.sh

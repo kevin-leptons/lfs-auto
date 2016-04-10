@@ -7,11 +7,10 @@
 __dir__="$(dirname "$0")"
 
 # require root permision
-source $__dir__/require-root.sh
+$__dir__/require-root.sh
 
 # step 1. preapre partition, where lfs build on
-source $__dir__/prepare-partition.sh
+$__dir__/prepare-partition.sh
 
 # step 2. download source code
-source  $__dir__/download-source-code.sh
-
+$__dir__/download-source-code.sh
