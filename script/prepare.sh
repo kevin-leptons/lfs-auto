@@ -6,9 +6,6 @@
 # locate location of this script
 __dir__="$(dirname "$0")"
 
-# require root permision
-$__dir__/require-root.sh
-
 # step 1. preapre partition, where lfs build on
 $__dir__/prepare-partition.sh
 
