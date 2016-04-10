@@ -9,6 +9,9 @@ __dir__="$(dirname "$0")"
 # require root permision
 $__dir__/require-root.sh
 
+# redirect all data from stdout to /dev/null
+exec > /dev/null
+
 # step 1. check host environment
 $__dir__/check-host-environment.sh
 
