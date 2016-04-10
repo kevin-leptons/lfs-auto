@@ -9,15 +9,44 @@
 # locate location of this script
 __dir__="$(dirname "$0")"
 
-# require root permision
-$__dir__/require-root.sh
-
 # use configuration
+# use util
 source $__dir__/configuration.sh
+source $__dir__/util.sh
 
-# prepare tool to build some packages
+# define variables
+task_name="partition"
+
+# log start
+log "$task_name.start"
+
+# create tools directory to build temporary system
 mkdir -vp $root_tools
-ln -svn $root_tools /tools
+if [[ $? != 0 ]]; then
+    log "$root_tools.create" false
+    exit 1
+else
+    log "$root_tools.create" true
+fi
+
+# link tools directory to root
+sudo ln -svnf $root_tools /tools
+if [[ $? != 0 ]]; then
+    log "$root_tools.link-root" false
+    exit 1
+else
+    log "$root_tools.link-root" true
+fi
 
 # transfer partition own from root to build user
-chown -R $build_user_group:$build_user $root /tools
+sudo chown -R $build_user_group:$build_user $root /tools
+if [[ $? != 0 ]]; then
+    log "$root_tools.chown" false
+    exit 1
+else
+    log "$root_tools.chown" true
+fi
+
+# successfully
+log "$task_name.start"
+exit 0
