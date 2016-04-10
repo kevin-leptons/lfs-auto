@@ -7,14 +7,19 @@
 __dir__="$(dirname "$0")"
 build_sysem_dir=$__dir__/build-system
 
-# require root permision
-$__dir__/require-root.sh
-
 # use configuration
+# use util
 source $__dir__/configuration.sh
+source $__dir__/util.sh
+
+# define variables
+task_name="lfs.build"
 
 # clear log file
-> $log_build_file
+clear_log
+
+# log start
+log "$task_name.start" true
 
 # list all script to build package in system
 # each script not contains extension
@@ -97,6 +102,19 @@ packages=( \
 )
 
 # build each package
+# log is generate by internal build script
+result=done
 for package in ${packages[@]}; do
+
     $build_sysem_dir/$package.sh
+
+    if [[ $? != 0 ]]; then
+        result=error
+        break
+    fi
 done
+if [[ $result == error ]]; then
+    log_build "$task_name.finish" false
+else
+    log_build "$task_name.finish" true
+fi
