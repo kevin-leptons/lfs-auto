@@ -13,7 +13,7 @@ $__dir__/require-root.sh
 exec > /dev/null
 
 # step 1. check host environment
-$__dir__/check-host-environment.sh
+$__dir__/setup-host-environment.sh
 
 # step 2. create user to build
 $__dir__/create-build-user.sh
