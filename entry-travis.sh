@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd script
-bash build.sh
+sudo bash build.sh
