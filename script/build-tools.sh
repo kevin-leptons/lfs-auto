@@ -9,8 +9,8 @@ build_temp_system_dir=$__dir__/build-temp-system
 
 # use configuration
 # use util
-source configuration.sh
-source util.sh
+source $__dir__/configuration.sh
+source $__dir__/util.sh
 
 # define variables
 task_name="buil-temp-system"

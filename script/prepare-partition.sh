@@ -17,7 +17,7 @@ source $__dir__/configuration.sh
 
 # prepare tool to build some packages
 mkdir -vp $root_tools
-ln -svnf $root_tools /tools
+ln -svn $root_tools /tools
 
 # transfer partition own from root to build user
 chown -R $build_user_group:$build_user $root /tools

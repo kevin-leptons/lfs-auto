@@ -21,7 +21,9 @@ task_name="entry-lfs"
 cd /lfs-script
 
 # create log directory
+# create tmp directory
 sudo mkdir -vp $__dir__/log
+sudo mkdir -vp /lfs-script/tmp
 
 # clear log files
 # log start
@@ -51,6 +53,16 @@ if [[ $? != 0 ]]; then
     exit 1
 else
     log "/mnt/lfs.chown" true
+fi
+
+# chnage ownwership of /lfs-script/tmp
+sudo chown lfs:lfs -R /lfs-script/tmp
+if [[ $? != 0 ]]; then
+    log "/lfs-script/tmp.chown" false
+    log "$task_name.finish" false
+    exit 1
+else
+    log "/lfs-script/tmp.chown" true
 fi
 
 # change ownwership of /lfs-script/log

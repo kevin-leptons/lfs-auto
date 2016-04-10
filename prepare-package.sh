@@ -23,13 +23,15 @@ host_packages=( \
 log "$task_name.start" true
 
 # install docker-engine repository
-sudo apt-get install apt-transport-https ca-certificates
-sudo  apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 \
-    --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-sudo cat > /etc/apt/sources.list.d/docker.list << "EOF" \
-deb https://apt.dockerproject.org/repo debian-jessie main
-EOF
-apt-cache policy docker-engine
+# if docker-engine is not installed
+# for automated install below
+if ! dpkg -s docker-engine > /dev/null 2>&1; then
+    sudo apt-get install apt-transport-https ca-certificates
+    sudo  apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 \
+        --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    sudo cp asset/docker.list /etc/apt/sources.list.d
+    apt-cache policy docker-engine
+fi
 
 # check for each packages
 package_ok=true
