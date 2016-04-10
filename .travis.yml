@@ -4,4 +4,4 @@ language: bash
 sudo: required
 
 script:
-    - cd script && bash build.sh
+    - bash entry-travis.sh
