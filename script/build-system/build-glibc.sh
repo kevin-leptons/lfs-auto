@@ -54,7 +54,7 @@ log_auto "$package_name.patch.finish" $?
 cd ../
 rm -vrf $build_dir
 mkdir -vp $build_dir
-cd -v $build_dir
+cd $build_dir
 log_auto "$package_name.build-dir.create" $?
 
 # configure
