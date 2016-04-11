@@ -18,7 +18,6 @@ source $script_dir/util.sh
 package_name="binutils"
 source_file="binutils-2.25.1.tar.bz2"
 source_dir="binutils-2.25.1"
-ptys_req="spawn ls"
 build_dir="binutils-build"
 
 # log start
@@ -45,12 +44,8 @@ fi
 cd $source_dir
 
 # verify that ptys are workig
-ptys_result=$(expect -c "spawn ls")
-if [[ $ptys_result == $ptys_req ]]; then
-    log_auto "ptys.verify" 0
-else
-    log_auto "ptys.verify" 1
-fi
+expect -c "spawn ls"
+log_auto "ptys.verify" $?
 
 # create build directory
 cd ../
