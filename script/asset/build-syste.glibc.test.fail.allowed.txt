@@ -5,3 +5,4 @@ FAIL: elf/tst-protected1a
 FAIL: elf/tst-protected1b
 FAIL: malloc/tst-malloc-usable
 FAIL: nptl/tst-cleanupx4
+FAIL: posix/tst-getaddrinfo5

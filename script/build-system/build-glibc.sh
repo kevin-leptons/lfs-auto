@@ -81,7 +81,7 @@ if [[ $? == 0 ]]; then
     log_auto "$package_name.test.finish" 0
 else
 
-    # filt fail into log file
+    # filters fail into log file
     grep -i -w "FAIL:*" $test_sum_file > $test_log_file
 
     # verify fail are allowed or not
@@ -91,6 +91,7 @@ else
         # verify fail are allowed or not
         allowed=false
         while read fail_allowed; do
+
             if [[ $line_fail == $fail_allowed ]]; then
                 allowed=true
                 break
@@ -108,7 +109,7 @@ else
         log_auto "$package_name.test.fail.allow" 0
         log_auto "$package_name.test.finish" 0
     else
-        log_auto "$package_name.test.fail.allow" 1
+        log_auto "$package_name.test.fail.allow $line_fail" 1
         log_auto "$package_name.test.finish" 1
     fi
 fi
