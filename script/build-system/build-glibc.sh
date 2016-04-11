@@ -21,6 +21,8 @@ source_dir="glibc-2.22"
 build_dir="glibc-build"
 timezone_file="../tzdata2015f.tar.gz"
 test_log_file="/lfs-script/tmp/build-system.glibc.test.log"
+test_sum_file="/sources/$build_dir/tests.sum"
+fail_allowed_file="/lfs-script/asset/build-syste.glibc.test.fail.allowed.txt"
 
 # log start
 log_auto "$package_name.setup.start" 0
@@ -45,37 +47,37 @@ else
 fi
 cd $source_dir
 
-# path
-log_auto "$package_name.patch.start" 0
-patch -Np1 -i ../glibc-2.22-fhs-1.patch &&
-patch -Np1 -i ../glibc-2.22-upstream_i386_fix-1.patch
-log_auto "$package_name.patch.finish" $?
-
-# create build directory
+# # path
+# log_auto "$package_name.patch.start" 0
+# patch -Np1 -i ../glibc-2.22-fhs-1.patch &&
+# patch -Np1 -i ../glibc-2.22-upstream_i386_fix-1.patch
+# log_auto "$package_name.patch.finish" $?
+#
+# # create build directory
 cd ../
-rm -vrf $build_dir
-mkdir -vp $build_dir
+# rm -vrf $build_dir
+# mkdir -vp $build_dir
 cd $build_dir
 log_auto "$package_name.build-dir.create" $?
 
-# configure
-log_auto "$package_name.configure.start" 0
-../glibc-2.22/configure    \
-      --prefix=/usr          \
-      --disable-profile      \
-      --enable-kernel=2.6.32 \
-      --enable-obsolete-rpc
-log_auto "$package_name.configure.finish" $?
-
-# build
-log_auto "$package_name.make.start" 0
-make
-log_auto "$package_name.make.finish" $?
+# # configure
+# log_auto "$package_name.configure.start" 0
+# ../glibc-2.22/configure    \
+#       --prefix=/usr          \
+#       --disable-profile      \
+#       --enable-kernel=2.6.32 \
+#       --enable-obsolete-rpc
+# log_auto "$package_name.configure.finish" $?
+#
+# # build
+# log_auto "$package_name.make.start" 0
+# make
+# log_auto "$package_name.make.finish" $?
 
 # test
 log_auto "$package_name.test.start" 0
 make check
-grep -i -w "FAIL:*" /sources/gblic-build/tests.sum > $test_log_file
+grep -i -w "FAIL:*" $test_sum_file > $test_log_file
 skip_fail=true
 while read line_fail; do
 
@@ -86,7 +88,7 @@ while read line_fail; do
             allowed=true
             break
         fi
-    done < /lfs-script/asset/build-syste.glibc.test.fail.allowed.txt
+    done < $fail_allowed_file
 
     # if one fail are not allowd, do not skip fail
     if [[ $allowed == false ]]; then
@@ -97,7 +99,7 @@ done < $test_log_file
 log_auto "$package_name.test.finish" 0
 if [[ $? != 0 ]]; then
 
-    if [[ $skip_fail == true]]; then
+    if [[ $skip_fail == true ]]; then
         log_auto "$package_name.test.fail.allow" 0
     else
         log_auto "$package_name.test.fail.allow" 1
