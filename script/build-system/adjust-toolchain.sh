@@ -24,7 +24,9 @@ compile_log_file="/lfs-script/log/compile.log"
 mv -v /tools/bin/{ld,ld-old} &&
 mv -v /tools/$(gcc -dumpmachine)/bin/{ld,ld-old} &&
 mv -v /tools/bin/{ld-new,ld} &&
-ln -sv /tools/bin/ld /tools/$(gcc -dumpmachine)/bin/ld
+if [ -f /tools/bin/ld ]; then
+    ln -sv /tools/bin/ld /tools/$(gcc -dumpmachine)/bin/ld
+fi
 log_auto "/tools.backup, replace" $?
 
 # amend gcc
@@ -35,7 +37,6 @@ gcc -dumpspecs | sed -e 's@/tools@@g'                   \
 log_auto "gcc.amend" $?
 
 # ensure that the basic function
-echo 'int main(){}' > dummy.c
 cc "$simple_program_src" -o $simple_program_dest \
     -v -Wl,--verbose &> "$compile_log_file" &&
 log_auto "gcc.compile" $?
