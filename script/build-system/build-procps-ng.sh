@@ -19,15 +19,18 @@ package_name="procps-ng"
 source_file="procps-ng-3.3.11.tar.xz"
 source_dir="procps-ng-3.3.11"
 
+# log start
+log_auto "$package_name.setup.start" 0
+
+# change working directory to sources directory
+cd /sources
+
 # verify
 if [ -f $source_file ]; then
     log_auto "$package_name.verify" 0
 else
     log_auto "$package_name.verify" 1
 fi
-
-# change working directory to sources directory
-cd /sources
 
 # extract source code and change to source directory
 if [ -d $source_dir ]; then

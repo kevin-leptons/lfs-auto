@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # using     : build e2fsprogs
+# params    : none
+# return    : 0 on success, 1 on error
 # author    : kevin.leptons@gmail.com
 
 # locate location of this script
@@ -8,22 +10,44 @@ __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
 # use configuration
+# use util
 source $script_dir/configuration.sh
+source $script_dir/util.sh
+
+# define variables
+package_name="e2fsprogs"
+source_file="e2fsprogs-1.42.13.tar.gz"
+source_dir="e2fsprogs-1.42.13"
+
+# log start
+log_auto "$package_name.setup.start" 0
 
 # change working directory to sources directory
-cd /sources &&
+cd /sources
+
+# verify
+if [ -f $source_file ]; then
+    log_auto "$package_name.verify" 0
+else
+    log_auto "$package_name.verify" 1
+fi
 
 # extract source code and change to source directory
-if [ ! -d e2fsprogs-1.42.13 ]; then
-   tar -xf e2fsprogs-1.42.13.tar.gz
+if [ -d $source_dir ]; then
+    log_auto "$package_name.extract.idle" 0
+else
+    log_auto "$package_name.extract.start" 0
+    tar -vxf $source_file
+    log_auto "$package_name.extract.finish" $?
 fi
-cd e2fsprogs-1.42.13
+cd $source_dir
 
 # create build directory
-mkdir -v build
+mkdir -vp build
 cd build
 
 # configure
+log_auto "$package_name.configure.start" 0
 LIBS=-L/tools/lib                    \
 CFLAGS=-I/tools/include              \
 PKG_CONFIG_PATH=/tools/lib/pkgconfig \
@@ -34,25 +58,40 @@ PKG_CONFIG_PATH=/tools/lib/pkgconfig \
    --disable-libblkid      \
    --disable-libuuid       \
    --disable-uuidd         \
-   --disable-fsck &&
+   --disable-fsck
+log_auto "$package_name.configure.finish" $?
 
 # build
-make &&
+log_auto "$package_name.make.start" 0
+make
+log_auto "$package_name.make.finish" $?
 
 # test
+log_auto "$package_name.test.start" 0
 ln -sfv /tools/lib/lib{blk,uu}id.so.1 lib &&
-make LD_LIBRARY_PATH=/tools/lib check &&
+make LD_LIBRARY_PATH=/tools/lib check
+log_auto "$package_name.test.finish" $?
 
 # install
-make install &&
+log_auto "$package_name.install.start" 0
+make install
+log_auto "$package_name.install.finish" $?
 
-make install-libs &&
+make install-libs
+log_auto "$package_name.lib.install" $?
 
 chmod -v u+w /usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
+log_auto "$package_name.lib.chmod" $?
 
 gunzip -v /usr/share/info/libext2fs.info.gz &&
-install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info &&
+install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info
+log_auto "$package_name.info.install" $?
 
-makeinfo -o      doc/com_err.info ../lib/et/com_err.texinfo
-install -v -m644 doc/com_err.info /usr/share/info
+makeinfo -o      doc/com_err.info ../lib/et/com_err.texinfo &&
+install -v -m644 doc/com_err.info /usr/share/info &&
 install-info --dir-file=/usr/share/info/dir /usr/share/info/com_err.info
+log_auto "$package_name.doc.install" $?
+
+# successfully
+log_auto "$package_name.setup.finish" $?
+exit 0
