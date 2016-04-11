@@ -69,5 +69,6 @@ log_auto "$package_name.test.start" 0
 su nobody -s /bin/bash -c "PATH=$PATH make tests"
 log_auto "$package_name.test.finish" $?
 
-# continue setup with new shell
-exec /bin/bash /lfs-script/build-system/build-bc.sh --login +h
+# successfully
+log_auto "$package_name.setup.finish" $?
+exit 0
