@@ -87,3 +87,7 @@ log_auto "$package_name.group-password.enable" $?
 # change password for root user
 # todo: this way not work
 #echo -e "lfs\nlfs" | passwd root
+
+# successfully
+log_auto "$package_name.setup.finish" $?
+exit 0
