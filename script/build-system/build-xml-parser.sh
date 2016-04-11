@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # using     : build xml-parser
+# params    : none
+# return    : 0 on success, 1 on error
 # author    : kevin.leptons@gmail.com
 
 # locate location of this script
@@ -8,25 +10,57 @@ __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
 # use configuration
+# use util
 source $script_dir/configuration.sh
+source $script_dir/util.sh
+
+# variables
+package_name="xml-parser"
+source_file="XML-Parser-2.44.tar.gz"
+source_dir="XML-Parser-2.44"
+
+# log start
+log_auto "$package_name.setup.start" 0
 
 # change working directory to sources directory
-cd /sources &&
+cd /sources
+
+# verify
+if [ -f $source_file ]; then
+    log_auto "$package_name.verify" 0
+else
+    log_auto "$package_name.verify" 1
+fi
 
 # extract source code and change to source directory
-if [ ! -d XML-Parser-2.44 ]; then
-   tar -xf XML-Parser-2.44.tar.gz
+if [ -d $source_dir ]; then
+    log_auto "$package_name.extract.idle" 0
+else
+    log_auto "$package_name.extract.start" 0
+    tar -vxf $source_file
+    log_auto "$package_name.extract.finish" $?
 fi
-cd XML-Parser-2.44
+cd $source_dir
 
 # prepare
-perl Makefile.PL &&
+perl Makefile.PL
+log_auto "$package_name.prepare" $?
 
 # build
-make &&
+log_auto "$package_name.make.start" 0
+make
+log_auto "$package_name.make.finish" $?
 
 # test
-make test &&
+log_auto "$package_name.test.start" 0
+make test
+log_auto "$package_name.test.finish" $?
 
 # install
+log_auto "$package_name.install.start" 0
 make install
+log_auto "$package_name.install.finish" $?
+
+# successfully
+log_auto "$package_name.setup.finish" $?
+exit 0
