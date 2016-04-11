@@ -26,15 +26,14 @@ cd /sources
 log_auto "$package_name.setup.start" 0
 
 # extract source code and change to source directory
-if [ ! -d $source_dir ]; then
-
+if [ -d $source_dir ]; then
+    log_auto "$package_name.extract.idle" 0
+else
     log_auto "$package_name.extract.start" 0
 
     tar -vxf $source_file
 
     log_auto "$package_name.extract.finish" $?
-else
-    log_auto "$package_name.extract.idle" 0
 fi
 cd $source_dir
 
