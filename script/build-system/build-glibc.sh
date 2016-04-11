@@ -18,9 +18,9 @@ source $script_dir/util.sh
 package_name="glibc"
 source_file="glibc-2.22.tar.xz"
 source_dir="glibc-2.22"
-build_dir="gblic-build"
+build_dir="glibc-build"
 timezone_file="../tzdata2015f.tar.gz"
-test_log_file="/lfs-script/log/build-system.glibc.test.log"
+test_log_file="/lfs-script/tmp/build-system.glibc.test.log"
 
 # log start
 log_auto "$package_name.setup.start" 0
@@ -74,8 +74,35 @@ log_auto "$package_name.make.finish" $?
 
 # test
 log_auto "$package_name.test.start" 0
-make check 2>"$test_log_file"
-log_auto "$package_name.test.finish" $?
+make check
+grep -i -w "FAIL:*" /sources/gblic-build/tests.sum > $test_log_file
+skip_fail=true
+while read line_fail; do
+
+    # verify fail are allowed or not
+    allowed=false
+    while read fail_allowed; do
+        if [[ $line_fail == $fail_allowed ]]; then
+            allowed=true
+            break
+        fi
+    done < /lfs-script/asset/build-syste.glibc.test.fail.allowed.txt
+
+    # if one fail are not allowd, do not skip fail
+    if [[ $allowed == false ]]; then
+        skip_fail=false
+        break
+    fi
+done < $test_log_file
+log_auto "$package_name.test.finish" 0
+if [[ $? != 0 ]]; then
+
+    if [[ $skip_fail == true]]; then
+        log_auto "$package_name.test.fail.allow" 0
+    else
+        log_auto "$package_name.test.fail.allow" 1
+    fi
+fi
 
 # install
 log_auto "$package_name.install.start" 0
