@@ -74,7 +74,7 @@ log_auto "$package_name.make.finish" $?
 
 # test
 log_auto "$package_name.test.start" 0
-make check > "$test_log_file"
+make check 2>"$test_log_file"
 log_auto "$package_name.test.finish" $?
 
 # install
