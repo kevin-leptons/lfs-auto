@@ -16,6 +16,9 @@ source $script_dir/util.sh
 
 # define variables
 task_name="toolchain"
+simple_program_src="/lfs-script/asset/simple-program.c"
+simple_program_dest="/lfs-script/tmp/simple-program"
+compile_log_file="/lfs-script/log/compile.log"
 
 # backup /tools, replace with linker made in chapter 5
 mv -v /tools/bin/{ld,ld-old} &&
@@ -33,15 +36,17 @@ log_auto "gcc.amend" $?
 
 # ensure that the basic function
 echo 'int main(){}' > dummy.c
-cc dummy.c -v -Wl,--verbose &> dummy.log &&
+cc "$simple_program_src" -o $simple_program_dest \
+    -v -Wl,--verbose &> "$compile_log_file" &&
 log_auto "gcc.compile" $?
 
 # read elf
-readelf -l a.out | grep ': /lib' | grep "Requesting program interpreter"
+readelf -l $simple_program_dest | grep ': /lib' | \
+    grep "Requesting program interpreter"
 log_auto "readelf" $?
 
 # make sure that we are setup to use the correct startfiles
-lib_count=$(grep -o '/usr/lib.*/crt[1in].*succeeded' dummy.log | wc)
+lib_count=$(grep -o '/usr/lib.*/crt[1in].*succeeded' $compile_log_file | wc -l)
 if [[ $lib_count == 3 ]]; then
     log_auto "/usr/lib/.verify" 0
 else
@@ -49,35 +54,24 @@ else
 fi
 
 # verify that the compiler is searching for the correct header files
-grep -B1 '^ /usr/include' dummy.log
+grep -B1 '^ /usr/include' $compile_log_file
 log_auto "/usr/include/.verify" $?
 
 # verify the the new linker
-grep 'SEARCH.*/usr/lib' dummy.log |sed 's|; |\n|g'
+grep 'SEARCH.*/usr/lib' $compile_log_file |sed 's|; |\n|g'
 log_auto "/usr/lib/.search-dir.verify" $?
 
 # make sure that we are using the correct libc
-grep "/lib.*/libc.so.6 " dummy.log
+grep "/lib.*/libc.so.6 " $compile_log_file
 log_auto "/usr/lib/.verify-64bits" $?
 
 # make sure gcc is using the correct dynamic linker
-grep found dummy.log
+grep found $compile_log_file
 log_auto "gcc.dynamic-link.verify" $?
 
 # clean up the test files
-rm -v dummy.c a.out dummy.log
+rm -v $simple_program_dest $compile_log_file
 
 # successfully
 log_auto "$task_name.setup.finish" 0
 exit 0
-
-
-
-
-
-
-
-
-
-
-
