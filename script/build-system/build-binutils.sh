@@ -66,7 +66,6 @@ log_auto "$package_name.configure.start" 0
 log_auto "$package_name.configure.finish" $?
 
 # build
-# build
 log_auto "$package_name.make.start" 0
 make tooldir=/usr
 log_auto "$package_name.make.finish" $?
