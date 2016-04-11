@@ -8,7 +8,7 @@ __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
 # use configuration
-source $script_dir/configuration.sh
+source configuration.sh
 
 # using     : current time by format
 # return    : date time string format by %Y-%m-%d %H:%M:%S
@@ -20,6 +20,7 @@ current_time() {
 # params    :
 #   $1: message
 #   $2: result in enum { true, false }. true is successfull, false is error
+# toto: remove this function
 log_build() {
 
     # get time
@@ -72,6 +73,38 @@ log() {
     # log to console
     printf "%s\n" "$log_time"
     printf "%-78s%2s\n\n" "$1" "$result"
+}
+
+# using     : write information to log file. exit if error
+# params    :
+#   $1: message name
+#   $2: returned value from pre-command
+log_auto() {
+
+    # get time
+    log_time=$(current_time)
+
+    # convert result
+    result="?"
+
+    if [[ $2 == 0 ]]; then
+        result="ok"
+    else
+        result="no"
+    fi
+
+    # log to file
+    printf "%s\n" "$log_time" >> "$log_build_file"
+    printf "%-78s%2s\n\n" "$1" "$result" >> "$log_build_file"
+
+    # log to console
+    printf "%s\n" "$log_time"
+    printf "%-78s%2s\n\n" "$1" "$result"
+
+    # exit if error
+    if [[ $2 != 0 ]]; then
+        exit 1
+    fi
 }
 
 # clear log file
