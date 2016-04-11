@@ -8,25 +8,58 @@ __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
 # use configuration
+# use util
 source $script_dir/configuration.sh
+source $script_dir/util.sh
+
+# variables
+package_name="autoconf"
+source_file="autoconf-2.69.tar.xz"
+source_dir="autoconf-2.69"
+
+# log start
+log_auto "$package_name.setup.start" 0
 
 # change working directory to sources directory
-cd /sources &&
+cd /sources
+
+# verify
+if [ -f $source_file ]; then
+    log_auto "$package_name.verify" 0
+else
+    log_auto "$package_name.verify" 1
+fi
 
 # extract source code and change to source directory
-if [ ! -d autoconf-2.69 ]; then
-   tar -xf autoconf-2.69.tar.xz
+if [ -d $source_dir ]; then
+    log_auto "$package_name.extract.idle" 0
+else
+    log_auto "$package_name.extract.start" 0
+    tar -vxf $source_file
+    log_auto "$package_name.extract.finish" $?
 fi
-cd autoconf-2.69
+cd $source_dir
 
 # configure
-./configure --prefix=/usr &&
+log_auto "$package_name.configure.start" 0
+./configure --prefix=/usr
+log_auto "$package_name.configure.finish" $?
 
 # build
-make &&
+log_auto "$package_name.make.start" 0
+make
+log_auto "$package_name.make.finish" $?
 
 # test
-make check &&
+log_auto "$package_name.test.start" 0
+make check
+log_auto "$package_name.test.finish" $?
 
 # install
+log_auto "$package_name.install.start" 0
 make install
+log_auto "$package_name.install.finish" $?
+
+# successfully
+log_auto "$package_name.setup.finish" $?
+exit 0
