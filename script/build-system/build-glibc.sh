@@ -20,6 +20,7 @@ source_file="glibc-2.22.tar.xz"
 source_dir="glibc-2.22"
 build_dir="gblic-build"
 timezone_file="../tzdata2015f.tar.gz"
+test_log_file="/lfs-script/log/build-system.glibc.test.log"
 
 # log start
 log_auto "$package_name.setup.start" 0
@@ -73,7 +74,7 @@ log_auto "$package_name.make.finish" $?
 
 # test
 log_auto "$package_name.test.start" 0
-make check
+make check > "$test_log_file"
 log_auto "$package_name.test.finish" $?
 
 # install
