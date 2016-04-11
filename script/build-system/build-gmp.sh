@@ -17,7 +17,7 @@ source $script_dir/util.sh
 # define variables
 package_name="gmp"
 source_file="gmp-6.0.0a.tar.xz"
-source_dir="gmp-6.0.0a"
+source_dir="gmp-6.0.0"
 
 # log start
 log_auto "$package_name.setup.start" 0
@@ -38,10 +38,10 @@ if [ -d $source_dir ]; then
 else
     log_auto "$package_name.extract.start" 0
     tar -vxf $source_file
-    log_auto "$package_name.extract.start" $?
+    log_auto "$package_name.extract.finish" $?
 fi
 cd $source_dir
-
+ls
 # configure
 log_auto "$package_name.configure.start" 0
 ./configure --prefix=/usr    \
