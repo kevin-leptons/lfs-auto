@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # using     : build procps-ng
+# params    : none
+# return    : 0 on success, 1 on error
 # author    : kevin.leptons@gmail.com
 
 # locate location of this script
@@ -8,35 +10,66 @@ __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
 # use configuration
+# use util
 source $script_dir/configuration.sh
+source $script_dir/util.sh
+
+# define variables
+package_name="procps-ng"
+source_file="procps-ng-3.3.11.tar.xz"
+source_dir="procps-ng-3.3.11"
+
+# verify
+if [ -f $source_file ]; then
+    log_auto "$package_name.verify" 0
+else
+    log_auto "$package_name.verify" 1
+fi
 
 # change working directory to sources directory
-cd /sources &&
+cd /sources
 
 # extract source code and change to source directory
-if [ ! -d procps-ng-3.3.11 ]; then
-   tar -xf procps-ng-3.3.11.tar.xz
+if [ -d $source_dir ]; then
+    log_auto "$package_name.extract.idle" 0
+else
+    log_auto "$package_name.extract.start" 0
+    tar -vxf $source_file
+    log_auto "$package_name.extract.finish" $?
 fi
-cd procps-ng-3.3.11
+cd $source_dir
 
 # configure
+log_auto "$package_name.configure.start" 0
 ./configure --prefix=/usr                            \
    --exec-prefix=                           \
    --libdir=/usr/lib                        \
    --docdir=/usr/share/doc/procps-ng-3.3.11 \
    --disable-static                         \
-   --disable-kill &&
+   --disable-kill
+log_auto "$package_name.configure.finish" $?
 
 # build
-make &&
+log_auto "$package_name.make.start" 0
+make
+log_auto "$package_name.make.finish" $?
 
 # test
+log_auto "$package_name.test.start" 0
 sed -i -r 's|(pmap_initname)\\\$|\1|' testsuite/pmap.test/pmap.exp &&
-make check &&
+make check
+log_auto "$package_name.test.finish" $?
 
 # install
-make install &&
+log_auto "$package_name.install.start" 0
+make install
+log_auto "$package_name.install.finish" $?
 
 # move library
-mv -v /usr/lib/libprocps.so.* /lib
+mv -v /usr/lib/libprocps.so.* /lib &&
 ln -sfv ../../lib/$(readlink /usr/lib/libprocps.so) /usr/lib/libprocps.so
+log_auto "$package_name.lib.move" $?
+
+# successfully
+log_auto "$package_name.setup.finish" $?
+exit 0
