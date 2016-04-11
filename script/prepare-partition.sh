@@ -18,7 +18,7 @@ source $__dir__/util.sh
 task_name="partition"
 
 # log start
-log "$task_name.start"
+log "$task_name.start" true
 
 # create tools directory to build temporary system
 mkdir -vp $root_tools
@@ -42,11 +42,12 @@ fi
 sudo chown -R $build_user_group:$build_user $root /tools
 if [[ $? != 0 ]]; then
     log "$root_tools.chown" false
+    log "$task_name.finish" false
     exit 1
 else
     log "$root_tools.chown" true
 fi
 
 # successfully
-log "$task_name.start"
+log "$task_name.finish" true
 exit 0
