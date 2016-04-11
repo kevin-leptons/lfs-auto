@@ -132,7 +132,7 @@ log_auto "lib64/.create" $?
 
 # create /var sub directory
 # store ?
-mkdir -pv /var{log,mail,spool,opt,cache,local}
+mkdir -pv /var/{log,mail,spool,opt,cache,local}
 log_auto "/var/.sub-dir.create" $?
 
 # create /var/lib
