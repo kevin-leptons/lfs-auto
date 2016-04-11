@@ -146,7 +146,7 @@ make localedata/install-locales
 log_auto "$package_name.install-locale.finish" $?
 
 # add nsswitch.conf
-cp -vp asset/nsswitch.conf /etc/nsswitch.conf
+cp -vp /lfs-script/asset/nsswitch.conf /etc/nsswitch.conf
 log_auto "/etc/nsswitch.conf.create" $?
 
 # start setup timezone
