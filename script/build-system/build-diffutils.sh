@@ -61,6 +61,7 @@ log_auto "$package_name.test.start" 0
 make check
 log_auto "$package_name.test.finish" $?
 
+# install
 log_auto "$package_name.install.start" 0
 make install
 log_auto "$package_name.install.finish" $?
