@@ -47,62 +47,69 @@ else
 fi
 cd $source_dir
 
-# # path
-# log_auto "$package_name.patch.start" 0
-# patch -Np1 -i ../glibc-2.22-fhs-1.patch &&
-# patch -Np1 -i ../glibc-2.22-upstream_i386_fix-1.patch
-# log_auto "$package_name.patch.finish" $?
-#
-# # create build directory
+# path
+log_auto "$package_name.patch.start" 0
+patch -Np1 -i ../glibc-2.22-fhs-1.patch &&
+patch -Np1 -i ../glibc-2.22-upstream_i386_fix-1.patch
+log_auto "$package_name.patch.finish" $?
+
+# create build directory
 cd ../
-# rm -vrf $build_dir
-# mkdir -vp $build_dir
+rm -vrf $build_dir
+mkdir -vp $build_dir
 cd $build_dir
 log_auto "$package_name.build-dir.create" $?
 
-# # configure
-# log_auto "$package_name.configure.start" 0
-# ../glibc-2.22/configure    \
-#       --prefix=/usr          \
-#       --disable-profile      \
-#       --enable-kernel=2.6.32 \
-#       --enable-obsolete-rpc
-# log_auto "$package_name.configure.finish" $?
-#
-# # build
-# log_auto "$package_name.make.start" 0
-# make
-# log_auto "$package_name.make.finish" $?
+# configure
+log_auto "$package_name.configure.start" 0
+../glibc-2.22/configure    \
+      --prefix=/usr          \
+      --disable-profile      \
+      --enable-kernel=2.6.32 \
+      --enable-obsolete-rpc
+log_auto "$package_name.configure.finish" $?
+
+# build
+log_auto "$package_name.make.start" 0
+make
+log_auto "$package_name.make.finish" $?
 
 # test
 log_auto "$package_name.test.start" 0
 make check
-grep -i -w "FAIL:*" $test_sum_file > $test_log_file
-skip_fail=true
-while read line_fail; do
+if [[ $? == 0 ]]; then
+    log_auto "$package_name.test.finish" 0
+else
+
+    # filt fail into log file
+    grep -i -w "FAIL:*" $test_sum_file > $test_log_file
 
     # verify fail are allowed or not
-    allowed=false
-    while read fail_allowed; do
-        if [[ $line_fail == $fail_allowed ]]; then
-            allowed=true
+    skip_fail=true
+    while read line_fail; do
+
+        # verify fail are allowed or not
+        allowed=false
+        while read fail_allowed; do
+            if [[ $line_fail == $fail_allowed ]]; then
+                allowed=true
+                break
+            fi
+        done < $fail_allowed_file
+
+        # if one fail are not allowd, do not skip fail
+        if [[ $allowed == false ]]; then
+            skip_fail=false
             break
         fi
-    done < $fail_allowed_file
-
-    # if one fail are not allowd, do not skip fail
-    if [[ $allowed == false ]]; then
-        skip_fail=false
-        break
-    fi
-done < $test_log_file
-log_auto "$package_name.test.finish" 0
-if [[ $? != 0 ]]; then
+    done < $test_log_file
 
     if [[ $skip_fail == true ]]; then
         log_auto "$package_name.test.fail.allow" 0
+        log_auto "$package_name.test.finish" 0
     else
         log_auto "$package_name.test.fail.allow" 1
+        log_auto "$package_name.test.finish" 1
     fi
 fi
 
@@ -187,7 +194,7 @@ log_auto "/etc/localtime.create" $?
 log_auto "timezone.setup.finish" $?
 
 # create /etc/ld.so.conf
-cp asset/ld.so.conf /etc/ld.so.conf
+cp /lfs-script/asset/ld.so.conf /etc/ld.so.conf
 log_auto "/etc/ld.so.conf.create" $?
 
 # create /etc/ld.so.conf.d
