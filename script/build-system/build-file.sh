@@ -15,8 +15,8 @@ source $script_dir/util.sh
 
 # define variables
 package_name="file"
-source_file=file-5.24.tar.gz
-source_dir=file-5.24
+source_file="file-5.24.tar.gz"
+source_dir="file-5.24"
 
 # log start
 log_auto "$package_name.setup.start" 0
@@ -54,7 +54,7 @@ log_auto "$package_name.make.finish" $?
 # test
 log_auto "$package_name.test.start" 0
 make check
-log_auto "$package_name.test.finish" $
+log_auto "$package_name.test.finish" $?
 
 # install
 log_auto "$package_name.install.start" 0
