@@ -23,46 +23,31 @@ source_dir=linux-4.2
 cd /sources
 
 # log start
-log "$package_name.setup.start" true
+log_auto "$package_name.setup.start" 0
 
 # extract source code and change to source directory
 if [ ! -d $source_dir ]; then
 
-    log "$package_name.extract.start" true
+    log_auto "$package_name.extract.start" 0
 
     tar -vxf $source_file
 
-    if [[ $? != 0 ]]; then
-        log "$package_name.extract.finish" false
-        exit 1
-    else
-        log "$package_name.extract.finish" true
-    fi
+    log_auto "$package_name.extract.finish" $?
 else
-    log "$package_name.extract.idle" true
+    log_auto "$package_name.extract.idle" 0
 fi
 cd $source_dir
 
 # make sure there are no stale files and dependencies
 make mrproper
-if [[ $? != 0 ]]; then
-    log "$package_name.mrproper" false
-    exit 1
-else
-    log "$package_name.mrproper" true
-fi
+log_auto "$package_name.mrproper" $?
 
 # install
 make INSTALL_HDR_PATH=dest headers_install &&
 find dest/include \( -name .install -o -name ..install.cmd \) -delete &&
 cp -rv dest/include/* /usr/include
-if [[ $? != 0 ]]; then
-    log "$package_name.install" false
-    exit 1
-else
-    log "$package_name.install" true
-fi
+log_auto "$package_name.install" $?
 
 # successfully
-log "$package_name.setup.finish" true
+log_auto "$package_name.finish" $?
 exit 0

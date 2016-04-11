@@ -37,26 +37,10 @@ sudo mount -v --bind /dev $LFS/dev
 log_auto "/dev.populate" $?
 
 # mount virtual kernel file system
-if [ -e $LFS/dev/pts ]; then
-    log_auto "/dev/pts.idle" 0
-else
-    sudo mount -vt devpts devpts $LFS/dev/pts -o gid=5,mode=620
-fi
-if [ -e $LFS/proc ]; then
-    log_auto "/proc.idle" 0
-else
-    sudo mount -vt proc proc $LFS/proc
-fi
-if [ -e  $LFS/sys ]; then
-    log_auto "/sys.idle" 0
-else
-    sudo mount -vt sysfs sysfs $LFS/sys
-fi
-if [ -e $LFS/run ]; then
-    log_auto "/run/idle" 0
-else
-    sudo mount -vt tmpfs tmpfs $LFS/run
-fi
+sudo mount -vt devpts devpts $LFS/dev/pts -o gid=5,mode=620 &&
+sudo mount -vt proc proc $LFS/proc &&
+sudo mount -vt sysfs sysfs $LFS/sys &&
+sudo mount -vt tmpfs tmpfs $LFS/run &&
 if [ -h $LFS/dev/shm ]; then
    mkdir -pv $LFS/$(readlink $LFS/dev/shm)
 fi
