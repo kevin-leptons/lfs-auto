@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # using     : build man page
+# params    : none
+# return    : 0 on success, 1 on error
 # author    : kevin.leptons@gmail.com
 
 # locate location of this script
