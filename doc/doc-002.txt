@@ -67,6 +67,9 @@ table of contents
     in case package is not installed on host system, install that package
     auto
 
+    allocate large file to use to virtual disk, that use as partition to store
+    lfs build system. that file must be named lfs-disk.img
+
     log file: log/process.log
 
 5. setup container
@@ -98,9 +101,47 @@ table of contents
         - texinfo                                                        4.7
         - xz                                                           5.0.0
 
+    mount lfs-disk.img into container at /mnt/lfs
 
 
-11. reference
+6. enter container
+
+    run container and transfer control to entry-lfs.sh
+
+
+7. setup lfs
+
+    entry-lfs.sh script must setup lfs user, file system follow lfs documents
+    section II.2 to II.4
+
+
+8. setup temporary packages
+
+    follow lfs documents section II.5, each package build instruction store in
+    one file, store in build-temp-system directory
+
+    then build-tools.sh script call all setup instruction
+
+
+9. enter virtual kernel
+
+    enter-chroot.sh must be setup virtual kernel and change root to virtual
+    kernel
+
+10. setup system
+
+    setup new system occurs here. follow lfs documents section III. each step
+    describe by instructions in one file, store in build-system directory
+
+    then build-system.sh script call all setup instructions
+
+
+11. setup image
+
+    create one image of new system, use to install in new computer
+
+
+12. reference
 
     linux from scratch 7.8
     http://www.linuxfromscratch.org/lfs/view/7.8/index.html
