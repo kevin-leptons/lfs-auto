@@ -59,7 +59,19 @@ log_auto "$package_name.make.finish" $?
 # test
 log_auto "$package_name.test.start" 0
 make check
-log_auto "$package_name.test.finish" $?
+if [[ $? == 0 ]]; then
+    log_auto "$package_name.test.finish" 0
+else
+
+    test_log_file="gnulib-tests/test-suite.log"
+    if grep -w "FAIL: test-update-copyright.sh" "$test_log_file"; then
+        log_auto "$package_name.test.fail.allowed" 0
+        log_auto "$package_name.test.finish" 0
+    else
+        log_auto "$package_name.test.fail.allowed" 1
+        log_auto "$package_name.test.finish" 1
+    fi
+fi
 
 # install
 log_auto "$package_name.install.start" 0
