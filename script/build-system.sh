@@ -89,6 +89,9 @@ packages=( \
     build-man-db \
     build-vim \
     clean \
+)
+
+packages_2=( \
     build-lfs-bootscripts \
     config-network \
     config-systemv \
