@@ -43,7 +43,7 @@ fi
 cd $source_dir
 
 # configure
-log_auto "$package_name.configure.start"
+log_auto "$package_name.configure.start" 0
 ./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.0.4
 log_auto "$package_name.configure.finish" $?
 
