@@ -72,7 +72,7 @@ log_auto "$package_name.test.finish" $?
 
 # install
 log_auto "$package_name.install.start" 0
-make make install
+make install
 unset BUILD_ZLIB BUILD_BZIP2
 log_auto "$package_name.install.finish" $?
 
