@@ -72,7 +72,12 @@ log_auto "$package_name.make.finish" $?
 log_auto "$package_name.test.start" 0
 chown -Rv nobody . &&
 su nobody -s /bin/bash -c "PATH=$PATH make -k check"
-log_auto "$package_name.test.finish" $?
+if [[ $? == 0 ]]; then
+    log_auto "$package_name.test.finish" 0
+else
+    log_auto "$package_name.test.fail.allowed" 0
+    log_auto "$package_name.test.finish" 0
+fi
 
 # install
 log_auto "$package_name.install.start" 0
