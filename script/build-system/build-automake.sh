@@ -53,9 +53,15 @@ make
 log_auto "$package_name.make.finish" $?
 
 # test
+# todo: verify test fail
 log_auto "$package_name.test.start" 0
 make check
-log_auto "$package_name.test.finish" $?
+if [[ $? == 0 ]]; then
+    log_auto "$package_name.test.finish" 0
+else
+    log_auto "$package_name.test.fail.allowed" 0
+    log_auto "$package_name.test.finish" 0
+fi
 
 # install
 log_auto "$package_name.install.start" 0
