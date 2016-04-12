@@ -65,7 +65,7 @@ packages=( \
     build-automake \
     build-diffutils \
     build-gawk \
-    build-fildutils \
+    build-findutils \
     build-gettext \
     build-intltool \
     build-gperf \
