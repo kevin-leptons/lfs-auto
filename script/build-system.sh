@@ -22,7 +22,7 @@ clear_log
 log "$task_name.start" true
 
 # clear old build
-$build_sysem_dir/clear.sh
+./clean-build-system.sh
 log_auto "system.old-build.clear" 0
 
 # list all script to build package in system
