@@ -12,7 +12,7 @@ script_dir="$(dirname $__dir__)"
 # use configuration
 # use util
 source $script_dir/configuration.sh
-source $script_dir/util.s
+source $script_dir/util.sh
 
 # define variables
 package_name="coreutils"
