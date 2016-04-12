@@ -77,7 +77,7 @@ log_auto "$package_name.install.finish" $?
 # move library
 mv -v /usr/lib/libacl.so.* /lib &&
 ln -sfv ../../lib/$(readlink /usr/lib/libacl.so) /usr/lib/libacl.so
-log_build "$package_name.lib.move" $?
+log_auto "$package_name.lib.move" $?
 
 # successfully
 log_auto "$package_name.setup.finish" $?
