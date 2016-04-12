@@ -47,41 +47,41 @@ fi
 mkdir -vp $build_dir
 cd $build_dir
 
-# # configure
-# log_auto "$package_name.configure.start" 0
-# SED=sed                       \
-# ../gcc-5.2.0/configure        \
-#    --prefix=/usr            \
-#    --enable-languages=c,c++ \
-#    --disable-multilib       \
-#    --disable-bootstrap      \
-#    --with-system-zlib
-# log_auto "$package_name.configure.finish" $?
-#
-# # build
-# log_auto "$package_name.make.start" 0
-# make
-# log_auto "$package_name.make.finish" $?
-#
-# # test
-# log_auto "$package_name.test.start" 0
-# ulimit -s 32768
-# make -k check
-# ../gcc-5.2.0/contrib/test_summary > $test_log_file
-# log_auto "$package_name.test.finish" $?
-#
-# # install
-# log_auto "$package_name.install.start" 0
-# make install
-# log_auto "$package_name.install.finish" $?
-#
-# # link
-# ln -sv ../usr/bin/cpp /lib &&
-# ln -sv gcc /usr/bin/cc &&
-# install -v -dm755 /usr/lib/bfd-plugins &&
-# ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/5.2.0/liblto_plugin.so \
-#     /usr/lib/bfd-plugins/
-# log_auto "$package_name.link" $?
+# configure
+log_auto "$package_name.configure.start" 0
+SED=sed                       \
+../gcc-5.2.0/configure        \
+   --prefix=/usr            \
+   --enable-languages=c,c++ \
+   --disable-multilib       \
+   --disable-bootstrap      \
+   --with-system-zlib
+log_auto "$package_name.configure.finish" $?
+
+# build
+log_auto "$package_name.make.start" 0
+make
+log_auto "$package_name.make.finish" $?
+
+# test
+log_auto "$package_name.test.start" 0
+ulimit -s 32768
+make -k check
+../gcc-5.2.0/contrib/test_summary > $test_log_file
+log_auto "$package_name.test.finish" $?
+
+# install
+log_auto "$package_name.install.start" 0
+make install
+log_auto "$package_name.install.finish" $?
+
+# link
+ln -sv ../usr/bin/cpp /lib &&
+ln -sv gcc /usr/bin/cc &&
+install -v -dm755 /usr/lib/bfd-plugins &&
+ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/5.2.0/liblto_plugin.so \
+    /usr/lib/bfd-plugins/
+log_auto "$package_name.link" $?
 
 # compile simple program
 echo 'int main(){}' > dummy.c
