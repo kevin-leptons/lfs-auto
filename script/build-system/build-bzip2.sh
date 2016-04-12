@@ -46,13 +46,13 @@ cd $source_dir
 patch -Np1 -i ../bzip2-1.0.6-install_docs-1.patch &&
 sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile &&
 sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
-log_build "$package_name.patch" $?
+log_auto "$package_name.patch" $?
 
 # prepare
-log_build "$package_name.prepare.start" 0
+log_auto "$package_name.prepare.start" 0
 make -f Makefile-libbz2_so &&
 make clean
-log_build "$package_name.prepare.finish" $?
+log_auto "$package_name.prepare.finish" $?
 
 # build
 log_auto "$package_name.make.start" 0
@@ -71,7 +71,7 @@ ln -sv ../../lib/libbz2.so.1.0 /usr/lib/libbz2.so &&
 rm -v /usr/bin/{bunzip2,bzcat,bzip2} &&
 ln -sv bzip2 /bin/bunzip2 &&
 ln -sv bzip2 /bin/bzcat
-log_build "$package_name.install-shared-lib" $?
+log_auto "$package_name.install-shared-lib" $?
 
 # successfully
 log_auto "$package_name.setup.finish" $?
