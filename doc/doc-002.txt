@@ -25,7 +25,7 @@ table of contents
 
     this document provide setup linux from scrapt flow. document build on
     linux from scratch manual. setup flow not only linux from scratch, it is
-    also contains some work to prepare setup environemnt. see doc-001 for
+    also contains some work to prepare setup environment. see doc-001 for
     information about setup architecture
 
     section 2 specify target of this document. section 3 describe general
@@ -37,7 +37,7 @@ table of contents
 
     - follow setup architecture in doc-001
 
-    - follow instruction of linux from scrapt to setup gnu/linux system
+    - follow instruction of linux from scratch to setup gnu/linux system
 
 3. general operations
 
