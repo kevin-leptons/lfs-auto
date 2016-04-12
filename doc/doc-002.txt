@@ -39,6 +39,7 @@ table of contents
 
     - follow instruction of linux from scratch to setup gnu/linux system
 
+
 3. general operations
 
     make sure that each step and child step is log to log file with
@@ -71,6 +72,7 @@ table of contents
     lfs build system. that file must be named lfs-disk.img
 
     log file: log/process.log
+
 
 5. setup container
 
@@ -127,6 +129,7 @@ table of contents
 
     enter-chroot.sh must be setup virtual kernel and change root to virtual
     kernel
+
 
 10. setup system
 
