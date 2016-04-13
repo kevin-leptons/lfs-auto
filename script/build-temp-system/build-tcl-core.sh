@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # using     : build tcl-core
-# time      : 0.5 sbu
 # params    : none
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
@@ -15,99 +14,68 @@ script_dir="$(dirname $__dir__)"
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
-package_name=tcl-core
-source_file=tcl-core8.6.4-src.tar.gz
-source_dir=tcl8.6.4
+# variables
+package_name="tcl-core"
+source_file="tcl-core8.6.4-src.tar.gz"
+source_dir="tcl8.6.4"
+
+# log start setup
+log_auto "$package_name.setup.start" 0
 
 # change working directory to sources directory
 cd $root_sources
 
-# log start setup
-log_build "$package_name.setup.start" true
-
 # verify
-if [ ! -f $source_file ]; then
-    log_build "$package_name.verify" false
+if [ -f $source_file ]; then
+    log_auto "$package_name.verify" 0
 else
-    log_build "$package_name.verify" true
+    log_auto "$package_name.verify" $?
 fi
 
 # extract source code and change to source directory
-if [ ! -d $source_dir ]; then
-   tar -xf $source_file
+if [ -d $source_dir ]; then
+    log_auto "$package_name.extract.idle" 0
+else
+    log_auto "$package_name.extract.start" 0
+    tar -vxf $source_file
+    log_auto "$package_name.extract.finish" $?
 fi
 cd $source_dir
 
 # configure
-log_build "$package_name.configure.start" true
+log_auto "$package_name.configure.start" 0
 cd unix
 ./configure --prefix=/tools
-if [[ $? != 0 ]]; then
-    log_build "$package_name.configure.finish" false
-    exit 1
-else
-    log_build "$package_name.configure.finish" true
-fi
+log_auto "$package_name.configure.finish" $?
 
 # build
-log_build "$package_name.make.start" true
+log_auto "$package_name.make.start" 0
 make
-if [[ $? != 0 ]]; then
-    log_build "$package_name.make.finish" false
-    exit 1
-else
-    log_build "$package_name.make.finish" true
-fi
+log_auto "$package_name.make.finish" $?
 
 # test
-log_build "$package_name.test.start" true
+log_auto "$package_name.test.start" 0
 TZ=UTC make test
-if [[ $? != 0 ]]; then
-    log_build "$package_name.test.finish" false
-    exit 1
-else
-    log_build "$package_name.test.finish" true
-fi
+log_auto "$package_name.test.finish" $?
 
 # install
-log_build "$package_name.install.start" true
+log_auto "$package_name.install.start" 0
 make install
-if [[ $? != 0 ]]; then
-    log_build "$package_name.install.finish" false
-    exit 1
-else
-    log_build "$package_name.install.finish" true
-fi
+log_auto "$package_name.install.finish" $?
 
 # make library writeable, so can removed later
 chmod -v u+x /tools/lib/libtcl8.6.so
-if [[ $? != 0 ]]; then
-    log_build "$package_name.make library writeable" false
-    exit 1
-else
-    log_build "$package_name.make library writeable" true
-fi
+log_auto "$package_name.lib.chmod" $?
 
 # install tcl headers
-log_build "$package_name.install tcl headers.start" true
+log_auto "$package_name.headers.install.start" 0
 make install-private-headers
-if [[ $? != 0 ]]; then
-    log_build "$package_name.install tcl headers.finish" false
-    exit 1
-else
-    log_build "$package_name.install tcl headers.finish" true
-fi
+log_auto "$package_name.headers.install.finish" $?
 
 # link
 ln -sv tclsh8.6 /tools/bin/tclsh
-if [[ $? != 0 ]]; then
-    log_build "$package_name.link.finish" false
-    exit 1
-else
-    log_build "$package_name.link.finish" true
-fi
+log_auto "$package_name.link.finish" $?
 
 # successfull
-log_build "$package_name.setup.finish" true
+log_auto "$package_name.setup.finish" $?
 exit 0
