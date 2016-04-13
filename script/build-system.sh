@@ -12,18 +12,19 @@ build_sysem_dir=$__dir__/build-system
 source $__dir__/configuration.sh
 source $__dir__/util.sh
 
-# define variables
-task_name="lfs.build"
+# variables
+task_name="system"
 
 # clear log file
+# and start
 clear_log
-
-# log start
-log "$task_name.start" true
+log_auto "$task_name.setup.start" 0
 
 # clear old build
 ./clean-build-system.sh
-log_auto "system.old-build.clear" 0
+
+# clean old system
+./clean-system.sh
 
 # list all script to build package in system
 # each script not contains extension
@@ -113,15 +114,15 @@ packages_2=( \
 result=done
 for package in ${packages[@]}; do
 
+    # call setup instructions
     $build_sysem_dir/$package.sh
 
+    # log and exit if error
     if [[ $? != 0 ]]; then
-        result=error
-        break
+        log_auto "$task_name.setup.finish" 1
     fi
 done
-if [[ $result == error ]]; then
-    log_build "$task_name.finish" false
-else
-    log_build "$task_name.finish" true
-fi
+
+# successfully
+log_auto "$task_name.setup.finish" $?
+exit 0

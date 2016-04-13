@@ -32,7 +32,7 @@ rm -vrf bin \
     tmp \
     usr \
     var
-log_auto "system.clear" $?
+log_auto "system.clean" $?
 
 # successfully
 exit 0
