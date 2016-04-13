@@ -124,7 +124,7 @@ else
     log_auto "$package_mpc_name.extract.start" 0
     tar -vxf $mpc_source_file
     log_auto "$package_mpc_name.extract.finish" $?
-    mv -v $mpc_source_dir
+    mv mpc-1.0.3 -v $mpc_source_dir
 fi
 
 # create and change to build directory
