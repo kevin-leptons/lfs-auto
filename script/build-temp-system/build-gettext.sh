@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # using     : build gettext
-# time      : 0.9 sbu
 # params    : none
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
@@ -11,84 +10,57 @@ __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
 # use configuration
-source $script_dir/configuration.sh
-
-# use configuration
 # use util
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # define variables
-package_name=gettext
-source_file=gettext-0.19.5.1.tar.xz
-source_dir=gettext-0.19.5.1
+package_name="gettext"
+source_file="gettext-0.19.5.1.tar.xz"
+source_dir="gettext-0.19.5.1"
+
+# start
+log_auto "$package_name.setup.start" 0
 
 # change working directory to sources directory
 cd $root_sources
 
-# log start setup
-log_build "$package_name.setup.start" true
-
-# verify source code
-if [ ! -f $source_file ]; then
-    log_build "$package_name.verify" false
-    exit 1
+# verify
+if [ -f $source_file ]; then
+    log_auto "$package_name.verify" 0
 else
-    log_build "$package_name.verify" true
+    log_auto "$package_name.verify" 1
 fi
 
-# extract source code and change to source code directory
-if [ ! -d $source_dir ]; then
-
-    log_build "$package_name.extract.start" true
-
-    tar -vxf $source_file
-
-    if [[ $? != 0 ]]; then
-        log_build "$package_name.extract.finish" false
-        exit 1
-    else
-        log_build "$package_name.extract.finish" true
-    fi
+# extract
+if [ -d $source_dir ]; then
+    log_auto "$package_name.extract.idle" 0
 else
-    log_build "$package_name.extract.idle" true
+    log_auto "$package_name.extract.start" 0
+    tar -vxf $source_file
+    log_auto "$package_name.extract.finish" $?
 fi
 cd $source_dir/gettext-tools
 
 # configure
-log_build "$package_name.configure.start" true
+log_auto "$package_name.configure.start" 0
 EMACS="no" ./configure --prefix=/tools --disable-shared
-if [[ $? != 0 ]]; then
-    log_build "$package_name.configure.finish" false
-    exit 1
-else
-    log_build "$package_name.configure.finish" true
-fi
+log_auto "$package_name.configure.finish" $?
 
 # build
-log_build "$package_name.make.start" true
+log_auto "$package_name.make.start" 0
 make -C gnulib-lib &&
 make -C intl pluralx.c &&
 make -C src msgfmt &&
 make -C src msgmerge &&
 make -C src xgettext
-if [[ $? != 0 ]]; then
-    log_build "$package_name.make.finish" false
-    exit 1
-else
-    log_build "$package_name.make.finish" true
-fi
+log_auto "$package_name.make.finish" $?
 
 # install
-log_build "$package_name.install.start" true
+log_auto "$package_name.install.start" 0
 cp -v src/{msgfmt,msgmerge,xgettext} /tools/bin
-if [[ $? != 0 ]]; then
-    log_build "$package_name.install.finish" false
-    exit 1
-else
-    log_build "$package_name.install.finish" true
-fi
+log_auto "$package_name.install.finish" $?
 
 # successfull
-log_build "$package_name.setup.finish" true
+log_auto "$package_name.setup.finish" 0
 exit 0
