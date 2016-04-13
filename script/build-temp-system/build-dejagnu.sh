@@ -55,8 +55,8 @@ log_auto "$package_name.install.finish" $?
 # test
 log_auto "$package_name.test.start" 0
 make check
-log_build "$package_name.test.finish" $?
+log_auto "$package_name.test.finish" $?
 
 # successfull
-log_build "$package_name.setup.finish" $?
+log_auto "$package_name.setup.finish" $?
 exit 0
