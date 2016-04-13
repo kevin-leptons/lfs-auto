@@ -29,11 +29,11 @@ mpfr_source_dir="mpfr"
 gmp_source_dir="gmp"
 mpc_source_dir="mpc"
 
+# start
+log_auto "$package_name.setup.start" 0
+
 # change working directory to sources directory
 cd $root_sources
-
-# log start setup
-log_auto "$package_name.setup.start" 0
 
 # gcc.verify
 if [ -f $source_file ]; then
