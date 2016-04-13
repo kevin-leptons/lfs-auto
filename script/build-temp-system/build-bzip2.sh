@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # using     : build bzip2
-# time      : less than 0.1 sbu
 # params    : none
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
@@ -16,39 +15,43 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # define variables
-package_name=bzip2
-source_file=bzip2-1.0.6.tar.gz
-source_dir=bzip2-1.0.6
+package_name="bzip2"
+source_file="bzip2-1.0.6.tar.gz"
+source_dir="bzip2-1.0.6"
+
+# start
+log_auto "$package_name.setup.start" 0
 
 # change working directory to sources directory
 cd $root_sources
 
+# verify
+if [ -f $source_file ]; then
+    log_auto "$package_name.verify" 0
+else
+    log_auto "$package_name.verify" 1
+fi
+
 # extract source code and change to source code directory
-if [ ! -d $source_dir ]; then
-   tar -vxf $source_file
+if [ -d $source_dir ]; then
+    log_auto "$package_name.extract.idle" 0
+else
+    log_auto "$package_name.extract.start" 0
+    tar -vxf $source_file
+    log_auto "$package_name.extract.finish" $?
 fi
 cd $source_dir
 
 # build
-log_build "$package_name.make.start" true
+log_auto "$package_name.make.start" 0
 make
-if [[ $? != 0 ]]; then
-    log_build "$package_name.make.finish" false
-    exit 1
-else
-    log_build "$package_name.make.finish" true
-fi
+log_auto "$package_name.make.finish" $?
 
 # install
-log_build "$package_name.install.start" true
+log_auto "$package_name.install.start" 0
 make PREFIX=/tools install
-if [[ $? != 0 ]]; then
-    log_build "$package_name.install.finish" false
-    exit 1
-else
-    log_build "$package_name.install.finish" true
-fi
+log_auto "$package_name.install.finish" $?
 
 # successfull
-log_build "$package_name.setup.finish" true
+log_auto "$package_name.setup.finish" $?
 exit 0
