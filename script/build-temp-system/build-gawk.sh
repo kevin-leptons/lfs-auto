@@ -50,7 +50,7 @@ log_auto "$package_name.configure.finish" $?
 # build
 log_auto "$package_name.make.start" 0
 make
-log_auto "$package_name.make.finish" $?i
+log_auto "$package_name.make.finish" $?
 
 # test
 log_auto "$package_name.test.start" 0
