@@ -14,10 +14,7 @@ script_dir="$(dirname $__dir__)"
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# change working directory to sources directory
-cd $root_sources
-
-# define variables
+# variables
 package_name="binutils-pass-1"
 source_file="binutils-2.25.1.tar.bz2"
 source_dir="binutils-2.25.1"
@@ -26,14 +23,17 @@ build_dir="binutils-build"
 # log start setup
 log_auto "$package_name.setup.start" 0
 
-# verify source code
+# change working directory to sources directory
+cd $root_sources
+
+# verify
 if [ -f $source_file ]; then
     log_auto "$package_name.verify" 0
 else
     log_auto "$package_name.verify" 1
 fi
 
-# extract source file
+# extract
 if [ -d $source_dir ]; then
     log_auto "$package_name.extract.idle" 0
 else
