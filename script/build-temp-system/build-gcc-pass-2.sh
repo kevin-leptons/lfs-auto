@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # using     : build gcc package in pass 1
-# time      : 10.8 sbu
 # params    : none
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
@@ -15,62 +14,51 @@ script_dir="$(dirname $__dir__)"
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variable
-package_name=gcc-pass-2
-package_mpfr_name=mpfr
-package_gmp_name=gmp
-package_mpc_name=mpc
-source_file=gcc-5.2.0.tar.bz2
-source_dir=gcc-5.2.0
-build_dir=gcc-build
-mpfr_source_file=../mpfr-3.1.3.tar.xz
-gmp_source_file=../gmp-6.0.0a.tar.xz
-mpc_source_file=../mpc-1.0.3.tar.gz
-mpfr_source_dir=mpfr
-gmp_source_dir=gmp
-mpc_source_dir=mp
+# variables
+package_name="gcc-pass-2"
+package_mpfr_name="mpfr"
+package_gmp_name="gmp"
+package_mpc_name="mpc"
+source_file="gcc-5.2.0.tar.bz2"
+source_dir="gcc-5.2.0"
+build_dir="gcc-build"
+mpfr_source_file="../mpfr-3.1.3.tar.xz"
+gmp_source_file="../gmp-6.0.0a.tar.xz"
+mpc_source_file="../mpc-1.0.3.tar.gz"
+mpfr_source_dir="mpfr"
+gmp_source_dir="gmp"
+mpc_source_dir="mpc"
+simple_program_source="/lfs-script/asset/simple-program.c"
+simple_program_dest="/lfs-script/tmp/simple-program"
 
 # change working directory to sources directory
 cd $root_sources
 
-# log start setup
-log_build "$package_name.setup.start" true
+# start
+log_auto "$package_name.setup.start" 0
 
 # gcc.verify
-if [ ! -f $source_file ]; then
-    log_build "$package_name:verify" false
-    exit 1
+if [ -f $source_file ]; then
+    log_auto "$package_name:verify" 0
 else
-    log_build "$package_name:verify" true
+    log_auto "$package_name:verify" 1
 fi
 
 # gcc.extract
 # and change to source directory
-if [ ! -d $source_dir ]; then
-
-    log_build "$package_name.extract.start" true
-
-    tar -vxf $source_file
-
-    if [[ $? != 0 ]]; then
-        log_build "$package_name.extract.finish" false
-        exit 1
-    else
-        log_build "$package_name.extract.finish" true
-    fi
+if [ -d $source_dir ]; then
+    log_auto "$package_name.extract.idle" 0
 else
-    log_build "$package_name.extract.idle" true
+    log_auto "$package_name.extract.start" 0
+    tar -vxf $source_file
+    log_auto "$package_name.extract.finish" $?
 fi
 cd $source_dir
 
 # fix limit header
 cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
    `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/include-fixed/limits.h
-if [[ $? != 0 ]]; then
-    log_build "$package_name.fix linit header" false
-else
-    log_build "$package_name.fix linit header" true
-fi
+log_auto "$package_name.limit-header.fix" $?
 
 # change gcc dynamic link to /tools
 for file in \
@@ -86,98 +74,67 @@ do
       #define STANDARD_STARTFILE_PREFIX_2 ""' >> $file
    touch $file.orig
 done
-if [[ $? != 0 ]]; then
-    log_build "$package_name.change gcc to /tools" false
-else
-    log_build "$package_name.change gcc to /tools" true
-fi
+log_auto "$package_name.gcc-dynamic-link.change-to-tools" $?
 
 # mpfr.verify
-if [ ! -f $mpfr_source_file ]; then
-    log_build "$package_mpfr_name.verify" false
+if [ -f $mpfr_source_file ]; then
+    log_auto "$package_mpfr_name.verify" 0
 else
-    log_build "$package_mpfr_name.verify" true
+    log_auto "$package_mpfr_name.verify" 1
 fi
 
 # mpfr.extract
-if [ ! -d $mpfr_source_dir ]; then
-
-    log_build "$package_mpfr_name.extract.start"  true
-
-    tar -vxf $mpfr_source_file
-
-    if [[ $? != 0 ]]; then
-        log_build "$package_mpfr_name.extract.finish" false
-        exit 1
-    else
-        log_build "$package_mpfr_name.extract.finish" true
-    fi
-
-    mv -v mpfr-3.1.3 $mpfr_source_dir
+if [ -d $mpfr_source_dir ]; then
+    log_auto "$package_mpfr_name.extract.idle" 0
 else
-    log_build "$package_mpfr_name.extract.idle" true
+    log_auto "$package_mpfr_name.extract.start" 0
+    tar -vxf $mpfr_source_file
+    log_auto "$package_mpfr_name.extract.finish" $?
+    mv -v mpfr-3.1.3 $mpfr_source_dir
 fi
 
 # gmp.verify
-if [ ! -f $gmp_source_file ]; then
-    log_build "$package_gmp_name.verify" false
+if [ -f $gmp_source_file ]; then
+    log_auto "$package_gmp_name.verify" 0
 else
-    log_build "$package_gmp_name.verify" true
+    log_auto "$package_gmp_name.verify" 1
 fi
 
 # gmp.extract
-if [ ! -d $gmp_source_dir ]; then
-
-    log_build "$package_gmp_name.extract.start" true
-
-    tar -vxf $gmp_source_file
-
-    if [[ $? != 0 ]]; then
-        log_build "$package_gmp_name.extract.finish" false
-        exit 1
-    else
-        log_build "$package_gmp_name.extract.finish" true
-    fi
-
-    mv -v gmp-6.0.0 $gmp_source_dir
+if [ -d $gmp_source_dir ]; then
+    log_auto "$package_gmp_name.extract.idle" 0
 else
-    log_build "$package_gmp_name.extract.idle" true
+    log_auto "$package_gmp_name.extract.start" 0
+    tar -vxf $gmp_source_file
+    log_auto "$package_gmp_name.extract.finish" $?
+    mv -v gmp-6.0.0 $gmp_source_dir
 fi
 
 # mpc verify
-if [ ! -f $mpc_source_file ]; then
-    log_build "$package_mpc_name.verify" false
+if [ -f $mpc_source_file ]; then
+    log_auto "$package_mpc_name.verify" 0
 else
-    log_build "$package_mpc_name.verify" true
+    log_auto "$package_mpc_name.verify" 1
 fi
 
 # mpc extract
-if [ ! -d $mpc_source_dir ]; then
-
-    log_build "$package_mpc_name.extract.start" true
-
-    tar -vxf $mpc_source_file
-
-    if [[ $? != 0 ]]; then
-        log_build "$package_mpc_name.extract.finish" false
-        exit 1
-    else
-        log_build "$package_mpc_name.extract.finish" true
-    fi
-
-    mv -v mpc-1.0.3 mpc
+if [ -d $mpc_source_dir ]; then
+    log_auto "$package_mpc_name.extract.idle" 0
 else
-    log_build "$package_mpc_name.extract.idle" true
+    log_auto "$package_mpc_name.extract.start" 0
+    tar -vxf $mpc_source_file
+    log_auto "$package_mpc_name.extract.finish" $?
+    mv -v $mpc_source_dir
 fi
 
-# create build directory
+# create and change to build directory
 cd ../
 rm -rf $build_dir
 mkdir -vp $build_dir
 cd $build_dir
 
 # configure
-log_build "$package_name.configure.start" true
+log_auto "$package_name.configure.start" 0
 CC=$LFS_TGT-gcc                                    \
 CXX=$LFS_TGT-g++                                   \
 AR=$LFS_TGT-ar                                     \
@@ -191,49 +148,28 @@ RANLIB=$LFS_TGT-ranlib                             \
     --disable-multilib                             \
     --disable-bootstrap                            \
     --disable-libgomp
-if [[ $? != 0 ]]; then
-    log_build "$package_name.configure.finish" false
-    exit 1
-else
-    log_build "$package_name.configure.finish" true
-fi
+log_auto "$package_name.configure.finish" $?
 
 # build
-log_build "$package_name.make.start" true
+log_auto "$package_name.make.start" 0
 make
-if [[ $? != 0 ]]; then
-    log_build "$package_name.make.finish" false
-    exit 1
-else
-    log_build "$package_name.make.finish" true
-fi
+log_auto "$package_name.make.finish" $?
 
 # install
-log_build "$package_name.install.start" true
+log_auto "$package_name.install.start" 0
 make install
-if [[ $? != 0 ]]; then
-    log_build "$package_name.install.finish" false
-    exit 1
-else
-    log_build "$package_name.install.finish" true
-fi
+log_auto "$package_name.install.finish" $?
 
 # link
 ln -sv gcc /tools/bin/cc
-if [[ $? != 0 ]]; then
-    log_build "$package_name.link" false
-else
-    log_build "$package_name.link" true
-fi
+log_auto "$package_name.link" $?
 
 # test
-# this is not way to get test result
-# todo: make other way to get test result
-echo 'int main() {}' > dummy.c
-cc dummy.c
-readelf -l a.out | grep ': /tools'
-rm -v dummy.c a.out
+cc "$simple_program_source" -o "$simple_program_dest" &&
+readelf -l "$simple_program_dest" | grep ': /tools' | \
+    grep "Requesting program interpreter"
+log_auto "$package_name.compile" $?
 
 # successfull
-log_build "$package_name.setup.finish" true
+log_auto "$package_name.setup.finish" $?
 exit 0

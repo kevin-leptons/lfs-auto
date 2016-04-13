@@ -38,7 +38,7 @@ if [ -d $source_dir ]; then
 else
     log_auto "$package_name.extract.start" 0
     tar -vxf $source_file
-    log_build "$package_name.extract.finish" $?
+    log_auto "$package_name.extract.finish" $?
 fi
 cd $source_dir
 
@@ -53,7 +53,7 @@ log_auto "$package_name.install.finish" $?
 
 # copy headers
 cp -rv dest/include/* /tools/include
-log_build "$package_name.copy headers" $?
+log_auto "$package_name.copy headers" $?
 
 # successfull
 log_auto "$package_name.setup.finish" $?

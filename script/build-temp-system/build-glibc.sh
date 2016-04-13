@@ -24,7 +24,7 @@ simple_program_source="/lfs-script/asset/simple-program.c"
 simple_program_dest="/lfs-script/tmp/simple-program"
 
 # start
-log_auto "$package_name.setup.start" true
+log_auto "$package_name.setup.start" 0
 
 # change working directory to sources directory
 cd $root_sources
@@ -40,7 +40,7 @@ fi
 if [ -d $source_dir ]; then
     log_auto "$package_name.extract.idle" 0
 else
-    log_auto "$package_name.extract.start" 1
+    log_auto "$package_name.extract.start" 0
     tar -vxf $source_file
     log_auto "$package_name.extract.finish" $?
 fi
