@@ -60,13 +60,3 @@ sudo chroot "$LFS" /tools/bin/env -i \
     PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin \
     /tools/bin/bash /lfs-script/config-chroot.sh --login +h
 log_auto "chroot.finish" $?
-
-# reenter the virtual kernel to get affected
-log_auto "bash.start" 0
-sudo chroot "$LFS" /tools/bin/env -i \
-    HOME=/root                  \
-    TERM="$TERM"                \
-    PS1='\u:\w\$ '              \
-    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin \
-    /tools/bin/bash --login +h
-log_auto "bash.finish" $?
