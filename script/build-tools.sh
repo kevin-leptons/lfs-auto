@@ -31,14 +31,7 @@ fi
 # clean installed tools
 # to avoid error when use wrong tools link from /tools
 # and change ownership to lfs
-sudo rm -rf /tools/*
-if [[ $? != 0 ]]; then
-    log_build "$task_name.clean-tools" false
-    exit 1
-else
-    log_build "$task_name.clean-tools" true
-fi
-sudo chown lfs:lfs $root_tools
+./clean-tmp-system.sh
 
 # list all script to build packages
 # each script not contains extension
