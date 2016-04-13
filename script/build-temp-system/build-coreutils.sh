@@ -40,6 +40,7 @@ else
     tar -vxf $source_file
     log_auto "$package_name.extract.finish" $?
 fi
+cd $source_dir
 
 # configure
 log_auto "$package_name.configure.start" 0
