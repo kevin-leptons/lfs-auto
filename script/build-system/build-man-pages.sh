@@ -19,18 +19,25 @@ package_name="man-pages"
 source_file="man-pages-4.02.tar.xz"
 source_dir="man-pages-4.02"
 
-# change working directory to sources directory
-cd /sources
-
 # log start
 log_auto "$package_name.setup.start" 0
 
-# extract source code and change to source directory
+# change working directory to sources directory
+cd /sources
+
+# verify
+if [ -f $source_file ]; then
+    log_auto "$package_name.verify" 0
+else
+    log_auto "$package_name.verify" 1
+fi
+
+# extract
 if [ -d $source_dir ]; then
     log_auto "$package_name.extract.idle" 0
 else
     log_auto "$package_name.extract.start" 0
-    tar -vxf $source_file 
+    tar -vxf $source_file
     log_auto "$package_name.extract.finish" $?
 fi
 cd $source_dir
@@ -41,4 +48,5 @@ make install
 log_auto "$package_name.install.finish" $?
 
 # successfully
+log_auto "$package_name.setup.finish" $?
 exit 0
