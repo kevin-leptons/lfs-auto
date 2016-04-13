@@ -53,5 +53,5 @@ cp -rv dest/include/* /usr/include
 log_auto "$package_name.install" $?
 
 # successfully
-log_auto "$package_name.finish" $?
+log_auto "$package_name.setup.finish" $?
 exit 0
