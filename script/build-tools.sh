@@ -13,10 +13,10 @@ source $__dir__/configuration.sh
 source $__dir__/util.sh
 
 # define variables
-task_name="buil-temp-system"
+task_name="temp-system"
 
 # log start build temp system
-log_build "$task_name.start" true
+log_auto "$task_name.setup.start" 0
 
 # clean source code and old build
 # to avoid error if old build is exists
@@ -76,3 +76,7 @@ for package in ${tool_packages[@]}; do
     log_auto "$package.setup.call" $?
 
 done
+
+# successfully
+log_auto "$task_name.setup.finish" $?
+exit 0
