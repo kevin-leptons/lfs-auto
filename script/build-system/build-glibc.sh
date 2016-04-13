@@ -82,7 +82,7 @@ if [[ $? == 0 ]]; then
 else
 
     # filters fail into log file
-    grep -i -w "FAIL:*" $test_sum_file > $test_log_file
+    grep -w "FAIL:*" $test_sum_file > $test_log_file
 
     # verify fail are allowed or not
     skip_fail=true
@@ -91,7 +91,6 @@ else
         # verify fail are allowed or not
         allowed=false
         while read fail_allowed; do
-
             if [[ $line_fail == $fail_allowed ]]; then
                 allowed=true
                 break

@@ -1,10 +1,8 @@
 FAIL: posix/tst-getaddrinfo4
+FAIL: posix/tst-getaddrinfo5
 FAIL: tst/tst-cputimer1
 FAIL: rt/tst-cpuclock2
 FAIL: elf/tst-protected1a
 FAIL: elf/tst-protected1b
 FAIL: malloc/tst-malloc-usable
 FAIL: nptl/tst-cleanupx4
-FAIL: posix/tst-getaddrinfo5
-FAIL: rt/tst-mqueue5
-FAIL: localedata/sort-test
