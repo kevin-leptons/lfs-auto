@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # using     : build bash
-# time      : 0.4 sbu
 # params    : none
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
@@ -15,91 +14,58 @@ script_dir="$(dirname $__dir__)"
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variable
-package_name=bash
-source_file=bash-4.3.30.tar.gz
-source_dir=bash-4.3.30
+# variables
+package_name="bash"
+source_file="bash-4.3.30.tar.gz"
+source_dir="bash-4.3.30"
+
+# start
+log_auto "$package_name.setup.start" 0
 
 # change working directory to sources directory
 cd $root_sources
 
-# log start setup
-log_build "$package_name.setup.start" true
-
 # verify
-if [ ! -f $source_file ]; then
-    log_build "$package_name.verify" false
+if [ -f $source_file ]; then
+    log_auto "$package_name.verify" 0
 else
-    log_build "$package_name.verify" true
+    log_auto "$package_name.verify" 1
 fi
 
 # extract source code and change to source code directory
-if [ ! -d $source_dir ]; then
-
-    log_build "$package_name.extract.start" true
-
-    tar -vxf $source_file
-
-    if [[ $? != 0 ]]; then
-        log_build "$package_name.extract.finish" false
-        exit 1
-    else
-        log_build "$package_name.extract.finish" true
-    fi
+if [ -d $source_dir ]; then
+    log_auto "$package_name.extract.idle" 0
 else
-    log_build "$package_name.extract.idle" true
+    log_auto "$package_name.extract.start" 0
+    tar -vxf $source_file
+    log_auto "$package_name.extract.finish" $?
 fi
 cd $source_dir
 
 # configure
-log_build "$package_name.configure.start" true
+log_auto "$package_name.configure.start" 0
 ./configure --prefix=/tools --without-bash-malloc
-if [[ $? != 0 ]]; then
-    log_build "$package_name.configure.finish" false
-    exit 1
-else
-    log_build "$package_name.configure.finish" true
-fi
+log_auto "$package_name.configure.finish" $?
 
 # build
-log_build "$package_name.make.start" true
+log_auto "$package_name.make.start" 0
 make
-if [[ $? != 0 ]]; then
-    log_build "$package_name.make.finish" false
-    exit 1
-else
-    log_build "$package_name.make.finish" true
-fi
+log_auto "$package_name.make.finish" $?
 
 # test
-log_build "$package_name.test.start" true
+log_auto "$package_name.test.start" 0
 make tests
-if [[ $? != 0 ]]; then
-    log_build "$package_name.test.finish" false
-    exit 1
-else
-    log_build "$package_name.test.finish" true
-fi
+log_auto "$package_name.test.finish" $?
 
 # install
-log_build "$package_name.install.start" true
+log_auto "$package_name.install.start" 0
 make install
-if [[ $? != 0 ]]; then
-    log_build "$package_name.install.finish" false
-    exit 1
-else
-    log_build "$package_name.install.finish" true
-fi
+log_auto "$package_name.install.finish" $?
 
 # link
 ln -sv bash /tools/bin/s
-if [[ $? != 0 ]]; then
-    log_build "$package_name.link" false
-    exit 1
-else
-    log_build "$package_name.link" true
-fi
+log_auto "$package_name.link" $?
 
 # successfull
-log_build "$package_name.setup.finish" true
+log_auto "$package_name.setup.finish" $?
 exit 0
