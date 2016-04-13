@@ -14,25 +14,30 @@ script_dir="$(dirname $__dir__)"
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
+# variables
 package_name="linux"
-source_file=linux-4.2.tar.xz
-source_dir=linux-4.2
-
-# change working directory to sources directory
-cd /sources
+source_file="linux-4.2.tar.xz"
+source_dir="linux-4.2"
 
 # log start
 log_auto "$package_name.setup.start" 0
 
-# extract source code and change to source directory
+# change working directory to sources directory
+cd /sources
+
+# verify
+if [ -f $source_file ]; then
+    log_auto "$package_name.verify" 0
+else
+    log_auto "$package_name.verify" 1
+fi
+
+# extract
 if [ -d $source_dir ]; then
     log_auto "$package_name.extract.idle" 0
 else
     log_auto "$package_name.extract.start" 0
-
     tar -vxf $source_file
-
     log_auto "$package_name.extract.finish" $?
 fi
 cd $source_dir
