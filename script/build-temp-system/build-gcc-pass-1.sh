@@ -104,7 +104,7 @@ else
     mv -v mpc-1.0.3 $mpc_source_dir
 fi
 
-# configure dependent packages
+# change location of gcc default dynamic linker to /tools
 for file in \
    $(find gcc/config -name linux64.h -o -name linux.h -o -name sysv4.h)
 do
