@@ -12,13 +12,6 @@ script_dir="$(dirname $__dir__)"
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
-task_name="change ownership"
-
 # change ownership
 sudo chown -R root:root $LFS/tools
-if [[ $? != 0 ]]; then
-    log_build "$task_name" false
-else
-    log_build "$task_name" true
-fi
+log_auto "/tools.chown" $?
