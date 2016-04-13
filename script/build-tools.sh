@@ -20,13 +20,7 @@ log_build "$task_name.start" true
 
 # clean source code and old build
 # to avoid error if old build is exists
-$__dir__/clean-build.sh
-if [[ $? != 0 ]]; then
-    log_build "$task_name.clean-build" false
-    exit 1
-else
-    log_build "$task_name.clean-build" true
-fi
+./clean-build.sh
 
 # clean installed tools
 # to avoid error when use wrong tools link from /tools
@@ -74,14 +68,11 @@ tool_packages=( \
 # log is generate by internal build script
 result=done
 for package in ${tool_packages[@]}; do
+
+    # call setup script
     $build_temp_system_dir/$package.sh
-    if [[ $? != 0 ]]; then
-        result=error
-        break
-    fi
+
+    # log setup result
+    log_auto "$package.setup.call" $?
+
 done
-if [[ $result == error ]]; then
-    log_build "$task_name.finish" false
-else
-    log_build "$task_name.finish" true
-fi
