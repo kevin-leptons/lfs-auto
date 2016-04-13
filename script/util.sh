@@ -79,6 +79,7 @@ log() {
 # params    :
 #   $1: message name
 #   $2: returned value from pre-command
+# exit on $1 != 0
 log_auto() {
 
     # get time
