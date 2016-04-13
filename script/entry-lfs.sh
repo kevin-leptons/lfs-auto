@@ -49,6 +49,8 @@ fi
 sudo chown lfs:lfs -R /mnt/lfs
 if [[ $? != 0 ]]; then
     log "/mnt/lfs.chown" false
+
+    
     log "$task_name.finish" false
     exit 1
 else
