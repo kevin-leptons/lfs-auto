@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # using     : build binutils package in pass 1
-# time      : 1 sbu
 # params    : none
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
