@@ -37,7 +37,7 @@ else
     log_auto "$package_name.verify" 1
 fi
 
-# extract source code and change to source directory
+# extract
 if [ -d $source_dir ]; then
     log_auto "$package_name.extract.idle" 0
 else
@@ -98,7 +98,7 @@ else
             fi
         done < $fail_allowed_file
 
-        # if one fail are not allowd, do not skip fail
+        # if one fail are not allowed, do not skip fail
         if [[ $allowed == false ]]; then
             skip_fail=false
             break
@@ -122,7 +122,7 @@ log_auto "$package_name.install.finish" $?
 # install configuration file
 log_auto "$package_name.install-conf-file.start" 0
 cp -v ../glibc-2.22/nscd/nscd.conf /etc/nscd.conf &&
-mkdir -pv /var/cache/nscd &&
+mkdir -pv /var/cache/nscd
 log_auto "$package_name.install-conf-file.finish" $?
 
 # install locale
