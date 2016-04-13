@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # using     : build coreutils
-# time      : 0.7 sbu
 # params    : none
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
@@ -15,75 +14,53 @@ script_dir="$(dirname $__dir__)"
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
+# start
+log_auto "$package_name.setup.start" 0
+
 # define variables
-package_name=coreutils
-source_file=coreutils-8.24.tar.xz
-source_dir=coreutils-8.24
+package_name="coreutils"
+source_file="coreutils-8.24.tar.xz"
+source_dir="coreutils-8.24"
 
 # change working directory to sources directory
 cd $root_sources
 
-# log start setup
-log_build "$package_name.setup.start" true
-
-# extract source code and change to source code directory
-if [ ! -d $source_dir ]; then
-
-    log_build "$package_name.extract.start" true
-
-    tar -vxf $source_file
-
-    if [[ $? != 0 ]]; then
-        log_build "$package_name.extract.finish" false
-        exit 1
-    else
-        log_build "$package_name.extract.finish" true
-    fi
+# verify
+if [ -f $source_file ]; then
+    log_auto "$package_name.verify" 0
 else
-    log_build "$package_name.extract.idle" true
+    log_auto "$package_name.verify" 1
 fi
-cd $source_dir
+
+# extract
+if [ -d $source_dir ]; then
+    log_auto "$package_name.extract.idle" 0
+else
+    log_auto "$package_name.extract.start" 0
+    tar -vxf $source_file
+    log_auto "$package_name.extract.finish" $?
+fi
 
 # configure
-log_build "$package_name.configure.start" true
+log_auto "$package_name.configure.start" 0
 ./configure --prefix=/tools --enable-install-program=hostname
-if [[ $? != 0 ]]; then
-    log_build "$package_name.configure.finish" false
-    exit 1
-else
-    log_build "$package_name.configure.finish" true
-fi
+log_auto "$package_name.configure.finish" $?
 
 # build
-log_build "$package_name.make.start" true
+log_auto "$package_name.make.start" 0
 make
-if [[ $? != 0 ]]; then
-    log_build "$package_name.make.finish" false
-    exit 1
-else
-    log_build "$package_name.make.finish" true
-fi
+log_auto "$package_name.make.finish" $?
 
 # test
-log_build "$package_name.test.start" true
+log_auto "$package_name.test.start" 0
 make RUN_EXPENSIVE_TESTS=yes check
-if [[ $? != 0 ]]; then
-    log_build "$package_name.test.finish" false
-    exit 1
-else
-    log_build "$package_name.test.finish" true
-fi
+log_auto "$package_name.test.finish" $?
 
 # install
-log_build "$package_name.install.start" true
+log_auto "$package_name.install.start" 0
 make install
-if [[ $? != 0 ]]; then
-    log_build "$package_name.install.finish" false
-    exit 1
-else
-    log_build "$package_name.install.finish" true
-fi
+log_auto "$package_name.install.finish" $?
 
 # successfull
-log_build "$package_name.setup.finish" true
+log_auto "$package_name.setup.finish" $?
 exit 0
