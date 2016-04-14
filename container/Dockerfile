@@ -4,7 +4,6 @@ label Version="1.0" \
       Description="automated build linux from scrapt"
 run apt-get update
 run apt-get install -y \
-   vim \
    sudo \
    bash \
    binutils \
@@ -38,8 +37,8 @@ run ln -sf bison /usr/bin/yacc
 # add lfs user to sudores
 run echo "lfs ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
-# use vimrc to edit in docker
-copy vimrc /root/.vimrc
-
-#workdir /lfs-script
-entrypoint /lfs-script/entry-lfs.sh
+# copy list of lfs sources
+# and download sources
+copy wget-list.txt /lfs/
+run wget -nc --input-file=/lfs/wget-list.txt --continue \
+    --directory-prefix=/lfs/sources
