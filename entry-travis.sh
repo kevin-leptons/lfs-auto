@@ -1,5 +1,5 @@
 #!/bin/bash
 
 cd script
-sudo bash entry-lfs.sh
+sudo bash travis-build.sh
 # sudo bash build.sh
