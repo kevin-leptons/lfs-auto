@@ -21,7 +21,7 @@ log_auto "fs-directory.create" $?
 # create initial device nodes
 sudo mknod -m 600 $LFS/dev/console c 5 1
 sudo mknod -m 666 $LFS/dev/null c 1 3
-log_auto "dev-node.create" $?
+log_auto "dev-node.create" 0
 
 # mount and populate /dev
 sudo mount -v --bind /dev $LFS/dev

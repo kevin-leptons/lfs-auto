@@ -14,7 +14,7 @@ script_dir="$(dirname $__dir__)"
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
+# variables
 package_name="coreutils"
 source_file="coreutils-8.24.tar.xz"
 source_dir="coreutils-8.24"
