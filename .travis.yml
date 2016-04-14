@@ -9,4 +9,4 @@ services:
     - docker
 
 script:
-    - travis_wait 120 bash run.sh
+    - travis_wait 120 ./run.sh
