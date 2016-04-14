@@ -17,6 +17,9 @@ source $__dir__/util.sh
 # define variables
 task_name="entry-lfs"
 
+# redirect all data from stdout to /dev/null
+# exec > /dev/null
+
 # change to /lfs-script
 cd /lfs-script
 
@@ -28,54 +31,25 @@ sudo mkdir -vp /lfs-script/tmp
 # clear log files
 # log start
 clear_log
-
-log "$task_name.start" true
+log_auto "$task_name.start" 0
 
 # create user
-$__dir__/create-build-user.sh
-if [[ $? != 0 ]]; then
-    log "$task_name.finish" false
-    exit 1
-fi
+./create-build-user.sh
 
 # prepare partition
-$__dir__/prepare-partition.sh
-if [[ $? != 0 ]]; then
-    log "$task_name.finish" false
-    exit 1
-fi
+./prepare-partition.sh
 
 # change ownwership of /mnt/lfs
 sudo chown lfs:lfs -R /mnt/lfs
-if [[ $? != 0 ]]; then
-    log "/mnt/lfs.chown" false
-
-
-    log "$task_name.finish" false
-    exit 1
-else
-    log "/mnt/lfs.chown" true
-fi
+log_auto "/mnt/lfs.chown" $?
 
 # chnage ownwership of /lfs-script/tmp
 sudo chown lfs:lfs -R /lfs-script/tmp
-if [[ $? != 0 ]]; then
-    log "/lfs-script/tmp.chown" false
-    log "$task_name.finish" false
-    exit 1
-else
-    log "/lfs-script/tmp.chown" true
-fi
+log_auto "/lfs-script/tmp.chown" $?
 
 # change ownwership of /lfs-script/log
 sudo chown lfs:lfs -R $__dir__/log
-if [[ $? != 0 ]]; then
-    log "/lfs-script/log.chown" false
-    log "$task_name.finish" false
-    exit 1
-else
-    log "/lfs-script/log.chown" true
-fi
+log_auto "/lfs-script/log.chown" $?
 
 # call build instruction
 ./build.sh
