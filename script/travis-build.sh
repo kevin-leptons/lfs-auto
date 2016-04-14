@@ -37,7 +37,6 @@ log "$task_name.start" true
 # prepare partition
 ./prepare-partition.sh
 
-
 # change ownwership of /mnt/lfs
 sudo chown lfs:lfs -R /mnt/lfs
 log_auto "/mnt/lfs.chown" $?
@@ -51,4 +50,4 @@ sudo chown lfs:lfs -R log
 log_auto "log.chown" $?
 
 # call build instruction
-echo "call-build"
+./build-tools.sh
