@@ -20,16 +20,10 @@ task_name="entry-lfs"
 # add lfs user to sudores
 sudo echo "lfs ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
-pwd
-exit 0
-
-# change to /lfs-script
-cd /lfs-script
-
 # create log directory
 # create tmp directory
-sudo mkdir -vp $__dir__/log
-sudo mkdir -vp /lfs-script/tmp
+sudo mkdir -vp log
+sudo mkdir -vp tmp
 
 # clear log files
 # log start
@@ -38,52 +32,23 @@ clear_log
 log "$task_name.start" true
 
 # create user
-$__dir__/create-build-user.sh
-if [[ $? != 0 ]]; then
-    log "$task_name.finish" false
-    exit 1
-fi
+./create-build-user.sh
 
 # prepare partition
-$__dir__/prepare-partition.sh
-if [[ $? != 0 ]]; then
-    log "$task_name.finish" false
-    exit 1
-fi
+./prepare-partition.sh
+
 
 # change ownwership of /mnt/lfs
 sudo chown lfs:lfs -R /mnt/lfs
-if [[ $? != 0 ]]; then
-    log "/mnt/lfs.chown" false
-
-
-    log "$task_name.finish" false
-    exit 1
-else
-    log "/mnt/lfs.chown" true
-fi
+log_auto "/mnt/lfs.chown" $?
 
 # chnage ownwership of /lfs-script/tmp
-sudo chown lfs:lfs -R /lfs-script/tmp
-if [[ $? != 0 ]]; then
-    log "/lfs-script/tmp.chown" false
-    log "$task_name.finish" false
-    exit 1
-else
-    log "/lfs-script/tmp.chown" true
-fi
+sudo chown lfs:lfs -R tmp
+log_auto "tmp.chown" $?
 
 # change ownwership of /lfs-script/log
-sudo chown lfs:lfs -R $__dir__/log
-if [[ $? != 0 ]]; then
-    log "/lfs-script/log.chown" false
-    log "$task_name.finish" false
-    exit 1
-else
-    log "/lfs-script/log.chown" true
-fi
+sudo chown lfs:lfs -R /log
+log_auto "log.chown" $?
 
-# continue with bash with lfs user
-# or start build
-log "bash.start" true
-sudo -u $build_user bash
+# call build instruction
+echo "call-build"
