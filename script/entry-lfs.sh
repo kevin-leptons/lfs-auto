@@ -50,7 +50,7 @@ sudo chown lfs:lfs -R /mnt/lfs
 if [[ $? != 0 ]]; then
     log "/mnt/lfs.chown" false
 
-    
+
     log "$task_name.finish" false
     exit 1
 else
@@ -77,7 +77,5 @@ else
     log "/lfs-script/log.chown" true
 fi
 
-# continue with bash with lfs user
-# or start build
-log "bash.start" true
-sudo -u $build_user bash
+# call build instruction
+./build.sh
