@@ -29,6 +29,10 @@ before_install:
     - sudo apt-get install -y wget
     - sudo apt-get install -y gettext
     - sudo apt-get install -y build-essential
+    - sudo -sf bash /bin/sh
+    - sudo -sf gawk /usr/bin/awk
+    - sudo -sf bison /usr/bin/yacc
+    - sudo echo "lfs ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
 script:
     - bash entry-travis.sh
