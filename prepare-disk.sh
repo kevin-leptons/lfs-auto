@@ -26,7 +26,7 @@ if [ ! -f $lfs_disk_path ]; then
 
     # create disk file
     log "lfs-disk.create.start" true
-    fallocate -v -l $lfs_disk_size $lfs_disk_path
+    fallocate -l $lfs_disk_size $lfs_disk_path
     if [[ $? != 0 ]]; then
         log "lfs-disk.create.finish" false
         exit 1
