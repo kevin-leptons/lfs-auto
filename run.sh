@@ -44,8 +44,9 @@ log_auto "$docker_name.pull" $?
 # mount hard disk use to build lfs into docker
 # $root:root is mean <host-file-system>:<docker-file-system>
 log "$task_name.docker.start" true
-docker run -ti --privileged -v $root:$root -v \
-   $script_dir:$docker_script_dir $docker_name
+docker run -ti --privileged -v $root:$root \
+    -v $script_dir:$docker_script_dir $docker_name \
+    bash /lfs-script/entry-lfs.sh
 if [[ $? != 0 ]]; then
     log "$task_name.docker.finish" false
     log "$task_name.finish" false
