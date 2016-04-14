@@ -38,7 +38,6 @@ fi
 
 # pull docker
 docker pull $docker_name
-log_auto "$docker_name.pull" $?
 
 # run docker
 # mount hard disk use to build lfs into docker
