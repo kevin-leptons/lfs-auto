@@ -36,12 +36,9 @@ if [[ $? != 0 ]]; then
     exit 1
 fi
 
-# build docker
-docker build -t $docker_name $__dir__
-if [[ $? != 0 ]]; then
-    log "$task_name.finish" false
-    exit 1
-fi
+# pull docker
+docker pull $docker_name
+log_auto "$docker_name.pull" $?
 
 # run docker
 # mount hard disk use to build lfs into docker
