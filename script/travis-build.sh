@@ -47,7 +47,7 @@ sudo chown lfs:lfs -R tmp
 log_auto "tmp.chown" $?
 
 # change ownwership of /lfs-script/log
-sudo chown lfs:lfs -R /log
+sudo chown lfs:lfs -R log
 log_auto "log.chown" $?
 
 # call build instruction
