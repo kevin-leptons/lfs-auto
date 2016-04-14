@@ -9,4 +9,4 @@ services:
     - docker
 
 script:
-    - ./run.sh
+    - ./container/build.sh
