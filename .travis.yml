@@ -12,5 +12,4 @@ before_install:
     - sudo apt-get install maven maven2
 
 script:
-    - install: travis_wait 120 mvn install
-    - bash run.sh
+    - travis_wait 120 bash run.sh
