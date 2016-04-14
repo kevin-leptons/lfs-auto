@@ -32,7 +32,6 @@ before_install:
     - sudo ln -sf bash /bin/sh
     - sudo ln -sf gawk /usr/bin/awk
     - sudo ln -sf bison /usr/bin/yacc
-    - sudo echo "lfs ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
 script:
     - bash entry-travis.sh
