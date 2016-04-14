@@ -3,6 +3,8 @@ language: bash
 notifications:
     email: false
 
+ install: travis_wait 120 mvn install
+
 sudo: required
 
 services:
