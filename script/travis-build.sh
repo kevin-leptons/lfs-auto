@@ -17,6 +17,9 @@ source $__dir__/util.sh
 # define variables
 task_name="entry-lfs"
 
+# redirect stdout to /dev/null
+exec > /dev/nul
+
 # add lfs user to sudores
 sudo echo "lfs ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
