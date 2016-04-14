@@ -21,6 +21,7 @@ task_name="lfs-source"
 log_auto "$task_name.copy.start" 0
 
 # copy sources from /lfs/sources
+mkdir -vp /mnt/lfs/sources
 cp -vp /lfs/sources/* /mnt/lfs/sources
 
 # successfully
