@@ -15,7 +15,7 @@ source $__dir__/util.sh
 
 # define variables
 task_name="lfs-auto"
-lfs_disk_path=$(realpath $__dir__/disk/$lfs_disk_file)
+lfs_disk_path="disk/$lfs_disk_file"
 
 # clear log file
 # and log start run
