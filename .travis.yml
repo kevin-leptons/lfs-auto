@@ -5,5 +5,30 @@ notifications:
 
 sudo: required
 
+before_install:
+    - sudo apt-get -qq update
+    - sudo apt-get install -y binutils
+    - sudo apt-get install -y bison
+    - sudo apt-get install -y bzip2
+    - sudo apt-get install -y coreutils
+    - sudo apt-get install -y diffutils
+    - sudo apt-get install -y findutils
+    - sudo apt-get install -y gawk
+    - sudo apt-get install -y gcc
+    - sudo apt-get install -y g++
+    - sudo apt-get install -y grep
+    - sudo apt-get install -y gzip
+    - sudo apt-get install -y m4
+    - sudo apt-get install -y make
+    - sudo apt-get install -y patch
+    - sudo apt-get install -y perl
+    - sudo apt-get install -y sed
+    - sudo apt-get install -y tar
+    - sudo apt-get install -y texinfo
+    - sudo apt-get install -y xz-utils
+    - sudo apt-get install -y wget
+    - sudo apt-get install -y gettext
+    - sudo apt-get install -y build-essential
+
 script:
     - bash entry-travis.sh
