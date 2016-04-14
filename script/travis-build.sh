@@ -50,4 +50,4 @@ sudo chown lfs:lfs -R log
 log_auto "log.chown" $?
 
 # call build instruction
-./build-tools.sh
+./build.sh
