@@ -62,13 +62,13 @@ error_handle() {
     exit 1
 }
 # trap "error_handle" ERR
-# bash travis-keep-build-live.sh &
-# keep_live_id=$!
+bash travis-keep-build-live.sh &
+keep_live_id=$!
 
 # login into lfs user
 # call build instruction
-# sudo -u $build_user bash build.sh > /dev/null 2> $build_output
-sudo -u $build_user bash
+sudo -u $build_user bash build.sh > /dev/null 2> $build_output
+# sudo -u $build_user bash
 
-# kill $keep_live_id
-# dump_output
+kill $keep_live_id
+dump_output
