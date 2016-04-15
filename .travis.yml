@@ -3,7 +3,7 @@ language: bash
 notifications:
     email: false
 
-sudo: required
+sudo: false
 
 dist: trusty
 
