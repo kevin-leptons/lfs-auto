@@ -51,18 +51,23 @@ log_auto "/lfs-script/log.chown" $?
 # prepare handle error
 build_output="log/out.log"
 set -e
-dum_output() {
+dump_output() {
     echo "last 500 line of stdout"
     tail -500 $build_output
 }
 error_handle() {
     echo "error"
-    dum_output
+    dump_output
     exit 1
 }
-trap "error_handle" ERR
-./travis-keep-build-live.sh &
+# trap "error_handle" ERR
+bash travis-keep-build-live.sh &
+keep_live_id=$!
 
 # login into lfs user
 # call build instruction
-sudo -u $build_user bash build.sh > "$build_output" 2>&1
+sudo -u $build_user bash build.sh
+# sudo -u $build_user bash
+
+kill $keep_live_id
+dump_output

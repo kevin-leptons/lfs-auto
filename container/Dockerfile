@@ -35,7 +35,7 @@ run ln -sf gawk /usr/bin/awk
 run ln -sf bison /usr/bin/yacc
 
 # add lfs user to sudores
-run echo "lfs ALL=(ALL:ALL) ALL" >> /etc/sudoers
+run echo "lfs ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # copy list of lfs sources
 # and download sources

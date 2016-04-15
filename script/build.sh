@@ -6,9 +6,6 @@
 # locate location of this script
 __dir__="$(dirname "$0")"
 
-# step 2. create user to build
-$__dir__/create-build-user.sh
-
 # step 1. check host environment
 $__dir__/setup-host-environment.sh
 
