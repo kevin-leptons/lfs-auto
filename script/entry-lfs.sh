@@ -17,9 +17,6 @@ source $__dir__/util.sh
 # define variables
 task_name="entry-lfs"
 
-# redirect all data from stdout to /dev/null
-# exec > /dev/null
-
 # change to /lfs-script
 cd /lfs-script
 

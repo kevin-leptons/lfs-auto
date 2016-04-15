@@ -17,6 +17,10 @@ source $__dir__/util.sh
 task_name="lfs-auto"
 lfs_disk_path="disk/$lfs_disk_file"
 
+# redirect all data from stdout to /dev/null
+build_output="$WORKDIR/build.log"
+exec > "$build_output" 2>&1
+
 # clear log file
 # and log start run
 clear_log
@@ -38,6 +42,21 @@ fi
 
 # pull docker
 docker pull $docker_name
+
+# handle error
+set -e
+
+dum_output() {
+    echo "last 500 line of stdout"
+    tail -500 $build_output
+}
+error_handle() {
+    echo "error"
+    dum_output
+    exit 1
+}
+trap "error_handle" ERR
+./travis-keep-build-live.sh &
 
 # run docker
 # mount hard disk use to build lfs into docker
