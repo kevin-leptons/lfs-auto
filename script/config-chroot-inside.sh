@@ -25,4 +25,5 @@ chmod -v 664  /var/log/lastlog &&
 chmod -v 600  /var/log/btmp
 log "$task_name.finish" $?
 
-exec /tools/bin/bash --login +h
+# call build instructions
+exec /tools/bin/bash /lfs-script/buil-system-auto.sh --login +h
