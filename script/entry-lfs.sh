@@ -66,7 +66,7 @@ keep_live_id=$!
 
 # login into lfs user
 # call build instruction
-sudo -u $build_user bash build.sh | head -c 1M  > $build_output 2>&1
+sudo -u $build_user bash build.sh > /dev/null 2> $build_output
 # sudo -u $build_user bash
 
 kill $keep_live_id
