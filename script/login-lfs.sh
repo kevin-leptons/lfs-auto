@@ -24,14 +24,14 @@ error_handle() {
 
 # start keep live task
 # when error, terminal process
-trap "error_handle" ERR
-bash travis-keep-build-live.sh &
-keep_live_id=$!
+# trap "error_handle" ERR
+# bash travis-keep-build-live.sh &
+# keep_live_id=$!
 
 # call build instructions
-./build.sh > /dev/null 2> $build_output
+./build.sh
 
-# exit
-kill $keep_live_id
-dump_output
-exit 0
+# # exit
+# kill $keep_live_id
+# dump_output
+# exit 0
