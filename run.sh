@@ -22,19 +22,19 @@ lfs_disk_path="disk/$lfs_disk_file"
 clear_log
 log "$task_name.start" true
 
-# prepare packages
-./prepare-package.sh
-if [[ $? != 0 ]]; then
-    log "$task_name.finish" false
-    exit 1
-fi
+# # prepare packages
+# ./prepare-package.sh
+# if [[ $? != 0 ]]; then
+#     log "$task_name.finish" false
+#     exit 1
+# fi
 
 # prepare virtual disk
-./prepare-disk.sh
-if [[ $? != 0 ]]; then
-    log "$task_name.finish" false
-    exit 1
-fi
+# ./prepare-disk.sh
+# if [[ $? != 0 ]]; then
+#     log "$task_name.finish" false
+#     exit 1
+# fi
 
 # pull container
 docker pull $docker_name
