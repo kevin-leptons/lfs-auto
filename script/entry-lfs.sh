@@ -32,7 +32,7 @@ log_auto "$task_name.start" 0
 
 # redirect all data from stdout to /dev/null
 build_output="$WORKDIR/build.log"
-sudo exec > "$build_output" 2>&1
+exec > "$build_output" 2>&1
 
 # handle error
 set -e
