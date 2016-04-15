@@ -31,7 +31,7 @@ clear_log
 log_auto "$task_name.start" 0
 
 # redirect all data from stdout to /dev/null
-build_output="$WORKDIR/build.log"
+build_output="log/build.out"
 exec > "$build_output" 2>&1
 
 # handle error
