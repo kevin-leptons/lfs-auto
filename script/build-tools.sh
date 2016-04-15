@@ -79,4 +79,3 @@ done
 
 # successfully
 log "$task_name.setup.finish" $?
-exit 0
