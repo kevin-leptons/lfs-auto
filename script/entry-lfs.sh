@@ -30,6 +30,24 @@ sudo mkdir -vp /lfs-script/tmp
 clear_log
 log_auto "$task_name.start" 0
 
+# redirect all data from stdout to /dev/null
+build_output="$WORKDIR/build.log"
+sudo exec > "$build_output" 2>&1
+
+# handle error
+set -e
+dum_output() {
+    echo "last 500 line of stdout"
+    tail -500 $build_output
+}
+error_handle() {
+    echo "error"
+    dum_output
+    exit 1
+}
+trap "error_handle" ERR
+./travis-keep-build-live.sh &
+
 # create user
 ./create-build-user.sh
 
