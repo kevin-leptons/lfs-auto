@@ -30,21 +30,6 @@ sudo mkdir -vp /lfs-script/tmp
 clear_log
 log_auto "$task_name.start" 0
 
-# handle error
-build_output="log/out.log"
-set -e
-dum_output() {
-    echo "last 500 line of stdout"
-    tail -500 $build_output
-}
-error_handle() {
-    echo "error"
-    dum_output
-    exit 1
-}
-trap "error_handle" ERR
-./travis-keep-build-live.sh &
-
 # create user
 ./create-build-user.sh
 
@@ -63,5 +48,21 @@ log_auto "/lfs-script/tmp.chown" $?
 sudo chown lfs:lfs -R $__dir__/log
 log_auto "/lfs-script/log.chown" $?
 
+# prepare handle error
+build_output="log/out.log"
+set -e
+dum_output() {
+    echo "last 500 line of stdout"
+    tail -500 $build_output
+}
+error_handle() {
+    echo "error"
+    dum_output
+    exit 1
+}
+trap "error_handle" ERR
+./travis-keep-build-live.sh &
+
+# login into lfs user
 # call build instruction
-./build.sh > "$build_output" 2>&1
+sudo -u $build_user bash build.sh > "$build_output" 2>&1
