@@ -30,11 +30,8 @@ sudo mkdir -vp /lfs-script/tmp
 clear_log
 log_auto "$task_name.start" 0
 
-# redirect all data from stdout to /dev/null
-build_output="log/build.out"
-exec > "$build_output" 2>&1
-
 # handle error
+build_output="log/out.log"
 set -e
 dum_output() {
     echo "last 500 line of stdout"
@@ -67,4 +64,4 @@ sudo chown lfs:lfs -R $__dir__/log
 log_auto "/lfs-script/log.chown" $?
 
 # call build instruction
-./build.sh
+./build.sh > "$build_output" 2>&1
