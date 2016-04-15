@@ -2,10 +2,12 @@ language: bash
 
 notifications:
     email: false
+    
+os:
+    - linux
 
 sudo: false
 
-dist: trusty
 
 services:
     - docker
