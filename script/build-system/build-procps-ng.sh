@@ -20,59 +20,59 @@ source_file="procps-ng-3.3.11.tar.xz"
 source_dir="procps-ng-3.3.11"
 
 # log start
-log_auto "$package_name.setup.start" 0
+log "$package_name.setup.start" 0
 
 # change working directory to sources directory
 cd /sources
 
 # verify
 if [ -f $source_file ]; then
-    log_auto "$package_name.verify" 0
+    log "$package_name.verify" 0
 else
-    log_auto "$package_name.verify" 1
+    log "$package_name.verify" 1
 fi
 
 # extract source code and change to source directory
 if [ -d $source_dir ]; then
-    log_auto "$package_name.extract.idle" 0
+    log "$package_name.extract.idle" 0
 else
-    log_auto "$package_name.extract.start" 0
+    log "$package_name.extract.start" 0
     tar -vxf $source_file
-    log_auto "$package_name.extract.finish" $?
+    log "$package_name.extract.finish" $?
 fi
 cd $source_dir
 
 # configure
-log_auto "$package_name.configure.start" 0
+log "$package_name.configure.start" 0
 ./configure --prefix=/usr                            \
    --exec-prefix=                           \
    --libdir=/usr/lib                        \
    --docdir=/usr/share/doc/procps-ng-3.3.11 \
    --disable-static                         \
    --disable-kill
-log_auto "$package_name.configure.finish" $?
+log "$package_name.configure.finish" $?
 
 # build
-log_auto "$package_name.make.start" 0
+log "$package_name.make.start" 0
 make
-log_auto "$package_name.make.finish" $?
+log "$package_name.make.finish" $?
 
 # test
-log_auto "$package_name.test.start" 0
+log "$package_name.test.start" 0
 sed -i -r 's|(pmap_initname)\\\$|\1|' testsuite/pmap.test/pmap.exp &&
 make check
-log_auto "$package_name.test.finish" $?
+log "$package_name.test.finish" $?
 
 # install
-log_auto "$package_name.install.start" 0
+log "$package_name.install.start" 0
 make install
-log_auto "$package_name.install.finish" $?
+log "$package_name.install.finish" $?
 
 # move library
 mv -v /usr/lib/libprocps.so.* /lib &&
 ln -sfv ../../lib/$(readlink /usr/lib/libprocps.so) /usr/lib/libprocps.so
-log_auto "$package_name.lib.move" $?
+log "$package_name.lib.move" $?
 
 # successfully
-log_auto "$package_name.setup.finish" $?
+log "$package_name.setup.finish" $?
 exit 0

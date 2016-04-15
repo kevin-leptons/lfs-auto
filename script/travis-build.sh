@@ -42,15 +42,15 @@ log "$task_name.start" true
 
 # change ownwership of /mnt/lfs
 sudo chown lfs:lfs -R /mnt/lfs
-log_auto "/mnt/lfs.chown" $?
+log "/mnt/lfs.chown" $?
 
 # chnage ownwership of /lfs-script/tmp
 sudo chown lfs:lfs -R tmp
-log_auto "tmp.chown" $?
+log "tmp.chown" $?
 
 # change ownwership of /lfs-script/log
 sudo chown lfs:lfs -R log
-log_auto "log.chown" $?
+log "log.chown" $?
 
 # call build instruction
 ./build.sh

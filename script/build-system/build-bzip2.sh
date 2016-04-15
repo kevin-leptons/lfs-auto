@@ -20,25 +20,25 @@ source_file="bzip2-1.0.6.tar.gz"
 source_dir="bzip2-1.0.6"
 
 # log start
-log_auto "$package_name.setup.start" 0
+log "$package_name.setup.start" 0
 
 # change working directory to sources directory
 cd /sources
 
 # verify
 if [ -f $source_file ]; then
-    log_auto "$package_name.verify" 0
+    log "$package_name.verify" 0
 else
-    log_auto "$package_name.verify" 1
+    log "$package_name.verify" 1
 fi
 
 # extract source code and change to source directory
 if [ -d $source_dir ]; then
-    log_auto "$package_name.extract.idle" 0
+    log "$package_name.extract.idle" 0
 else
-    log_auto "$package_name.extract.start" 0
+    log "$package_name.extract.start" 0
     tar -vxf $source_file
-    log_auto "$package_name.extract.finish" $?
+    log "$package_name.extract.finish" $?
 fi
 cd $source_dir
 
@@ -46,23 +46,23 @@ cd $source_dir
 patch -Np1 -i ../bzip2-1.0.6-install_docs-1.patch &&
 sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile &&
 sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
-log_auto "$package_name.patch" $?
+log "$package_name.patch" $?
 
 # prepare
-log_auto "$package_name.prepare.start" 0
+log "$package_name.prepare.start" 0
 make -f Makefile-libbz2_so &&
 make clean
-log_auto "$package_name.prepare.finish" $?
+log "$package_name.prepare.finish" $?
 
 # build
-log_auto "$package_name.make.start" 0
+log "$package_name.make.start" 0
 make
-log_auto "$package_name.make.finish" $?
+log "$package_name.make.finish" $?
 
 # install
-log_auto "$package_name.install.start" 0
+log "$package_name.install.start" 0
 make PREFIX=/usr install
-log_auto "$package_name.install.finish" $?
+log "$package_name.install.finish" $?
 
 # install shared libraries
 cp -v bzip2-shared /bin/bzip2 &&
@@ -71,8 +71,8 @@ ln -sv ../../lib/libbz2.so.1.0 /usr/lib/libbz2.so &&
 rm -v /usr/bin/{bunzip2,bzcat,bzip2} &&
 ln -sv bzip2 /bin/bunzip2 &&
 ln -sv bzip2 /bin/bzcat
-log_auto "$package_name.install-shared-lib" $?
+log "$package_name.install-shared-lib" $?
 
 # successfully
-log_auto "$package_name.setup.finish" $?
+log "$package_name.setup.finish" $?
 exit 0

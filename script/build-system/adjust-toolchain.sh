@@ -27,52 +27,52 @@ mv -v /tools/bin/{ld-new,ld} &&
 if [ -f /tools/bin/ld ]; then
     ln -sv /tools/bin/ld /tools/$(gcc -dumpmachine)/bin/ld
 fi
-log_auto "/tools.backup, replace" $?
+log "/tools.backup, replace" $?
 
 # amend gcc
 gcc -dumpspecs | sed -e 's@/tools@@g'                   \
    -e '/\*startfile_prefix_spec:/{n;s@.*@/usr/lib/ @}' \
    -e '/\*cpp:/{n;s@$@ -isystem /usr/include@}' >      \
    `dirname $(gcc --print-libgcc-file-name)`/specs
-log_auto "gcc.amend" $?
+log "gcc.amend" $?
 
 # ensure that the basic function
 cc "$simple_program_src" -o $simple_program_dest \
     -v -Wl,--verbose &> "$compile_log_file" &&
-log_auto "gcc.compile" $?
+log "gcc.compile" $?
 
 # read elf
 readelf -l $simple_program_dest | grep ': /lib' | \
     grep "Requesting program interpreter"
-log_auto "readelf" $?
+log "readelf" $?
 
 # make sure that we are setup to use the correct startfiles
 lib_count=$(grep -o '/usr/lib.*/crt[1in].*succeeded' $compile_log_file | wc -l)
 if [[ $lib_count == 3 ]]; then
-    log_auto "/usr/lib/.verify" 0
+    log "/usr/lib/.verify" 0
 else
-    log_auto "/usr/lib/.verify" 1
+    log "/usr/lib/.verify" 1
 fi
 
 # verify that the compiler is searching for the correct header files
 grep -B1 '^ /usr/include' $compile_log_file
-log_auto "/usr/include/.verify" $?
+log "/usr/include/.verify" $?
 
 # verify the the new linker
 grep 'SEARCH.*/usr/lib' $compile_log_file |sed 's|; |\n|g'
-log_auto "/usr/lib/.search-dir.verify" $?
+log "/usr/lib/.search-dir.verify" $?
 
 # make sure that we are using the correct libc
 grep "/lib.*/libc.so.6 " $compile_log_file
-log_auto "/usr/lib/.verify-64bits" $?
+log "/usr/lib/.verify-64bits" $?
 
 # make sure gcc is using the correct dynamic linker
 grep found $compile_log_file
-log_auto "gcc.dynamic-link.verify" $?
+log "gcc.dynamic-link.verify" $?
 
 # clean up the test files
 rm -v $simple_program_dest $compile_log_file
 
 # successfully
-log_auto "$task_name.setup.finish" 0
+log "$task_name.setup.finish" 0
 exit 0

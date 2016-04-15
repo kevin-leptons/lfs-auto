@@ -16,71 +16,12 @@ current_time() {
     echo $(date +"%Y-%m-%d %H:%M:%S")
 }
 
-# using     : write information to log file
-# params    :
-#   $1: message
-#   $2: result in enum { true, false }. true is successfull, false is error
-# toto: remove this function
-log_build() {
-
-    # get time
-    log_time=$(current_time)
-
-    # convert result
-    result="?"
-
-    if [[ $2 == true ]]; then
-        result="ok"
-    fi
-
-    if [[ $2 == false ]];then
-        result="no"
-    fi
-
-    # log to file
-    printf "%s\n" "$log_time" >> $log_build_file
-    printf "%-78s%2s\n\n" "$1" "$result" >> $log_build_file
-
-    # log to console
-    printf "%s\n" "$log_time"
-    printf "%-78s%2s\n\n" "$1" "$result"
-}
-
-# using     : write information to log file
-# params    :
-#   $1: message
-#   $2: result in enum { true, false }. true is successfull, false is error
-log() {
-
-    # get time
-    log_time=$(current_time)
-
-    # convert result
-    result="?"
-
-    if [[ $2 == true ]]; then
-        result="ok"
-    fi
-
-    if [[ $2 == false ]];then
-        result="no"
-    fi
-
-    # log to file
-    printf "%s\n" "$log_time" >> $log_build_file
-    printf "%-78s%2s\n\n" "$1" "$result" >> $log_build_file
-
-    # log to console
-    printf "%s\n" "$log_time"
-    printf "%-78s%2s\n\n" "$1" "$result"
-}
-
 # using     : write information to log file. exit if error
 # params    :
 #   $1: message name
 #   $2: returned value from pre-command
 # exit on $1 != 0
-log_auto() {
+log() {
 
     # get time
     log_time=$(current_time)

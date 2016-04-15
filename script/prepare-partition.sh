@@ -18,36 +18,20 @@ source $__dir__/util.sh
 task_name="partition"
 
 # log start
-log "$task_name.start" true
+log "$task_name.start" 0
 
 # create tools directory to build temporary system
 mkdir -vp $root_tools
-if [[ $? != 0 ]]; then
-    log "$root_tools.create" false
-    exit 1
-else
-    log "$root_tools.create" true
-fi
+log "$root_tools.create" $?
 
 # link tools directory to root
 sudo ln -svnf $root_tools /tools
-if [[ $? != 0 ]]; then
-    log "$root_tools.link-root" false
-    exit 1
-else
-    log "$root_tools.link-root" true
-fi
+log "$root_tools.link" $?
 
 # transfer partition own from root to build user
 sudo chown -R $build_user_group:$build_user $root /tools
-if [[ $? != 0 ]]; then
-    log "$root_tools.chown" false
-    log "$task_name.finish" false
-    exit 1
-else
-    log "$root_tools.chown" true
-fi
+log "$root_tools.chown" $?
 
 # successfully
-log "$task_name.finish" true
+log "$task_name.finish" $?
 exit 0

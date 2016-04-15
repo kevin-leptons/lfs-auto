@@ -44,45 +44,41 @@ texinfo_version_req="4.7"
 xz_version_req="5.0.0"
 
 # log start verify
-log_build "$task_name.start" true
+log "$task_name.start" 0
 
 # verify bash version
 bash_version=$(bash --version | head -n1 | cut -d" " -f4 | cut -d"(" -f1)
 if version_gt $bash_version $bash_version_req; then
-    log_build \
-        "bash.version.verify $bash_version_req#$bash_version" true
+    log "bash.version.verify.ok" 0
 else
     verify_ok=false
-    "bash.version.verify $bash_version_req#$bash_version" false
+    log "bash.version.verify.no" 0
 fi
 
 # verify /bin/sh link
 sh_link=$(readlink -f /bin/sh)
 if [[ $sh_link == $sh_link_req ]]; then
-    log_build "sh.link.verify $sh_link_req#$sh_link" true
+    log "sh.link.verify.ok" 0
 else
-    verify_ok=false
-    log_build "sh.link.verify $sh_link_req#$sh_link" false
+    log "sh.link.verify.no" 0
 fi
 
 # verify binutils
 binutils_version=$(ld --version | head -n1 | cut -d" " -f7-)
 if version_gt $binutils_version $binutils_version_req; then
-    msg="binutils.version.verify $binutils_version_req#$binutils_version_req"
-    log_build "$msg" true
+    log "binutils.version.verify.ok" 0
 else
     verify_ok=false
-    msg="binutils.version.verify $binutils_version_req#$binutils_version_req"
-    log_build "$msg" false
+    log "binutils.version.verify.no" 0
 fi
 
 # verify bison
 bison_version=$(bison --version | head -n1 | cut -d" " -f4)
 if version_gt $bison_version $bison_version_req; then
-    log_build "bison.version.verify $bison_version_req#$bison_version" true
+    log "bison.version.verify.ok" 0
 else
     verify_ok=false
-    log_build "bison.version.verify $bison_version_req#$bison_version" true
+    log "bison.version.verify.no" 0
 fi
 
 # verify yacc link to bison
@@ -90,228 +86,214 @@ fi
 if [ -h /usr/bin/yacc ]; then
     yacc_link=$(readlink -f /usr/bin/yacc)
     if [[ $yacc_link == $yacc_link_req ]]; then
-        log_build "yacc.link.verify $yacc_link_req#$yacc_link" true
+        log "yacc.link.verify.ok" 0
     else
         verify_ok=false
-        log_build "yacc.link.verify $yacc_link_req#$yacc_link" true
+        log "yacc.link.verify.no" 0
     fi
 elif [ -x /usr/bin/yacc ]; then
-    log_build "yacc.executable.verify" true
+    log "yacc.executable.verify.ok" 0
 else
     verify_ok=false
-    log_build "yacc.verify" false
+    log "yacc.verify.no" 0
 fi
 
 # verify bzip2
 bzip2_version=$(bzip2 --version 2>&1 < /dev/null | \
     head -n1 | cut -d" " -f8 | cut -d "," -f1)
 if version_gt $bzip2_version $bzip2_version_req; then
-    log_build "bzip2.version.verify $bzip2_version_req#$bzip2_version_req" true
+    log "bzip2.version.verify.ok" 0
 else
     verify_ok=false
-    log_build "bzip2.version.verify $bzip2_version_req#$bzip2_version_req" false
+    log "bzip2.version.verify.no" 0
 fi
 
 # verify coreutils
 coreutils_version=$(chown --version | head -n1 | cut -d" " -f4)
 if version_gt $coreutils_version $coreutils_version_req; then
-    log_build \
-        "coreutils.version.verify $coreutils_version_req#$coreutils_version" \
-        true
+    log "coreutils.version.verify.ok" 0
 else
     verify_ok=false
-    log_build \
-        "coreutils.version.verify $coreutils_version_req#$coreutils_version" \
-        false
+    log "coreutils.version.verify.no" 0
 fi
 
 # verify diffutils
 diffutils_version=$(diff --version | head -n1 | cut -d" " -f4)
 if version_gt $diffutils_version $diffutils_version_req; then
-    log_build \
-    "diffutils.version.verify $diffutils_version_req#$diffutils_version_req" \
-    true
+    log "diffutils.version.verify.ok" 0
 else
     verify_ok=false
-    log_build \
-    "diffutils.version.verify $diffutils_version_req#$diffutils_version_req" \
-    false
+    "diffutils.version.verify.no" 0
 fi
 
 # verify findutils
 findutils_version=$(find --version | head -n1 | cut -d" " -f4)
 if version_gt $findutils_version $findutils_version_req; then
-    log_build \
-    "findutils.version.verify $findutils_version_req#$findutils_version" \
-    true
+    log "findutils.version.verify.ok" 0
 else
     verify_ok=false
-    log_build \
-    "findutils.version.verify $findutils_version_req#$findutils_version" \
-    false
+    log "findutils.version.verify.no" 0
 fi
 
 # verify gawk
 gawk_version=$(gawk --version | head -n1 | cut -d" " -f3 | cut -d"," -f1)
 if version_gt $gawk_version $gawk_version_req; then
-    log_build "gawk.version.verify $gawk_version_req#$gawk_version" true
+    log "gawk.version.verify.ok" 0
 else
     verify_ok=false
-    log_build "gawk.version.verify $gawk_version_req#$gawk_version" true
+    log "gawk.version.verify.no" 0
 fi
 
 # verify awk link to gawk
 if [ -h /usr/bin/awk ]; then
     awk_link=$(readlink -f /usr/bin/awk)
     if [[ $awk_link == $awk_link_req ]]; then
-        log_build "awk.link.verify $awk_link_req#$awk_link" true
+        log "awk.link.verify.ok" 0
     else
         verify_ok=false
-        log_build "awk.link.verify $awk_link_req#$awk_link" false
+        log "awk.link.verify.no" 0
     fi
 elif [ -x /usr/bin/awk ]; then
-    log_build "awk.executable.verify" true
+    log "awk.executable.verify.ok" 0
 else
     verify_ok=false
-    log_build "awk.verify" false
+    log "awk.verify.no" 0
 fi
 
 # verify gcc
 gcc_version=$(gcc --version | head -n1 | cut -d" " -f4)
 if version_gt $gcc_version $gcc_version_req; then
-    log_build "gcc.version.verify $gcc_version_req#$gcc_version" true
+    log "gcc.version.verify.ok" 0
 else
     verify_ok=false
-    log_build "gcc.version.verify $gcc_version_req#$gcc_version" false
+    log "gcc.version.verify.no" 0
 fi
 
 # verify g++
 gpp_version=$(g++ --version | head -n1 | cut -d" " -f4)
 if version_gt $gpp_version $gcc_version_req; then
-    log_build "g++.version.verify $gcc_version_req#$gpp_version" true
+    log "g++.version.verify.ok" 0
 else
     verify_ok=false
-    log_build "g++.version.verify $gcc_version_req#$gpp_version" false
+    log "g++.version.verify.no" 0
 fi
 
 # verify glibc
 glibc_version=$(ldd --version | head -n1 | cut -d" " -f5)
 if version_gt $glibc_version $glibc_version_req; then
-    log_build "glibc.version.verify $glibc_version_req#$glibc_version" true
+    log "glibc.version.verify.ok" 0
 else
     verify_ok=false
-    log_build "glibc.version.verify $glibc_version_req#$glibc_version" false
+    log "glibc.version.verify.no" 0
 fi
 
 # verify grep
 grep_version=$(grep --version | head -n1 | cut -d" " -f4)
 if version_gt $grep_version $grep_version_req; then
-    log_build "grep.version.verify $grep_version_req#$grep_version" true
+    log "grep.version.verify.ok" 0
 else
     verify_ok=false
-    log_build "grep.version.verify $grep_version_req#$grep_version" false
+    log "grep.version.verify.ok" 0
 fi
 
 # verify gzip
 gzip_version=$(gzip --version | head -n1 | cut -d" " -f2)
 if version_gt $gzip_version $gzip_version_req; then
-    log_build "gzip.version.verify $gzip_version_req#$gzip_version" true
+    log "gzip.version.verify $gzip_version_req#$gzip_version" 0
 else
     verify_ok=false
-    log_build "gzip.version.verify $gzip_version_req#$gzip_version" false
+    log "gzip.version.verify $gzip_version_req#$gzip_version" 0
 fi
 
 # verify linux kernel
 linux_version=$(cat /proc/version | cut -d" " -f3 | cut -d"-" -f1)
 if version_gt $linux_version $linux_version_req; then
-    log_build "linux.version.verify $linux_version_req#$linux_version" true
+    log "linux.version.verify $linux_version_req#$linux_version" 0
 else
     verify_ok=false
-    log_build "linux.version.verify $linux_version_req#$linux_version" false
+    log "linux.version.verify $linux_version_req#$linux_version" 0
 fi
 
 # verify m4
 m4_version=$(m4 --version | head -n1 | cut -d" " -f4)
 if version_gt $m4_version $m4_version_req; then
-    log_build "m4.version.verify $m4_version_req#$m4_version" true
+    log "m4.version.verify $m4_version_req#$m4_version" 0
 else
     verify_ok=false
-    log_build "m4.version.verify $m4_version_req#$m4_version" false
+    log "m4.version.verify $m4_version_req#$m4_version" 0
 fi
 
 # verify make
 make_version=$(make --version | head -n1 | cut -d" " -f3)
 if version_gt $make_version $make_version_req; then
-    log_build "make.version.verify $make_version_req#$make_version" true
+    log "make.version.verify $make_version_req#$make_version" 0
 else
     verify_ok=false
-    log_build "make.version.verify $make_version_req#$make_version" false
+    log "make.version.verify $make_version_req#$make_version" 0
 fi
 
 # verify patch
 patch_version=$(patch --version | head -n1 | cut -d" " -f3)
 if version_gt $patch_version $patch_version_req; then
-    log_build "patch.version.verify $patch_version_req#$patch_version" true
+    log "patch.version.verify $patch_version_req#$patch_version" 0
 else
     verify_ok=false
-    log_build "patch.version.verify $patch_version_req#$patch_version" false
+    log "patch.version.verify $patch_version_req#$patch_version" 0
 fi
 
 # verify perl
 perl_version=$(perl -V:version | cut -d"'" -f2)
 if version_gt $perl_version $perl_version_req; then
-    log_build "perl.version.verify $perl_version_req#$perl_version" true
+    log "perl.version.verify $perl_version_req#$perl_version" 0
 else
     verify_ok=false
-    log_build "perl.version.verify $perl_version_req#$perl_version" false
+    log "perl.version.verify $perl_version_req#$perl_version" false
 fi
 
 # verify sed
 sed_version=$(sed --version | head -n1 | cut -d" " -f4)
 if version_gt $sed_version $sed_version_req; then
-    log_build "sed.version.verify $sed_version_req#$sed_version" true
+    log "sed.version.verify $sed_version_req#$sed_version" 0
 else
     verify_ok=false
-    log_build "sed.version.verify $sed_version_req#$sed_version" false
+    log "sed.version.verify $sed_version_req#$sed_version" 0
 fi
 
 # verify tar
 tar_version=$(tar --version | head -n1 | cut -d" " -f4)
 if version_gt $tar_version $tar_version_req; then
-    log_build "tar.version.verify $tar_version_req#$tar_version" true
+    log "tar.version.verify $tar_version_req#$tar_version" 0
 else
     verify_ok=false
-    log_build "tar.version.verify $tar_version_req#$tar_version" false
+    log "tar.version.verify $tar_version_req#$tar_version" 0
 fi
 
 # verify texinfo
 texinfo_version=$(makeinfo --version | head -n1 | cut -d" " -f4)
 if version_gt $texinfo_version $texinfo_version_req; then
-    log_build "texinfo.version.verify $texinfo_version_req#$texinfo_version" \
-    true
+    log "texinfo.version.verify.ok" 0
 else
     verify_ok=false
-    log_build "texinfo.version.verify $texinfo_version_req#$texinfo_version" \
-    false
+    log "texinfo.version.verify.no" 0
 fi
 
 # verify xz
 xz_version=$(xz --version | head -n1 | cut -d" " -f4)
 if version_gt $xz_version $xz_version_req; then
-    log_build "xz.version.verify $xz_version_req#$xz_version" true
+    log "xz.version.verif.ok" 0
 else
     verify_ok=false
-    log_build "xz.version.verify $xz_version_req#$xz_version" false
+    log "xz.version.verify.no" 0
 fi
 
 # try compiler g++
 program_path="tmp/simple-program"
 g++ -o $program_path asset/simple-program.c
 if [ -x $program_path ]; then
-    log_build "g++.compile" true
+    log "g++.compile.verify.ok" 0
 else
     verify_ok=false
-    log_build "g++.compile" false
+    log "g++.compile.verify.no" 0
 fi
 
 # verify library
@@ -323,17 +305,17 @@ for lib in lib{gmp,mpfr,mpc}.la; do
     fi
 done
 if [[ $lib_found == 0 || $lib_found == 3 ]]; then
-    log_build "{gmp, mpfr, mpc}.verify" true
+    log "{gmp, mpfr, mpc}.verify.ok" 0
 else
-    log_build "{gmp, mpfr, mpc}.verify" false
+    log "{gmp, mpfr, mpc}.verify.no" 0
 fi
 unset lib
 
 # finish verify tools
 if [[ $verify_ok == true ]]; then
-    log_build "$task_name.finish" true
+    log "$task_name.finish" 0
     exit 0
 else
-    log_build "$task_name.finish" false
+    log "$task_name.finish" 1
     exit 1
 fi

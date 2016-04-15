@@ -16,13 +16,13 @@ source $__dir__/util.sh
 task_name="config-chroot-inside"
 
 # log start
-log_auto "$task_name.start" 0
+log "$task_name.start" 0
 
 # config
 touch /var/log/{btmp,lastlog,wtmp} &&
 chgrp -v utmp /var/log/lastlog &&
 chmod -v 664  /var/log/lastlog &&
 chmod -v 600  /var/log/btmp
-log_auto "$task_name.finish" $?
+log "$task_name.finish" $?
 
 exec /tools/bin/bash --login +h

@@ -16,7 +16,7 @@ source util.sh
 for directory in /sources/*/; do
     rm -vrf $directory
 done
-log_auto "system.old-build.clean" $?
+log "system.old-build.clean" $?
 
 # successfully
 exit 0

@@ -20,65 +20,65 @@ source_file="acl-2.2.52.src.tar.gz"
 source_dir="acl-2.2.52"
 
 # log start
-log_auto "$package_name.setup.start" 0
+log "$package_name.setup.start" 0
 
 # change working directory to sources directory
 cd /sources
 
 # verify
 if [ -f $source_file ]; then
-    log_auto "$package_name.verify" 0
+    log "$package_name.verify" 0
 else
-    log_auto "$package_name.verify" 1
+    log "$package_name.verify" 1
 fi
 
 # extract source code and change to source directory
 if [ -d $source_dir ]; then
-    log_auto "$package_name.extract.idle" 0
+    log "$package_name.extract.idle" 0
 else
-    log_auto "$package_name.extract.start" 0
+    log "$package_name.extract.start" 0
     tar -vxf $source_file
-    log_auto "$package_name.extract.finish" $?
+    log "$package_name.extract.finish" $?
 fi
 cd $source_dir
 
 # modify documents
 sed -i -e 's|/@pkg_name@|&-@pkg_version@|' include/builddefs.in
-log_auto "$package_name.documents.modify" $?
+log "$package_name.documents.modify" $?
 
 # fix broken test
 sed -i "s:| sed.*::g" test/{sbits-restore,cp,misc}.test
-log_auto "$package_name.broken-test.fix" $?
+log "$package_name.broken-test.fix" $?
 
 # fix bug
 sed -i -e "/TABS-1;/a if (x > (TABS-1)) x = (TABS-1);" \
    libacl/__acl_to_any_text.c
-log_auto "$package_name.bug.fix" $?
+log "$package_name.bug.fix" $?
 
 # configure
-log_auto "$package_name.configure.start" 0
+log "$package_name.configure.start" 0
 ./configure --prefix=/usr    \
    --bindir=/bin    \
    --disable-static \
    --libexecdir=/usr/lib
-log_auto "$package_name.configure.finish" $?
+log "$package_name.configure.finish" $?
 
 # build
-log_auto "$package_name.make.start" 0
+log "$package_name.make.start" 0
 make
-log_auto "$package_name.make.finish" $?
+log "$package_name.make.finish" $?
 
 # install
-log_auto "$package_name.install.start" 0
+log "$package_name.install.start" 0
 make install install-dev install-lib &&
 chmod -v 755 /usr/lib/libacl.so
-log_auto "$package_name.install.finish" $?
+log "$package_name.install.finish" $?
 
 # move library
 mv -v /usr/lib/libacl.so.* /lib &&
 ln -sfv ../../lib/$(readlink /usr/lib/libacl.so) /usr/lib/libacl.so
-log_auto "$package_name.lib.move" $?
+log "$package_name.lib.move" $?
 
 # successfully
-log_auto "$package_name.setup.finish" $?
+log "$package_name.setup.finish" $?
 exit 0

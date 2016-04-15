@@ -18,7 +18,7 @@ source $__dir__/util.sh
 task_name="lfs-source"
 
 # log start
-log_auto "$task_name.copy.start" 0
+log "$task_name.copy.start" 0
 
 # copy sources from /lfs/sources
 mkdir -vp /mnt/lfs/sources

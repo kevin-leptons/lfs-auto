@@ -16,7 +16,7 @@ source $__dir__/util.sh
 task_name="temp-system"
 
 # log start build temp system
-log_auto "$task_name.setup.start" 0
+log "$task_name.setup.start" 0
 
 # clean source code and old build
 # to avoid error if old build is exists
@@ -73,10 +73,10 @@ for package in ${tool_packages[@]}; do
     $build_temp_system_dir/$package.sh
 
     # log setup result
-    log_auto "$package.setup.call" $?
+    log "$package.setup.call" $?
 
 done
 
 # successfully
-log_auto "$task_name.setup.finish" $?
+log "$task_name.setup.finish" $?
 exit 0

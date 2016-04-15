@@ -36,7 +36,7 @@ if [[ $? != 0 ]]; then
     exit 1
 fi
 
-# pull docker
+# pull container
 docker pull $docker_name
 
 # run docker

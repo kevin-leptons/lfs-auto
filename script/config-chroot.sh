@@ -13,7 +13,7 @@ source util.sh
 task_name="chroot-config"
 
 # log start
-log_auto "$task_name.start" 0
+log "$task_name.start" 0
 
 # create directories
 mkdir -pv /{bin,boot,etc/{opt,sysconfig},home,lib/firmware,mnt,opt}

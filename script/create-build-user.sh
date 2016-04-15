@@ -20,54 +20,28 @@ source $__dir__/util.sh
 task_name="create-build-user"
 
 # log start
-log "$task_name.start" true
+log "$task_name.start" 0
 
 # create user group
 groupadd $build_user_group
-if [[ $? != 0 ]]; then
-    log "build-group.create" false
-    exit 1
-else
-    log "build-group.create" true
-fi
+log "build-group.create" $?
 
 # create user
 useradd -s /bin/bash -g $build_user_group -m -k /dev/null $build_user
-if [[ $? != 0 ]]; then
-    log "build-user.create" false
-    exit 1
-else
-    log "build-user.create" true
-fi
+log "build-user.create" $?
 
 # change user password
 echo -e "$build_user_password\n$build_user_password" | passwd $build_user
-if [[ $? != 0 ]]; then
-    log "build-user.password.change" false
-    exit 1
-else
-    log "build-user.password.change" true
-fi
+log "build-user.password.change" $?
 
 # create profile
 cp -v $__dir__/asset/build-user-profile.sh $build_user_home/.profile
-if [[ $? != 0 ]]; then
-    log "build-user.profile.create" false
-    exit 1
-else
-    log "build-user.profile.create" true
-fi
+log "build-user.profile.create" $?
 
 # create bashrc
 cp -v $__dir__/asset/build-user-bashrc.sh $build_user_home/.bashrc
-if [[ $? != 0 ]]; then
-    log "build-user.bashrc.create" false
-    log "$task_name.finish" false
-    exit 1
-else
-    log "build-user.bashrc.create" true
-fi
+log "build-user.bashrc.create" $?
 
 # successfull
-log "$task_name.finish" true
+log "$task_name.finish" $?
 exit 0

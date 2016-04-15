@@ -18,7 +18,7 @@ task_name="system"
 # clear log file
 # and start
 clear_log
-log_auto "$task_name.setup.start" 0
+log "$task_name.setup.start" 0
 
 # clear old build
 ./clean-build-system.sh
@@ -119,10 +119,10 @@ for package in ${packages[@]}; do
 
     # log and exit if error
     if [[ $? != 0 ]]; then
-        log_auto "$task_name.setup.finish" 1
+        log "$task_name.setup.finish" 1
     fi
 done
 
 # successfully
-log_auto "$task_name.setup.finish" $?
+log "$task_name.setup.finish" $?
 exit 0

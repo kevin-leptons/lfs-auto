@@ -14,4 +14,4 @@ source $script_dir/util.sh
 
 # change ownership
 sudo chown -R root:root $LFS/tools
-log_auto "/tools.chown" $?
+log "/tools.chown" $?

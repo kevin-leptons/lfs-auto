@@ -24,31 +24,31 @@ simple_program_source="/lfs-script/asset/simple-program.c"
 simple_program_dest="/lfs-script/tmp/simple-program"
 
 # start
-log_auto "$package_name.setup.start" 0
+log "$package_name.setup.start" 0
 
 # change working directory to sources directory
 cd $root_sources
 
 # verify
 if [ -f $source_file ]; then
-    log_auto "$package_name.verify" 0
+    log "$package_name.verify" 0
 else
-    log_auto "$package_name.verify" 1
+    log "$package_name.verify" 1
 fi
 
 # extract source code and change to source code directory
 if [ -d $source_dir ]; then
-    log_auto "$package_name.extract.idle" 0
+    log "$package_name.extract.idle" 0
 else
-    log_auto "$package_name.extract.start" 0
+    log "$package_name.extract.start" 0
     tar -vxf $source_file
-    log_auto "$package_name.extract.finish" $?
+    log "$package_name.extract.finish" $?
 fi
 cd $source_dir
 
 # patch
 patch -Np1 -i $patch_file
-log_auto "$package_name.patch" $?
+log "$package_name.patch" $?
 
 # change to source directory and create build directory
 cd ../
@@ -56,7 +56,7 @@ mkdir -vp $build_dir
 cd $build_dir
 
 # configure
-log_auto "$package_name.configure.start" 0
+log "$package_name.configure.start" 0
 ../glibc-2.22/configure                             \
       --prefix=/tools                               \
       --host=$LFS_TGT                               \
@@ -68,24 +68,24 @@ log_auto "$package_name.configure.start" 0
       libc_cv_forced_unwind=yes                     \
       libc_cv_ctors_header=yes                      \
       libc_cv_c_cleanup=yes
-log_auto "$package_name.configure.finish" $?
+log "$package_name.configure.finish" $?
 
 # build
-log_auto "$package_name.make.start" 0
+log "$package_name.make.start" 0
 make
-log_auto "$package_name.make.finish" $?
+log "$package_name.make.finish" $?
 
 # install
-log_auto "$package_name.install.start" 0
+log "$package_name.install.start" 0
 make install
-log_auto "$package_name.install.finish" $?
+log "$package_name.install.finish" $?
 
 # test
 $LFS_TGT-gcc "$simple_program_source" -o "$simple_program_dest" &&
 readelf -l "$simple_program_dest" | grep '\: /tools' | \
     grep "Requesting program interpreter"
-log_auto "$package_name.compile" $?
+log "$package_name.compile" $?
 
 # successfull
-log_auto "$package_name.setup.finish" $?
+log "$package_name.setup.finish" $?
 exit 0

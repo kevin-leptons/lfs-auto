@@ -22,25 +22,25 @@ build_dir="gcc-build"
 test_log_file="/lfs-script/log/gcc.test.log"
 
 # log start
-log_auto "$package_name.setup.start" 0
+log "$package_name.setup.start" 0
 
 # change working directory to sources directory
 cd /sources
 
 # verify
 if [ -f $source_file ]; then
-    log_auto "$package_name.verify" 0
+    log "$package_name.verify" 0
 else
-    log_auto "$package_name.verify" 1
+    log "$package_name.verify" 1
 fi
 
 # extract source code and change to source directory
 if [ -d $source_dir ]; then
-    log_auto "$package_name.extract.idle" 0
+    log "$package_name.extract.idle" 0
 else
-    log_auto "$package_name.extract.start" 0
+    log "$package_name.extract.start" 0
     tar -vxf $source_file
-    log_auto "$package_name.extract.start" $?
+    log "$package_name.extract.start" $?
 fi
 
 # create build directory
@@ -48,7 +48,7 @@ mkdir -vp $build_dir
 cd $build_dir
 
 # configure
-log_auto "$package_name.configure.start" 0
+log "$package_name.configure.start" 0
 SED=sed                       \
 ../gcc-5.2.0/configure        \
    --prefix=/usr            \
@@ -56,24 +56,24 @@ SED=sed                       \
    --disable-multilib       \
    --disable-bootstrap      \
    --with-system-zlib
-log_auto "$package_name.configure.finish" $?
+log "$package_name.configure.finish" $?
 
 # build
-log_auto "$package_name.make.start" 0
+log "$package_name.make.start" 0
 make
-log_auto "$package_name.make.finish" $?
+log "$package_name.make.finish" $?
 
 # test
-log_auto "$package_name.test.start" 0
+log "$package_name.test.start" 0
 ulimit -s 32768
 make -k check
 ../gcc-5.2.0/contrib/test_summary > $test_log_file
-log_auto "$package_name.test.finish" $?
+log "$package_name.test.finish" $?
 
 # install
-log_auto "$package_name.install.start" 0
+log "$package_name.install.start" 0
 make install
-log_auto "$package_name.install.finish" $?
+log "$package_name.install.finish" $?
 
 # link
 ln -sv ../usr/bin/cpp /lib &&
@@ -81,48 +81,48 @@ ln -sv gcc /usr/bin/cc &&
 install -v -dm755 /usr/lib/bfd-plugins &&
 ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/5.2.0/liblto_plugin.so \
     /usr/lib/bfd-plugins/
-log_auto "$package_name.link" $?
+log "$package_name.link" $?
 
 # compile simple program
 echo 'int main(){}' > dummy.c
 cc dummy.c -v -Wl,--verbose &> dummy.log
-log_auto "gcc.compile" $?
+log "gcc.compile" $?
 
 # read elf
 readelf -l a.out | grep ': /lib' | grep "Requesting program interpreter"
-log_auto "gcc.readelf" $?
+log "gcc.readelf" $?
 
 # make sure use correct startfiles
 lib_count=$(grep -o '/usr/lib.*/crt[1in].*succeeded' dummy.log | wc -l)
 if [[ $lib_count == 3 ]]; then
-    log_auto "gcc.lib.verify" 0
+    log "gcc.lib.verify" 0
 else
-    log_auto "gcc.lib.verify" 1
+    log "gcc.lib.verify" 1
 fi
 
 # make sure correct header files
 grep -B4 '^ /usr/include' dummy.log
-log_auto "/usr/include/.verify" $?
+log "/usr/include/.verify" $?
 
 # verify linker
 grep 'SEARCH.*/usr/lib' dummy.log |sed 's|; |\n|g'
-log_auto "/usr/lib/.verify" $?
+log "/usr/lib/.verify" $?
 
 # verify correct library
 grep "/lib.*/libc.so.6 " dummy.log
-log_auto "/lib/lib.so.6.verify" $?
+log "/lib/lib.so.6.verify" $?
 
 # verify 64bits
 grep found dummy.log
-log_auto "found.verify" $?
+log "found.verify" $?
 
 rm -v dummy.c a.out dummy.log
 
 # install misplaced file
 mkdir -pv /usr/share/gdb/auto-load/usr/lib &&
 mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
-log_auto "$package.install-misplaced-file" $?
+log "$package.install-misplaced-file" $?
 
 # successfully
-log_auto "$package_name.setup.finish" $?
+log "$package_name.setup.finish" $?
 exit 0

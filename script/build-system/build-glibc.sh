@@ -25,60 +25,60 @@ test_sum_file="/sources/$build_dir/tests.sum"
 fail_allowed_file="/lfs-script/asset/build-syste.glibc.test.fail.allowed.txt"
 
 # log start
-log_auto "$package_name.setup.start" 0
+log "$package_name.setup.start" 0
 
 # change working directory to sources directory
 cd /sources
 
 # verify
 if [ -f $source_file ]; then
-    log_auto "$package_name.verify" 0
+    log "$package_name.verify" 0
 else
-    log_auto "$package_name.verify" 1
+    log "$package_name.verify" 1
 fi
 
 # extract
 if [ -d $source_dir ]; then
-    log_auto "$package_name.extract.idle" 0
+    log "$package_name.extract.idle" 0
 else
-    log_auto "$package_name.extract.start" 0
+    log "$package_name.extract.start" 0
     tar -vxf $source_file
-    log_auto "$package_name.extract.finish" $?
+    log "$package_name.extract.finish" $?
 fi
 cd $source_dir
 
 # path
-log_auto "$package_name.patch.start" 0
+log "$package_name.patch.start" 0
 patch -Np1 -i ../glibc-2.22-fhs-1.patch &&
 patch -Np1 -i ../glibc-2.22-upstream_i386_fix-1.patch
-log_auto "$package_name.patch.finish" $?
+log "$package_name.patch.finish" $?
 
 # create build directory
 cd ../
 rm -vrf $build_dir
 mkdir -vp $build_dir
 cd $build_dir
-log_auto "$package_name.build-dir.create" $?
+log "$package_name.build-dir.create" $?
 
 # configure
-log_auto "$package_name.configure.start" 0
+log "$package_name.configure.start" 0
 ../glibc-2.22/configure    \
       --prefix=/usr          \
       --disable-profile      \
       --enable-kernel=2.6.32 \
       --enable-obsolete-rpc
-log_auto "$package_name.configure.finish" $?
+log "$package_name.configure.finish" $?
 
 # build
-log_auto "$package_name.make.start" 0
+log "$package_name.make.start" 0
 make
-log_auto "$package_name.make.finish" $?
+log "$package_name.make.finish" $?
 
 # test
-log_auto "$package_name.test.start" 0
+log "$package_name.test.start" 0
 make check
 if [[ $? == 0 ]]; then
-    log_auto "$package_name.test.finish" 0
+    log "$package_name.test.finish" 0
 else
 
     # filters fail into log file
@@ -105,31 +105,31 @@ else
     done < $test_log_file
 
     if [[ $skip_fail == true ]]; then
-        log_auto "$package_name.test.fail.allow" 0
-        log_auto "$package_name.test.finish" 0
+        log "$package_name.test.fail.allow" 0
+        log "$package_name.test.finish" 0
     else
-        log_auto "$package_name.test.fail.allow $line_fail" 1
-        log_auto "$package_name.test.finish" 1
+        log "$package_name.test.fail.allow $line_fail" 1
+        log "$package_name.test.finish" 1
     fi
 fi
 
 # prevent warning
 touch /etc/ld.so.conf
-log_auto "/etc/ld.so.conf.create" $?
+log "/etc/ld.so.conf.create" $?
 
 # install
-log_auto "$package_name.install.start" 0
+log "$package_name.install.start" 0
 make install
-log_auto "$package_name.install.finish" $?
+log "$package_name.install.finish" $?
 
 # install configuration file
-log_auto "$package_name.install-conf-file.start" 0
+log "$package_name.install-conf-file.start" 0
 cp -v ../glibc-2.22/nscd/nscd.conf /etc/nscd.conf &&
 mkdir -pv /var/cache/nscd
-log_auto "$package_name.install-conf-file.finish" $?
+log "$package_name.install-conf-file.finish" $?
 
 # install locale
-log_auto "$package_name.install-locale.start" 0
+log "$package_name.install-locale.start" 0
 mkdir -pv /usr/lib/locale
 localedef -i cs_CZ -f UTF-8 cs_CZ.UTF-8
 localedef -i de_DE -f ISO-8859-1 de_DE
@@ -153,26 +153,26 @@ localedef -i ru_RU -f UTF-8 ru_RU.UTF-8
 localedef -i tr_TR -f UTF-8 tr_TR.UTF-8
 localedef -i zh_CN -f GB18030 zh_CN.GB18030
 make localedata/install-locales
-log_auto "$package_name.install-locale.finish" $?
+log "$package_name.install-locale.finish" $?
 
 # create /etc/nsswitch.conf
 cp -vp /lfs-script/asset/nsswitch.conf /etc/nsswitch.conf
-log_auto "/etc/nsswitch.conf.create" $?
+log "/etc/nsswitch.conf.create" $?
 
 # start setup timezone
-log_auto "timezone.setup.start" 0
+log "timezone.setup.start" 0
 
 # verify timezone data
 if [ -f $timezone_file ]; then
-    log_auto "$timezone_file.verify" 0
+    log "$timezone_file.verify" 0
 else
-    log_auto "$timezone_file.verify" 1
+    log "$timezone_file.verify" 1
 fi
 
 # extract timezone data
-log_auto "timezone.extract.start" 0
+log "timezone.extract.start" 0
 tar -vxf $timezone_file
-log_auto "timezone.extract.finish" $?
+log "timezone.extract.finish" $?
 
 # configure timezone
 ZONEINFO=/usr/share/zoneinfo &&
@@ -191,19 +191,19 @@ unset ZONEINFO
 
 # create /etc/localtime
 cp -v /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
-log_auto "/etc/localtime.create" $?
+log "/etc/localtime.create" $?
 
 # finish setup timezone
-log_auto "timezone.setup.finish" $?
+log "timezone.setup.finish" $?
 
 # create /etc/ld.so.conf
 cp /lfs-script/asset/ld.so.conf /etc/ld.so.conf
-log_auto "/etc/ld.so.conf.create" $?
+log "/etc/ld.so.conf.create" $?
 
 # create /etc/ld.so.conf.d
 mkdir -pv /etc/ld.so.conf.d
-log_auto "/etc/ld.so.conf.d.create" $?
+log "/etc/ld.so.conf.d.create" $?
 
 # successfully
-log_auto "$package_name.setup.finish" $?
+log "$package_name.setup.finish" $?
 exit 0

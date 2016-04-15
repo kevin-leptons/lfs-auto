@@ -30,77 +30,77 @@ gmp_source_dir="gmp"
 mpc_source_dir="mpc"
 
 # start
-log_auto "$package_name.setup.start" 0
+log "$package_name.setup.start" 0
 
 # change working directory to sources directory
 cd $root_sources
 
 # gcc.verify
 if [ -f $source_file ]; then
-    log_auto "$package_name:verify" 0
+    log "$package_name:verify" 0
 else
-    log_auto "$package_name:verify" 1
+    log "$package_name:verify" 1
 fi
 
 # gcc.extract
 # and change to source directory
 if [ -d $source_dir ]; then
-    log_auto "$package_name.extract.idle" 0
+    log "$package_name.extract.idle" 0
 else
-    log_auto "$package_name.extract.start" 0
+    log "$package_name.extract.start" 0
     tar -vxf $source_file
-    log_auto "$package_name.extract.finish" $?
+    log "$package_name.extract.finish" $?
 fi
 cd $source_dir
 
 # mpfr.verify
 if [ -f $mpfr_source_file ]; then
-    log_auto "$package_mpfr_name.verify" 0
+    log "$package_mpfr_name.verify" 0
 else
-    log_auto "$package_mpfr_name.verify" 1
+    log "$package_mpfr_name.verify" 1
 fi
 
 # mpfr.extract
 if [ -d $mpfr_source_dir ]; then
-    log_auto "$package_mpfr_name.extract.idle" 0
+    log "$package_mpfr_name.extract.idle" 0
 else
-    log_auto "$package_mpfr_name.extract.start"  0
+    log "$package_mpfr_name.extract.start"  0
     tar -vxf $mpfr_source_file
-    log_auto "$package_mpfr_name.extract.finish" $?
+    log "$package_mpfr_name.extract.finish" $?
     mv -v mpfr-3.1.3 $mpfr_source_dir
 fi
 
 # gmp.verify
 if [ -f $gmp_source_file ]; then
-    log_auto "$package_gmp_name.verify" 0
+    log "$package_gmp_name.verify" 0
 else
-    log_auto "$package_gmp_name.verify" 1
+    log "$package_gmp_name.verify" 1
 fi
 
 # gmp.extract
 if [ -d $gmp_source_dir ]; then
-    log_auto "$package_gmp_name.extract.idle" 0
+    log "$package_gmp_name.extract.idle" 0
 else
-    log_auto "$package_gmp_name.extract.start" 0
+    log "$package_gmp_name.extract.start" 0
     tar -vxf $gmp_source_file
-    log_auto "$package_gmp_name.extract.finish" $?
+    log "$package_gmp_name.extract.finish" $?
     mv -v gmp-6.0.0 $gmp_source_dir
 fi
 
 # mpc.verify
 if [ -f $mpc_source_file ]; then
-    log_auto "$package_mpc_name.verify" 0
+    log "$package_mpc_name.verify" 0
 else
-    log_auto "$package_mpc_name.verify" 1
+    log "$package_mpc_name.verify" 1
 fi
 
 # mpc.extract
 if [ -d $mpc_source_dir ]; then
-    log_auto "$package_mpc_name.extract.idle" 0
+    log "$package_mpc_name.extract.idle" 0
 else
-    log_auto "$package_mpc_name.extract.start" 0
+    log "$package_mpc_name.extract.start" 0
     tar -vxf $mpc_source_file
-    log_auto "$package_mpc_name.extract.finish" $?
+    log "$package_mpc_name.extract.finish" $?
     mv -v mpc-1.0.3 $mpc_source_dir
 fi
 
@@ -125,7 +125,7 @@ mkdir -vp $build_dir
 cd $build_dir
 
 # configure
-log_auto "$package_name.configure.start" 0
+log "$package_name.configure.start" 0
 ../gcc-5.2.0/configure                             \
     --target=$LFS_TGT                              \
     --prefix=/tools                                \
@@ -147,18 +147,18 @@ log_auto "$package_name.configure.start" 0
     --disable-libvtv                               \
     --disable-libstdcxx                            \
     --enable-languages=c,c++
-log_auto "$package_name.configure.finish" $?
+log "$package_name.configure.finish" $?
 
 # build
-log_auto "$package_name.make.start" 0
+log "$package_name.make.start" 0
 make
-log_auto "$package_name.make.finish" $?
+log "$package_name.make.finish" $?
 
 # install
-log_auto "$package_name.install.start" 0
+log "$package_name.install.start" 0
 make install
-log_auto "$package_name.install.finish" $?
+log "$package_name.install.finish" $?
 
 # successfull
-log_auto "$package_name.setup.finish" $?
+log "$package_name.setup.finish" $?
 exit 0

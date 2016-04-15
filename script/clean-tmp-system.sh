@@ -14,10 +14,10 @@ source util.sh
 
 # clean installed tools
 # to avoid error when use wrong tools link from /tools
-log_auto "/tools.rm.start" 0
+log "/tools.rm.start" 0
 sudo rm -rf /tools/*
-log_auto "/tools.rm.finish" $?
+log "/tools.rm.finish" $?
 
 # change ownership of /tools to lfs
 sudo chown lfs:lfs $root_tools
-log_auto "/tools.chown" $?
+log "/tools.chown" $?
