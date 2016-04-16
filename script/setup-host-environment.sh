@@ -199,73 +199,73 @@ fi
 # verify gzip
 gzip_version=$(gzip --version | head -n1 | cut -d" " -f2)
 if version_gt $gzip_version $gzip_version_req; then
-    log "gzip.version.verify $gzip_version_req#$gzip_version" 0
+    log "gzip.version.verify.ok" 0
 else
     verify_ok=false
-    log "gzip.version.verify $gzip_version_req#$gzip_version" 0
+    log "gzip.version.verify.no" 0
 fi
 
 # verify linux kernel
 linux_version=$(cat /proc/version | cut -d" " -f3 | cut -d"-" -f1)
 if version_gt $linux_version $linux_version_req; then
-    log "linux.version.verify $linux_version_req#$linux_version" 0
+    log "linux.version.verify.ok" 0
 else
     verify_ok=false
-    log "linux.version.verify $linux_version_req#$linux_version" 0
+    log "linux.version.verify.no" 0
 fi
 
 # verify m4
 m4_version=$(m4 --version | head -n1 | cut -d" " -f4)
 if version_gt $m4_version $m4_version_req; then
-    log "m4.version.verify $m4_version_req#$m4_version" 0
+    log "m4.version.verify.ok" 0
 else
     verify_ok=false
-    log "m4.version.verify $m4_version_req#$m4_version" 0
+    log "m4.version.verify.no" 0
 fi
 
 # verify make
 make_version=$(make --version | head -n1 | cut -d" " -f3)
 if version_gt $make_version $make_version_req; then
-    log "make.version.verify $make_version_req#$make_version" 0
+    log "make.version.verify.ok" 0
 else
     verify_ok=false
-    log "make.version.verify $make_version_req#$make_version" 0
+    log "make.version.verify.no" 0
 fi
 
 # verify patch
 patch_version=$(patch --version | head -n1 | cut -d" " -f3)
 if version_gt $patch_version $patch_version_req; then
-    log "patch.version.verify $patch_version_req#$patch_version" 0
+    log "patch.version.verify.ok" 0
 else
     verify_ok=false
-    log "patch.version.verify $patch_version_req#$patch_version" 0
+    log "patch.version.verif.no" 0
 fi
 
 # verify perl
 perl_version=$(perl -V:version | cut -d"'" -f2)
 if version_gt $perl_version $perl_version_req; then
-    log "perl.version.verify $perl_version_req#$perl_version" 0
+    log "perl.version.verify.ok" 0
 else
     verify_ok=false
-    log "perl.version.verify $perl_version_req#$perl_version" false
+    log "perl.version.verify.no" false
 fi
 
 # verify sed
 sed_version=$(sed --version | head -n1 | cut -d" " -f4)
 if version_gt $sed_version $sed_version_req; then
-    log "sed.version.verify $sed_version_req#$sed_version" 0
+    log "sed.version.verify.ok" 0
 else
     verify_ok=false
-    log "sed.version.verify $sed_version_req#$sed_version" 0
+    log "sed.version.verify.no" 0
 fi
 
 # verify tar
 tar_version=$(tar --version | head -n1 | cut -d" " -f4)
 if version_gt $tar_version $tar_version_req; then
-    log "tar.version.verify $tar_version_req#$tar_version" 0
+    log "tar.version.verify.ok" 0
 else
     verify_ok=false
-    log "tar.version.verify $tar_version_req#$tar_version" 0
+    log "tar.version.verify.no" 0
 fi
 
 # verify texinfo
