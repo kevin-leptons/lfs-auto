@@ -307,6 +307,7 @@ done
 if [[ $lib_found == 0 || $lib_found == 3 ]]; then
     log "{gmp, mpfr, mpc}.verify.ok" 0
 else
+    verify_ok=false
     log "{gmp, mpfr, mpc}.verify.no" 0
 fi
 unset lib
