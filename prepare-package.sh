@@ -20,7 +20,7 @@ host_packages=( \
 )
 
 # log start
-log "$task_name.start" true
+log "$task_name.start" 0
 
 # install docker-engine repository
 # if docker-engine is not installed
@@ -38,32 +38,20 @@ package_ok=true
 for package in "${host_packages[@]}"; do
 
     if dpkg -s $package > /dev/null 2>&1; then
-        log "$package.verify" true
+        log "$package.verify" 0
     else
 
         # try install package
-        log "$package.install.start" true
+        log "$package.install.start" 0
         sudo apt-get install -y $package
 
         # check error
         # error mean that package is not installed
         # successfull mean that package is avaiable on system
-        if [[ $? != 0 ]]; then
-            package_ok=false
-            log "$package.install.finish" false
-            log "$package.verify" false
-        else
-            log "$package.install.finish" true
-            log "$package.verify" true
-        fi
+        log "$package.install.finish" $?
     fi
 done
 
-# exit
-if [[ $package_ok == true ]]; then
-    log "$task_name.finish" true
-    exit 0
-else
-    log "$task_name.finish" false
-    exit 1
-fi
+# successfull
+log "$task_name.finish 0
+exit 0

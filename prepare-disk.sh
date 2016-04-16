@@ -16,35 +16,24 @@ task_name="lfs-disk"
 lfs_disk_path=$__dir__/disk/$lfs_disk_file
 
 # log start task
-log "$task_name.start" true
+log "$task_name.start" 0
 
 # create directory to store virtual disk
 mkdir -vp $__dir__/disk
 
 # create disk image
-if [ ! -f $lfs_disk_path ]; then
-
+if [ -f $lfs_disk_path ]; then
+    log "lfs-disk.create.idle" 0
+else
     # create disk file
-    log "lfs-disk.create.start" true
+    log "lfs-disk.create.start" 0
     fallocate -l $lfs_disk_size $lfs_disk_path
-    if [[ $? != 0 ]]; then
-        log "lfs-disk.create.finish" false
-        exit 1
-    else
-        log "lfs-disk.create.finish" true
-    fi
+    log "lfs-disk.create.finish" $?
 
     # format disk file
-    log "lfs-disk.format.start" true
+    log "lfs-disk.format.start" 0
     sudo mkfs.ext4 -F $lfs_disk_path
-    if [[ $? != 0 ]]; then
-        log "lfs-disk.format.finish" false
-        exit 1
-    else
-        log "lfs-disk.format.finish" true
-    fi
-else
-    log "lfs-disk.create.idle" true
+    log "lfs-disk.format.finish" $?
 fi
 
 # create mount point
@@ -54,15 +43,9 @@ sudo mkdir -pv $root
 # and exit
 if ! grep -qa $root /proc/mounts; then
     sudo mount -v $lfs_disk_path $root
-fi
-if [[ $? != 0 ]]; then
-    log "lfs-disk.mount" false
-    log "$task_name.finish" false
-    exit 1
-else
-    log "lfs-disk.mount" true
-    log "$task_name.finish" true
-    exit 0
+    log "lfs-disk.mount" $?
 fi
 
 # exit
+log "$task_name.finish" $?
+exit 0

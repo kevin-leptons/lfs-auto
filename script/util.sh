@@ -47,6 +47,9 @@ log() {
     if [[ $2 != 0 ]]; then
         exit 1
     fi
+
+    # successfull
+    return 0
 }
 
 # clear log file

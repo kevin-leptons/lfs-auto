@@ -117,11 +117,10 @@ for package in ${packages[@]}; do
     # call setup instructions
     $build_sysem_dir/$package.sh
 
-    # log and exit if error
-    if [[ $? != 0 ]]; then
-        log "$task_name.setup.finish" 1
-    fi
+    # log setup result
+    log "$package.setup.call" $?
 done
 
 # successfully
 log "$task_name.setup.finish" $?
+exit 0

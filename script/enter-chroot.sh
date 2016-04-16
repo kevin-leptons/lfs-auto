@@ -12,7 +12,7 @@ source util.sh
 task_name="chroot"
 
 # log start
-log "$task_name.start" true
+log "$task_name.start" 0
 
 # create directories onto which the file system will be mounted
 sudo mkdir -pv $LFS/{dev,proc,sys,run}

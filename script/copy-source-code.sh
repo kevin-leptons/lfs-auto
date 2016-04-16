@@ -25,5 +25,5 @@ mkdir -vp /mnt/lfs/sources
 cp -vp /lfs/sources/* /mnt/lfs/sources
 
 # successfully
-log "$task_name.copy.finish" true
+log "$task_name.copy.finish" 0
 exit 0

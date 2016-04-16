@@ -20,41 +20,30 @@ lfs_disk_path="disk/$lfs_disk_file"
 # clear log file
 # and log start run
 clear_log
-log "$task_name.start" true
+log "$task_name.start" 0
 
 # prepare packages
 ./prepare-package.sh
-if [[ $? != 0 ]]; then
-    log "$task_name.finish" false
-    exit 1
-fi
 
-prepare virtual disk
+# prepare virtual disk
 ./prepare-disk.sh
-if [[ $? != 0 ]]; then
-    log "$task_name.finish" false
-    exit 1
-fi
 
 # build container
+log "container.setup.start" 0
 cd container
 docker build -t $docker_name ./
+log "container.setup.finish" $?
 cd ..
 
 # run docker
 # mount hard disk use to build lfs into docker
 # $root:root is mean <host-file-system>:<docker-file-system>
-log "$task_name.docker.start" true
+log "$task_name.docker.start" 0
 docker run -ti --privileged -v $root:$root \
     -v $script_dir:$docker_script_dir $docker_name \
     bash /lfs-script/entry-lfs.sh
-if [[ $? != 0 ]]; then
-    log "$task_name.docker.finish" false
-    log "$task_name.finish" false
-    exit 1
-fi
+log "$task_name.docker.finish" $?
 
 # successfull
-log "$task_name.docker.finish" true
-log "$task_name.finish" true
+log "$task_name.finish" $?
 exit 0

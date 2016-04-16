@@ -14,7 +14,7 @@ mkdir -vp $__dir__/log
 
 # using     : current time by format
 # return    : date time string format by %Y-%m-%d %H:%M:%S
-current_time() {    
+current_time() {
     echo $(date +"%Y-%m-%d %H:%M:%S")
 }
 
@@ -32,25 +32,23 @@ log() {
     # convert result
     result="?"
 
-    if [[ $2 == true ]]; then
+    if [[ $2 == 0 ]]; then
         result="ok"
-    fi
-
-    if [[ $2 == false ]];then
+    else
         result="no"
     fi
 
     # log to file
-    printf "%s\n" "$log_time" >> $log_file
-    printf "%-78s%2s\n\n" "$1" "$result" >> $log_file
+    printf "%s\n" "$log_time" >> "$log_build_file"
+    printf "%-78s%2s\n\n" "$1" "$result" >> "$log_build_file"
 
     # log to console
     printf "%s\n" "$log_time"
     printf "%-78s%2s\n\n" "$1" "$result"
 
-    # check error
-    if [[ $? != 0 ]]; then
-        return 0
+    # exit if error
+    if [[ $2 != 0 ]]; then
+        exit 1
     fi
 
     # successfull

@@ -32,7 +32,7 @@ sudo mkdir -vp tmp
 # log start
 clear_log
 
-log "$task_name.start" true
+log "$task_name.start" 0
 
 # create user
 ./create-build-user.sh
