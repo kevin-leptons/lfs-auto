@@ -21,11 +21,13 @@ log "$task_name.setup.start" 0
 # clean source code and old build
 # to avoid error if old build is exists
 ./clean-build.sh
+exit_on_error
 
 # clean installed tools
 # to avoid error when use wrong tools link from /tools
 # and change ownership to lfs
 ./clean-tmp-system.sh
+exit_on_error
 
 # list all script to build packages
 # each script not contains extension
@@ -71,9 +73,7 @@ for package in ${tool_packages[@]}; do
 
     # call setup script
     $build_temp_system_dir/$package.sh
-
-    # log setup result
-    log "$package.setup.call" $?
+    exit_on_error
 
 done
 

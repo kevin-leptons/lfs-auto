@@ -13,8 +13,8 @@ script_dir="$(readlink -f $__dir__/script)"
 
 # use configuration
 # use util
-source $script_dir/configuration.sh
-source $__dir__/util.sh
+source configuration.sh
+source util.sh
 
 # define variables
 task_name="lfs-auto"
@@ -27,9 +27,11 @@ log "$task_name.start" 0
 
 # prepare packages
 ./prepare-package.sh
+exit_on_error
 
 # prepare virtual disk
 ./prepare-disk.sh
+exit_on_error
 
 # build container
 log "container.setup.start" 0

@@ -33,9 +33,11 @@ log "$task_name.start" 0
 
 # create user
 ./create-build-user.sh
+exit_on_error
 
 # prepare partition
 ./prepare-partition.sh
+exit_on_error
 
 # change ownwership of /mnt/lfs
 chown lfs:lfs -R /mnt/lfs

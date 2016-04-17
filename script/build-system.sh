@@ -19,7 +19,8 @@ task_name="system"
 log "$task_name.setup.start" 0
 
 # clear old build
-./clean-build-system.sh
+./clean-build.sh
+exit_on_error
 
 # list all script to build package in system
 # each script not contains extension
@@ -113,7 +114,7 @@ for package in ${packages[@]}; do
     $build_sysem_dir/$package.sh
 
     # log setup result
-    log "$package.setup.call" $?
+    exit_on_error
 done
 
 # successfully

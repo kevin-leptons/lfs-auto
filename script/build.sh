@@ -6,18 +6,29 @@
 # locate location of this script
 __dir__="$(dirname "$0")"
 
+# use util
+source util.sh
+
 # step 1. check host environment
-$__dir__/setup-host-environment.sh
+./setup-host-environment.sh
+exit_on_error
 
 # step 3. copy sources
-$__dir__/copy-source-code.sh
+./copy-source-code.sh
+exit_on_error
 
 # step 4. build programm as tools what use to build when enter lfs root
-$__dir__/build-tools.sh
+./build-tools.sh
+exit_on_error
+
+# clean old system build before enter system build environment
+./clean-build-system.sh
+exit_on_error
 
 # step 5. build system
-$__dir__/clean-build-system.sh
-$__dir__/enter-chroot.sh
+./enter-chroot.sh
+exit_on_error
 
 # step 6. install boot loader
-# $__dir__/install-boot-loader.sh
+# ./install-boot-loader.sh
+# exit_on_error

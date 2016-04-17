@@ -105,3 +105,12 @@ str_eq() {
     [[ "$1" == "$2" ]]
     echo $?
 }
+
+# exit process when error
+# params:
+#   $1: exit code
+exit_on_error() {
+    if [[ $? != 0 ]]; then
+        exit 1
+    fi
+}
