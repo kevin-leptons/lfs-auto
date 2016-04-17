@@ -23,9 +23,6 @@ log "$task_name.setup.start" 0
 # clear old build
 ./clean-build-system.sh
 
-# clean old system
-./clean-system.sh
-
 # list all script to build package in system
 # each script not contains extension
 packages=( \

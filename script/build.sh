@@ -16,6 +16,7 @@ $__dir__/copy-source-code.sh
 $__dir__/build-tools.sh
 
 # step 5. build system
+$__dir__/clean-build-system.sh
 $__dir__/enter-chroot.sh
 
 # step 6. install boot loader
