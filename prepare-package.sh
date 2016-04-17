@@ -53,5 +53,5 @@ for package in "${host_packages[@]}"; do
 done
 
 # successfull
-log "$task_name.finish 0
+log "$task_name.finish" 0
 exit 0
