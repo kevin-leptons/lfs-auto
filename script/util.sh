@@ -79,4 +79,29 @@ clear_log() {
 #   1: on first version less than second version
 version_gt() {
     test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1";
+    echo $?
+}
+
+# function compare version string
+# params:
+#   $1: first version string
+#   $2: second version string
+# return:
+#   0: on first version less than second version
+#   1: on first version greater than second version
+version_lt() {
+    test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" == "$1";
+    echo $?
+}
+
+# function compare two string
+# params:
+#   $1: first string
+#   $2: second string
+# return:
+#     0: on two string are same
+#     1: on two string are different
+str_eq() {
+    [[ "$1" == "$2" ]]
+    echo $?
 }
