@@ -8,6 +8,9 @@
 __dir__="$(dirname "$0")"
 script_dir="$(readlink -f $__dir__/script)"
 
+# find all bug of bash script
+./find-bug.sh
+
 # use configuration
 # use util
 source $script_dir/configuration.sh
