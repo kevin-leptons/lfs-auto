@@ -15,9 +15,7 @@ source $__dir__/util.sh
 # variables
 task_name="system"
 
-# clear log file
-# and start
-clear_log
+# start
 log "$task_name.setup.start" 0
 
 # clear old build
