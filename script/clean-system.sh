@@ -14,7 +14,7 @@ source util.sh
 
 # remove file system of new system
 cd $root &&
-rm -vrf bin \
+sudo rm -vrf bin \
     boot \
     dev \
     etc \
