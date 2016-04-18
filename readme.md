@@ -2,8 +2,6 @@
 automated build linux from scrapt in docker environemnt. continue update
 document
 
-[![Build Status](https://travis-ci.org/kevin-leptons/lfs-auto.svg?branch=master)](https://travis-ci.org/kevin-leptons/lfs-auto)
-
 # documenation
 
 see [doc directory](./doc)
