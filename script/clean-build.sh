@@ -16,7 +16,7 @@ log "/sources.build-fs.rm.start" 0
 # remove all directory in sources directory
 # that is build directory
 for directory in $root_sources/*/; do
-    sudo rm -vrf $directory
+    rm -vrf $directory
 done
 
 log "/sources.build-fs.rm.finish" $?
