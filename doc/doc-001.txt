@@ -11,6 +11,7 @@ table of contents
     2. target
     3. general architecture
 
+
 1. overview
 
     this document give an design to build an gnu/linux system. it is used
@@ -49,6 +50,7 @@ table of contents
 
     - linux from scratch: contains instructions to build linux from scratch,
       write in shell script
+
 
 4. storage architecture
 
