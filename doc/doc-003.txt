@@ -21,7 +21,7 @@ table of contents
     this document provide instructions to construct step of building to make
     building more efficient
 
-    section 2 introdue targets of this document, section 3 to 5 specify 
+    section 2 introduce targets of this document, section 3 to 5 specify
     targets and solutions
 
 
@@ -49,7 +49,7 @@ table of contents
     on step 3, fix it and rung building from step 1. then they wait building
     into step 3 to see that bugs has fix or not, and continue develop. this
     solution run building on step 1, 2 although only step 3 has changed. see
-    below 
+    below
 
         |---|    |---|    |---|    |---|    |---|
         | 1 |--->| 2 |--->| 3 |--->| 4 |--->| 5 |
@@ -61,7 +61,7 @@ table of contents
           |                 |
            ------------------
 
-    other solution are index step of building by database and only repate 
+    other solution are index step of building by database and only repeat
     building with changed step. that solution reduce time. see below
 
         |---|    |---|    |---|    |---|    |---|
@@ -73,15 +73,15 @@ table of contents
                             |
                             v
                          fix bugs
-        
-    this is theory, in real, step 3 can affected to prev step or itself and
+
+    this is theory, in real, step 3 can affected to step previous or itself and
     indexing step of building is very hard. may be some instructions will be
-    rewrite 
+    rewrite
 
 
-4. make automated building 
+4. make automated building
 
-    automated building mean that give one intruction, building will run and
+    automated building mean that give one instruction, building will run and
     give result. result are executable file, library or report
 
     |---------------|    |--------------------|    |--------|
@@ -91,7 +91,7 @@ table of contents
 
 5. make building which can handle by people
 
-    with assuming same as section 3, step 3 has error. building have 
+    with assuming same as section 3, step 3 has error. building have
     two options
 
         - go to entry of step 3 and transfer control to people
