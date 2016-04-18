@@ -13,7 +13,7 @@ script_dir="$(readlink -f $__dir__/script)"
 
 # use configuration
 # use util
-source configuration.sh
+source $script_dir/configuration.sh
 source util.sh
 
 # define variables
