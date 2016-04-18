@@ -1,0 +1,127 @@
+no          : 001
+title       : step of building
+created     : 2016-04-18
+updated     : 2016-04-18
+author      : kevin.leptons@gmail.com
+
+
+table of contents
+
+    1. overview
+    2. target
+    3. do not repeat building
+    4. make automated building
+    5. make building which can handle by people
+
+
+1. overview
+
+    on 2016-04-18, build time up to 3 hours or more. if one error occur during
+    building, bug must be found and fix, then start building from begin.
+    this document provide instructions to construct step of building to make
+    building more efficient
+
+    section 2 introdue targets of this document, section 3 to 5 specify 
+    targets and solutions
+
+
+2. target
+
+    - do not repeat building
+
+    - make automated building
+
+    - make building which can handle by people
+
+
+3. do not repeat building
+
+    assume that building have five step. completed step is mark with '.' symbol.
+    error step is mark by 'x' symbol and no start step is not mark
+
+        |---|    |---|    |---|    |---|    |---|
+        | 1 |--->| 2 |--->| 3 |--->| 4 |--->| 5 |
+        |---|    |---|    |---|    |---|    |---|
+        | . |    | . |    | x |    |   |    |   |
+        |---|    |---|    |---|    |---|    |---|
+
+    when step 3 has error, building will terminate. developer must find bugs
+    on step 3, fix it and rung building from step 1. then they wait building
+    into step 3 to see that bugs has fix or not, and continue develop. this
+    solution run building on step 1, 2 although only step 3 has changed. see
+    below 
+
+        |---|    |---|    |---|    |---|    |---|
+        | 1 |--->| 2 |--->| 3 |--->| 4 |--->| 5 |
+        |---|    |---|    |---|    |---|    |---|
+        | . |    | . |    | x |    |   |    |   |
+        |---|    |---|    |---|    |---|    |---|
+          ^                 |
+          |              fix bugs
+          |                 |
+           ------------------
+
+    other solution are index step of building by database and only repate 
+    building with changed step. that solution reduce time. see below
+
+        |---|    |---|    |---|    |---|    |---|
+        | 1 |--->| 2 |--->| 3 |--->| 4 |--->| 5 |
+        |---|    |---|    |---|    |---|    |---|
+        | . |    | . |    | x |    |   |    |   |
+        |---|    |---|    |---|    |---|    |---|
+                            ^
+                            |
+                            v
+                         fix bugs
+        
+    this is theory, in real, step 3 can affected to prev step or itself and
+    indexing step of building is very hard. may be some instructions will be
+    rewrite 
+
+
+4. make automated building 
+
+    automated building mean that give one intruction, building will run and
+    give result. result are executable file, library or report
+
+    |---------------|    |--------------------|    |--------|
+    | start command |--->| automated building |--->| result |
+    |---------------|    |--------------------|    |--------|
+
+
+5. make building which can handle by people
+
+    with assuming same as section 3, step 3 has error. building have 
+    two options
+
+        - go to entry of step 3 and transfer control to people
+
+            |---|    |---|    |---|    |---|    |---|
+            | 1 |--->| 2 |--->| 3 |--->| 4 |--->| 5 |
+            |---|    |---|    |---|    |---|    |---|
+            | . |    | . |    | x |    |   |    |   |
+            |---|    |---|    |---|    |---|    |---|
+                                |
+                                v
+                           |---------------|    |------|
+                           | human control |--->| exit |
+                           |---------------|    |------|
+
+        - terminate process. after that, developer can access into starting
+          of step 3 to fix bugs
+
+            |---|    |---|    |---|    |---|    |---|
+            | 1 |--->| 2 |--->| 3 |--->| 4 |--->| 5 |
+            |---|    |---|    |---|    |---|    |---|
+            | . |    | . |    | x |    |   |    |   |
+            |---|    |---|    |---|    |---|    |---|
+                               | ^
+                              /  |
+                             /    \
+                            v      |
+                       |------|  |-----------------------|
+                       | exit |  | access to break point |
+                       |------|  |-----------------------|
+
+
+6. references
