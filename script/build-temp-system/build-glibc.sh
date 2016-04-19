@@ -82,6 +82,7 @@ run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.patch" step_patch
 cd $root_sources
+run_step "$package.build-dir.mkdir" step_build_dir_mkdir
 cd $build_dir
 run_step "$package_name.configure" step_configure
 run_step "$package_name.make" step_build
