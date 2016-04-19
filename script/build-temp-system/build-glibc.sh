@@ -25,7 +25,6 @@ simple_program_dest="/lfs-script/tmp/simple-program"
 # step.verify
 step_verify() {
     [ -f $source_file ]
-    return $?
 }
 
 # step.extract

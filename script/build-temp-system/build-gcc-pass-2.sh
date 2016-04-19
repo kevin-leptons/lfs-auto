@@ -33,7 +33,6 @@ simple_program_dest="/lfs-script/tmp/simple-program"
 # step.gcc.verify
 step_gcc_verify() {
     [ -f $source_file ]
-    return $?
 }
 
 # step.gcc.extract
@@ -62,53 +61,45 @@ step_gcc_linker_change() {
           #define STANDARD_STARTFILE_PREFIX_2 ""' >> $file
        touch $file.orig
     done
-    return $?
 }
 
 # step.mpfr.verify
 step_mpfr_verify() {
     [ -f $mpfr_source_file ]
-    return $?
 }
 
 # step.mpfr.extract
 step_mpfr_extract() {
     tar -vxf $mpfr_source_file
     mv -v mpfr-3.1.3 $mpfr_source_dir
-    return $?
 }
 
 # step.gmp.verify
 step_gmp_verify() {
     [ -f $gmp_source_file ]
-    return $?
 }
 
 # step.gmp.extract
 step_gmp_extract() {
     tar -vxf $gmp_source_file
     mv -v gmp-6.0.0 $gmp_source_dir
-    return $?
 }
 
 # step.mpc.verify
 step_mpc_verify() {
     [ -f $mpc_source_file ]
-    return $?
 }
 
 # step.mpc.extract
 step_mpc_extract() {
     tar -vxf $mpc_source_file
     mv -v mpc-1.0.3 $mpc_source_dir
-    return $?
 }
 
 # step.build-dir.mkdir
 step_build_dir_mkdir() {
     rm -rf $build_dir
     mkdir -vp $build_dir
-    return $?
 }
 
 # configure
@@ -126,25 +117,21 @@ step_configure() {
         --disable-multilib                             \
         --disable-bootstrap                            \
         --disable-libgomp
-    return $?
 }
 
 # step.build
 step_build() {
     make
-    return $?
 }
 
 # step.install
 step_install() {
     make install
-    return $?
 }
 
 # link
 step_link() {
     ln -sv gcc /tools/bin/cc
-    return $?
 }
 
 # test
@@ -152,7 +139,6 @@ step_test() {
     cc "$simple_program_source" -o "$simple_program_dest" &&
     readelf -l "$simple_program_dest" | grep ': /tools' | \
         grep "Requesting program interpreter"
-    return $?
 }
 
 # run

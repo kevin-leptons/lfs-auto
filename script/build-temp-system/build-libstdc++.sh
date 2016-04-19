@@ -22,7 +22,6 @@ build_dir="gcc-build"
 # step.verify
 step_verify() {
     [ -f $source_file ]
-    return $?
 }
 
 # step.extract

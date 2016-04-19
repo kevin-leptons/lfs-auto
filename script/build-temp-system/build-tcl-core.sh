@@ -21,7 +21,6 @@ source_dir="tcl8.6.4"
 # step.verify
 step_verify() {
     [ -f $source_file ]
-    return $?
 }
 
 # step.extract
