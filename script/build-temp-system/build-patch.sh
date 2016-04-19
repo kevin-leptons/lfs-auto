@@ -15,7 +15,7 @@ source $script_dir/util.sh
 
 # variables
 package_name="patch"
-source_file="patch-2.7.5.tar.xz"
+source_file="../patch-2.7.5.tar.xz"
 source_dir="patch-2.7.5"
 
 # step.verify
@@ -53,7 +53,7 @@ cd $root_tmp_sources
 run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir
-run_step "$package_name.extract" step_configure
+run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_build
 run_step "$package_name.text" step_test
 run_step "$package_name.install" step_install
