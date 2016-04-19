@@ -9,73 +9,71 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# variable
+# variables
 package_name="binutils-pass-2"
 source_file="binutils-2.25.1.tar.bz2"
 source_dir="binutils-2.25.1"
 build_dir="binutils-build"
 
-# start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+    return $?
+}
 
-# change working directory to sources directory
-cd $root_sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" $?
-fi
-
-# extract
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
 
-# create and change to build directory
-rm -rf $build_dir
-mkdir -vp $build_dir
+# step.build-dir.mkdir
+step_build_dir_mkdir() {
+    rm -rf $build_dir
+    mkdir -vp $build_dir
+}
+
+# step.configure
+step_configure() {
+    CC=$LFS_TGT-gcc                \
+    AR=$LFS_TGT-ar                 \
+    RANLIB=$LFS_TGT-ranlib         \
+    ../binutils-2.25.1/configure     \
+        --prefix=/tools            \
+        --disable-nls              \
+        --disable-werror           \
+        --with-lib-path=/tools/lib \
+        --with-sysroot
+}
+
+# step.build
+step_build() {
+    make
+}
+
+# step.install
+step_install() {
+    make install
+}
+
+# step.link
+step_link() {
+    make -C ld clean &&
+    make -C ld LIB_PATH=/usr/lib:/lib &&
+    cp -v ld/ld-new /tools/bin
+}
+
+# run
+cd $root_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
+run_step "$package_name.build-dir.mkdir" step_build_dir_mkdir
 cd $build_dir
-
-# configure
-log "$package_name.configure.start" 0
-CC=$LFS_TGT-gcc                \
-AR=$LFS_TGT-ar                 \
-RANLIB=$LFS_TGT-ranlib         \
-../binutils-2.25.1/configure     \
-    --prefix=/tools            \
-    --disable-nls              \
-    --disable-werror           \
-    --with-lib-path=/tools/lib \
-    --with-sysroot
-log "$package_name.configure.finish" $?
-
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
-
-# install
-log "$package_name.install.start" 0
-make install
-log "$package_name.install.finish" $?
-
-# link
-make -C ld clean &&
-make -C ld LIB_PATH=/usr/lib:/lib &&
-cp -v ld/ld-new /tools/bin
-log "$package_name.link" $?
-
-# successfull
-log "$package_name.setup.finish" $?
+run_step "$package_name.configure" step_configure
+run_step "$package_name.make" step_build
+run_step "$package_name.install" step_install
+run_step "$package_name.link" step_link
 exit 0

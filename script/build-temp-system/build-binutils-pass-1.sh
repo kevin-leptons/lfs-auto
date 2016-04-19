@@ -31,7 +31,7 @@ step_extract() {
 }
 
 # step.build-dir.mkdir
-step_create_build_dir() {
+step_build_dir_mkdir() {
     mkdir -vp $build_dir
 }
 
@@ -69,7 +69,7 @@ step_install() {
 cd $root_sources
 run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
-run_step "$package_name.build-dir.mkdir" step_create_build_dir
+run_step "$package_name.build-dir.mkdir" step_build_dir_mkdir
 cd $build_dir
 run_step "$package_name.configure" step_configure
 run_step "$package_name.make" step_make
