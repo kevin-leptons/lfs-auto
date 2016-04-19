@@ -31,7 +31,6 @@ mpc_source_dir="mpc"
 # step.gcc.verify
 step_gcc_verify() {
     [ -f $source_file ]
-    return $?
 }
 
 # step.gcc.extract
@@ -43,7 +42,6 @@ step_gcc_extract() {
 # step.mpfr.verify
 step_mpfr_verify() {
     [ -f $mpfr_source_file ]
-    return $?
 }
 
 # step.mpfr.extract
@@ -55,7 +53,6 @@ step_mpfr_extract() {
 # step.gmp.verify
 step_gmp_verify() {
     [ -f $gmp_source_file ]
-    return $?
 }
 
 # step.gmp.extract
@@ -67,7 +64,6 @@ step_gmp_extract() {
 # step.mpc.verify
 step_mpc_verify() {
     [ -f $mpc_source_file ]
-    return $?
 }
 
 # step.mpc.extract
@@ -91,7 +87,6 @@ step_gcc_linker_change() {
           #define STANDARD_STARTFILE_PREFIX_2 ""' >> $file
        touch $file.orig
     done
-    return $?
 }
 
 # step.build-dir.mkdir
