@@ -28,30 +28,30 @@ step_extract() {
     tar -vxf $source_file
 }
 
-# configure.fix
+# step.configure.fix
 step_configure_fix() {
     cp -v configure{,.orig} &&
     sed 's:/usr/local/bin:/bin:' configure.orig > configure
 }
 
-# configure
+# step.configure
 step_configure() {
     ./configure --prefix=/tools       \
        --with-tcl=/tools/lib \
        --with-tclinclude=/tools/include
 }
 
-# build
+# step.build
 step_build() {
     make
 }
 
-# test
+# step.test
 step_test() {
     make test
 }
 
-# install
+# step.install
 step_install() {
     make SCRIPTS="" install
 }
