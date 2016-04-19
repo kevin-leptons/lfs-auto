@@ -15,10 +15,10 @@ source $script_dir/util.sh
 
 # variables
 package_name="glibc"
-source_file="glibc-2.22.tar.xz"
+source_file="../glibc-2.22.tar.xz"
 source_dir="glibc-2.22"
 build_dir="glibc-build"
-patch_file="../glibc-2.22-upstream_i386_fix-1.patch"
+patch_file="../../glibc-2.22-upstream_i386_fix-1.patch"
 simple_program_source="/lfs-script/asset/simple-program.c"
 simple_program_dest="/lfs-script/tmp/simple-program"
 
@@ -44,7 +44,7 @@ step_build_dir_mkdir() {
 
 # step.configure
 step_configure() {
-    ../glibc-2.22/configure                             \
+    ../$source_dir/configure                             \
           --prefix=/tools                               \
           --host=$LFS_TGT                               \
           --build=$(../glibc-2.22/scripts/config.guess) \
@@ -75,13 +75,13 @@ step_test() {
 }
 
 # run
-cd $root_sources
+cd $root_tmp_sources
 run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.patch" step_patch
-cd $root_sources
-run_step "$package.build-dir.mkdir" step_build_dir_mkdir
+cd $root_tmp_sources
+run_step "$package_name.build-dir.mkdir" step_build_dir_mkdir
 cd $build_dir
 run_step "$package_name.configure" step_configure
 run_step "$package_name.make" step_build

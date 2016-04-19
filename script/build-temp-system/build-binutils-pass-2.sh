@@ -15,9 +15,9 @@ source $script_dir/util.sh
 
 # variables
 package_name="binutils-pass-2"
-source_file="binutils-2.25.1.tar.bz2"
-source_dir="binutils-2.25.1"
-build_dir="binutils-build"
+source_file="../binutils-2.25.1.tar.bz2"
+source_dir="binutils-pass-2"
+build_dir="binutils-pass-2-build"
 
 # step.verify
 step_verify() {
@@ -27,6 +27,7 @@ step_verify() {
 # step.extract
 step_extract() {
     tar -vxf $source_file
+    mv "binutils-2.25.1" $source_dir
 }
 
 # step.build-dir.mkdir
@@ -40,7 +41,7 @@ step_configure() {
     CC=$LFS_TGT-gcc                \
     AR=$LFS_TGT-ar                 \
     RANLIB=$LFS_TGT-ranlib         \
-    ../binutils-2.25.1/configure     \
+    ../$source_dir/configure     \
         --prefix=/tools            \
         --disable-nls              \
         --disable-werror           \
@@ -66,7 +67,7 @@ step_link() {
 }
 
 # run
-cd $root_sources
+cd $root_tmp_sources
 run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 run_step "$package_name.build-dir.mkdir" step_build_dir_mkdir

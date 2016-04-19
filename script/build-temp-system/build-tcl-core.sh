@@ -15,7 +15,7 @@ source $script_dir/util.sh
 
 # variables
 package_name="tcl-core"
-source_file="tcl-core8.6.4-src.tar.gz"
+source_file="../tcl-core8.6.4-src.tar.gz"
 source_dir="tcl8.6.4"
 
 # step.verify
@@ -48,7 +48,6 @@ step_test() {
 step_install() {
     make install
 }
-run_step "$package_name.install" step_install
 
 # step.libtcl.chmod
 step_libtcl_chmod() {
@@ -66,13 +65,14 @@ step_link() {
 }
 
 # run
-cd $root_sources
+cd $root_tmp_sources
 run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_make
 run_step "$package_name.test" step_test
+run_step "$package_name.install" step_install
 run_step "/tools/lib/libtcl8.6.so.chmod" step_libtcl_chmod
 run_step "$package_name.header.install" step_tcl_headers_install
 run_step "$package_name.link" step_link

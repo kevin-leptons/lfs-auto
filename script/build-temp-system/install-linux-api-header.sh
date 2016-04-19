@@ -15,7 +15,7 @@ source $script_dir/util.sh
 
 # variables
 package_name="linux"
-source_file="linux-4.2.tar.xz"
+source_file="../linux-4.2.tar.xz"
 source_dir="linux-4.2"
 
 # step.verify
@@ -40,7 +40,7 @@ step_install() {
 }
 
 # run
-cd $root_sources
+cd $root_tmp_sources
 run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir

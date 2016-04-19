@@ -15,9 +15,9 @@ source $script_dir/util.sh
 
 # variables
 package_name="libstdcc++"
-source_file="gcc-5.2.0.tar.bz2"
-source_dir="gcc-5.2.0"
-build_dir="gcc-build"
+source_file="../gcc-5.2.0.tar.bz2"
+source_dir="libstdc++"
+build_dir="libstdc++-build"
 
 # step.verify
 step_verify() {
@@ -27,6 +27,7 @@ step_verify() {
 # step.extract
 step_extract() {
     tar -vxf $source_file
+    mv "gcc-5.2.0" $source_dir
 }
 
 # step.build-dir.mkdir
@@ -37,7 +38,7 @@ step_build_dir_mkdir() {
 
 # step.configure
 step_configure() {
-    ../gcc-5.2.0/libstdc++-v3/configure \
+    ../$source_dir/libstdc++-v3/configure \
         --host=$LFS_TGT                 \
         --prefix=/tools                 \
         --disable-multilib              \
@@ -58,7 +59,7 @@ step_install() {
 }
 
 # run
-cd $root_sources
+cd $root_tmp_sources
 run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 run_step "$package_name.build-dir.mkdir" step_build_dir_mkdir

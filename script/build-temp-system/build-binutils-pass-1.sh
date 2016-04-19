@@ -16,8 +16,8 @@ source $script_dir/util.sh
 # variables
 package_name="binutils-pass-1"
 source_file="../binutils-2.25.1.tar.bz2"
-source_dir="binutils-2.25.1"
-build_dir="binutils-build"
+source_dir="binutils-pass-1"
+build_dir="binutils-pass-1-build"
 
 # step.verify
 step_verify() {
@@ -27,6 +27,7 @@ step_verify() {
 # step.extract
 step_extract() {
     tar -vxf $source_file
+    mv "binutils-2.25.1" $source_dir
 }
 
 # step.build-dir.mkdir
@@ -36,7 +37,7 @@ step_build_dir_mkdir() {
 
 # step.configure
 step_configure() {
-    ../binutils-2.25.1/configure \
+    ../$source_dir/configure \
         --prefix=/tools \
         --with-sysroot=$LFS \
         --with-lib-path=/tools/lib \

@@ -18,12 +18,12 @@ package_name="gcc-pass-1"
 package_mpfr_name="mpfr"
 package_gmp_name="gmp"
 package_mpc_name="mpc"
-source_file="gcc-5.2.0.tar.bz2"
-source_dir="gcc-5.2.0"
-build_dir="gcc-build"
-mpfr_source_file="../mpfr-3.1.3.tar.xz"
-gmp_source_file="../gmp-6.0.0a.tar.xz"
-mpc_source_file="../mpc-1.0.3.tar.gz"
+source_file="../gcc-5.2.0.tar.bz2"
+source_dir="gcc-pass-1"
+build_dir="gcc-pass-1-build"
+mpfr_source_file="../../mpfr-3.1.3.tar.xz"
+gmp_source_file="../../gmp-6.0.0a.tar.xz"
+mpc_source_file="../../mpc-1.0.3.tar.gz"
 mpfr_source_dir="mpfr"
 gmp_source_dir="gmp"
 mpc_source_dir="mpc"
@@ -37,6 +37,7 @@ step_gcc_verify() {
 # step.gcc.extract
 step_gcc_extract() {
     tar -vxf $source_file
+    mv "gcc-5.2.0" $source_dir
 }
 
 # step.mpfr.verify
@@ -100,7 +101,7 @@ step_build_dir_mkdir() {
 
 # step.configure
 step_configure() {
-    ../gcc-5.2.0/configure                             \
+    ../$source_dir/configure                             \
         --target=$LFS_TGT                              \
         --prefix=/tools                                \
         --with-glibc-version=2.11                      \
@@ -134,18 +135,18 @@ step_install() {
 }
 
 # run
-cd $root_sources
+cd $root_tmp_sources
 run_step "$package_name.verify" step_gcc_verify
 run_step "$package_name.extract" step_gcc_extract
 cd $source_dir
-run_step "$package_mpfr_name.verify" step_mpfr_verify
-run_step "$package_mpfr_name.extract" step_mpfr_extract
-run_step "$package_gmp_name.verify" step_gmp_verify
-run_step "$package_gmp_name.extract" step_gmp_extract
-run_step "$package_mpc_name.verify" step_mpc_verify
-run_step "$package_mpc_name.extract" step_mpc_extract
+run_step "$package_name.$package_mpfr_name.verify" step_mpfr_verify
+run_step "$package_name.$package_mpfr_name.extract" step_mpfr_extract
+run_step "$package_name.$package_gmp_name.verify" step_gmp_verify
+run_step "$package_name.$package_gmp_name.extract" step_gmp_extract
+run_step "$package_name.$package_mpc_name.verify" step_mpc_verify
+run_step "$package_name.$package_mpc_name.extract" step_mpc_extract
 run_step "$package_name.linker.change" step_gcc_linker_change
-cd $root_sources
+cd $root_tmp_sources
 run_step "$package_name.build-dir.mkdir" step_build_dir_mkdir
 cd $build_dir
 run_step "$package_name.configure" step_configure
