@@ -5,12 +5,11 @@
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
 
-# locate location of this script
+# location.locate
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
@@ -20,62 +19,60 @@ source_file="binutils-2.25.1.tar.bz2"
 source_dir="binutils-2.25.1"
 build_dir="binutils-build"
 
-# log start setup
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+    return $?
+}
 
-# change working directory to sources directory
-cd $root_sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
 
-# create and change to build directory
-mkdir -vp $build_dir
-cd $build_dir
+# step.build-dir.mkdir
+step_create_build_dir() {
+    mkdir -vp $build_dir
+    cd $build_dir
+}
 
-# configure
-log "$package_name.configure.start" 0
-../binutils-2.25.1/configure \
-    --prefix=/tools \
-    --with-sysroot=$LFS \
-    --with-lib-path=/tools/lib \
-    --target=$LFS_TGT \
-    --disable-nls \
-    --disable-werror
-log "$package_name.configure.finish" $?
+# step.configure
+step_configure() {
+    ../binutils-2.25.1/configure \
+        --prefix=/tools \
+        --with-sysroot=$LFS \
+        --with-lib-path=/tools/lib \
+        --target=$LFS_TGT \
+        --disable-nls \
+        --disable-werror
+}
 
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
+# step.build
+step_make() {
+    make
+}
 
-# create x64 directory
-case $(uname -m) in
-    x86_64) \
+# step./lib64.mkdir
+step_x64_mkdir() {
+    case $(uname -m) in
+        x86_64)
+            mkdir -vp /tools/lib;
+            ln -vsf lib /tools/lib64;;
+    esac
+}
 
-    mkdir -v /tools/lib;
-    ln -sv lib /tools/lib64;
-    log "$package_name.x64-directory.mkdir" $?;;
-esac
+# step.install
+step_install() {
+    make install
+}
 
-# install
-log "$package_name.install.start" 0
-make install
-log "$package_name.install.finish" $?
-
-# successfull
-log "$package_name.setup.finish" $?
+# run
+cd $root_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
+run_step "$package_name.build-dir.mkdir" step_create_build_dir
+run_step "$package_name.configure" step_configure
+run_step "$package_name.make" step_make
+run_step "$package_name./lib64.mkdir" step_x64_mkdir
+run_step "$package_name.install" step_install
 exit 0

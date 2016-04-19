@@ -52,5 +52,5 @@ chown lfs:lfs -R $__dir__/log
 log "/lfs-script/log.chown" $?
 
 # login into lfs user
-sudo -u $build_user bash login-lfs.sh
-# sudo -u $build_user bash
+# sudo -u $build_user bash login-lfs.sh
+sudo -u $build_user bash

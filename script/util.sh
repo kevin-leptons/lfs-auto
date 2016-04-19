@@ -115,6 +115,15 @@ exit_on_error() {
     fi
 }
 
+# escape string
+# params
+#   $1: string to escape
+# stdout
+#   string escaped
+escape_str() {
+    echo $1 | sed -e 's/[]\/$*.^|[]/\\&/g'
+}
+
 # check state of step of building
 # params
 #   $1: name of step
@@ -132,7 +141,7 @@ step_state() {
     keywork=$(echo $1 | sed -e 's/[]\/$*.^|[]/\\&/g' )
 
     # state of step is idle
-    step_line=$(sed -ne "/$keywork/p" "$log_build_file")
+    step_line=$(sed -ne "/$keywork/p" "$index_step_file")
     if [[ $step_line == '' ]]; then
         echo "idle"
         exit 0
@@ -155,4 +164,57 @@ step_state() {
     # state of step is undefined
     echo '?'
     exit 0
+}
+
+# index state of step
+# params
+#   $1: name of step
+#   $2: 0 is ok, 1 is no
+index_step() {
+
+    # escape string
+    step_name=$(escape_str $1)
+
+    # remove all index is early exists
+    sed -i.old "/^$step_name.*$/d" "$index_step_file"
+
+    # switch state
+    case $2 in
+        0 ) state="ok";;
+        1 ) state="no";;
+        * ) exit;;
+    esac
+
+    # create new index
+    printf "%-78s%2s\n\n" "$1" "$state" >> "$index_step_file"
+}
+
+# run function contains setup instructions
+# params
+#   $1: name of step
+#   $2: name of setup function
+run_step() {
+
+    state=$(step_state "$1")
+
+    if [[ $state == "idle" || $state == "no" ]]; then
+
+        #start
+        log "$1.start" 0
+
+        # call setup function
+        $2
+
+        # index step
+        index_step "$1" $?
+
+        # finish
+        log "$1.finish" $?
+
+    elif [[ $state == "ok" ]]; then
+        log "$1.skip" 0
+    else
+        log "$1.state.undefined" 1
+    fi
+
 }
