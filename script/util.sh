@@ -176,7 +176,7 @@ index_step() {
     step_name=$(escape_str $1)
 
     # remove all index is early exists
-    sed -i.old "/^$step_name.*$/d" "$index_step_file"
+    sed -i "/^$step_name.*$/d" "$index_step_file"
 
     # switch state
     case $2 in

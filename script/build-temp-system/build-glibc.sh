@@ -9,8 +9,7 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
@@ -23,69 +22,69 @@ patch_file="../glibc-2.22-upstream_i386_fix-1.patch"
 simple_program_source="/lfs-script/asset/simple-program.c"
 simple_program_dest="/lfs-script/tmp/simple-program"
 
-# start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+    return $?
+}
 
-# change working directory to sources directory
-cd $root_sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source code directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
+
+# step.patch
+step_patch() {
+    patch -Np1 -i $patch_file
+}
+
+# step.build-dir.mkdir
+step_build_dir_mkdir() {
+    mkdir -vp $build_dir
+}
+
+# step.configure
+step_configure() {
+    ../glibc-2.22/configure                             \
+          --prefix=/tools                               \
+          --host=$LFS_TGT                               \
+          --build=$(../glibc-2.22/scripts/config.guess) \
+          --disable-profile                             \
+          --enable-kernel=2.6.32                        \
+          --enable-obsolete-rpc                         \
+          --with-headers=/tools/include                 \
+          libc_cv_forced_unwind=yes                     \
+          libc_cv_ctors_header=yes                      \
+          libc_cv_c_cleanup=yes
+}
+
+# step.build
+step_build() {
+    make
+}
+
+# step.install
+step_install() {
+    make install
+}
+
+# step.test
+step_test() {
+    $LFS_TGT-gcc "$simple_program_source" -o "$simple_program_dest" &&
+    readelf -l "$simple_program_dest" | grep '\: /tools' | \
+        grep "Requesting program interpreter"
+}
+
+# run
+cd $root_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
 cd $source_dir
-
-# patch
-patch -Np1 -i $patch_file
-log "$package_name.patch" $?
-
-# change to source directory and create build directory
-cd ../
-mkdir -vp $build_dir
+run_step "$package_name.patch" step_patch
+cd $root_sources
 cd $build_dir
-
-# configure
-log "$package_name.configure.start" 0
-../glibc-2.22/configure                             \
-      --prefix=/tools                               \
-      --host=$LFS_TGT                               \
-      --build=$(../glibc-2.22/scripts/config.guess) \
-      --disable-profile                             \
-      --enable-kernel=2.6.32                        \
-      --enable-obsolete-rpc                         \
-      --with-headers=/tools/include                 \
-      libc_cv_forced_unwind=yes                     \
-      libc_cv_ctors_header=yes                      \
-      libc_cv_c_cleanup=yes
-log "$package_name.configure.finish" $?
-
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
-
-# install
-log "$package_name.install.start" 0
-make install
-log "$package_name.install.finish" $?
-
-# test
-$LFS_TGT-gcc "$simple_program_source" -o "$simple_program_dest" &&
-readelf -l "$simple_program_dest" | grep '\: /tools' | \
-    grep "Requesting program interpreter"
-log "$package_name.compile" $?
-
-# successfull
-log "$package_name.setup.finish" $?
+run_step "$package_name.configure" step_configure
+run_step "$package_name.make" step_build
+run_step "$package_name.install" step_install
+run_step "$package_name.test" step_test
 exit 0
