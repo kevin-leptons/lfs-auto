@@ -15,7 +15,7 @@ source $script_dir/util.sh
 
 # variables
 package_name="binutils-pass-1"
-source_file="binutils-2.25.1.tar.bz2"
+source_file="../binutils-2.25.1.tar.bz2"
 source_dir="binutils-2.25.1"
 build_dir="binutils-build"
 
@@ -65,7 +65,7 @@ step_install() {
 }
 
 # run
-cd $root_sources
+cd $root_tmp_sources
 run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 run_step "$package_name.build-dir.mkdir" step_build_dir_mkdir
