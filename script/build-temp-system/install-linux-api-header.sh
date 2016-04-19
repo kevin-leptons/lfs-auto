@@ -27,7 +27,6 @@ step_verify() {
 # step.extract
 step_extract() {
     tar -vxf $source_file
-    cd $source_dir
 }
 
 # step.mrproper
@@ -45,6 +44,7 @@ step_install() {
 cd $root_sources
 run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
+cd $source_dir
 run_step "$package_name.mrproper" step_mrproper
 run_step "$package_name.install" step_install
 exit 0

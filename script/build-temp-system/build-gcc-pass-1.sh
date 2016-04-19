@@ -37,7 +37,6 @@ step_gcc_verify() {
 # step.gcc.extract
 step_gcc_extract() {
     tar -vxf $source_file
-    cd $source_dir
 }
 
 # step.mpfr.verify
@@ -96,9 +95,7 @@ step_gcc_linker_change() {
 
 # step.build-dir.mkdir
 step_build_dir_mkdir() {
-    cd ../
     mkdir -vp $build_dir
-    cd $build_dir
 }
 
 # step.configure
@@ -140,6 +137,7 @@ step_install() {
 cd $root_sources
 run_step "$package_name.verify" step_gcc_verify
 run_step "$package_name.extract" step_gcc_extract
+cd $source_dir
 run_step "$package_mpfr_name.verify" step_mpfr_verify
 run_step "$package_mpfr_name.extract" step_mpfr_extract
 run_step "$package_gmp_name.verify" step_gmp_verify
@@ -147,7 +145,9 @@ run_step "$package_gmp_name.extract" step_gmp_extract
 run_step "$package_mpc_name.verify" step_mpc_verify
 run_step "$package_mpc_name.extract" step_mpc_extract
 run_step "$package_name.linker.change" step_gcc_linker_change
+cd $root_sources
 run_step "$package_name.build-dir.mkdir" step_build_dir_mkdir
+cd $build_dir
 run_step "$package_name.configure" step_configure
 run_step "$package_name.make" step_build
 run_step "$package_name.install" step_install
