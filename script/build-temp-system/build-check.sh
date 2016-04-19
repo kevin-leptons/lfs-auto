@@ -40,7 +40,7 @@ step_build() {
 
 # step.test
 step_test() {
-    make test
+    make check
 }
 
 # install
