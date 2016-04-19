@@ -15,7 +15,7 @@ source $script_dir/util.sh
 
 # variables
 package_name="check"
-source_file="check-0.10.0.tar.gz"
+source_file="../check-0.10.0.tar.gz"
 source_dir="check-0.10.0"
 
 # step.verify
