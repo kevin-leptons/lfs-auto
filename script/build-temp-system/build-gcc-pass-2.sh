@@ -9,8 +9,7 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
@@ -31,145 +30,142 @@ mpc_source_dir="mpc"
 simple_program_source="/lfs-script/asset/simple-program.c"
 simple_program_dest="/lfs-script/tmp/simple-program"
 
-# change working directory to sources directory
-cd $root_sources
+# step.gcc.verify
+step_gcc_verify() {
+    [ -f $source_file ]
+    return $?
+}
 
-# start
-log "$package_name.setup.start" 0
-
-# gcc.verify
-if [ -f $source_file ]; then
-    log "$package_name:verify" 0
-else
-    log "$package_name:verify" 1
-fi
-
-# gcc.extract
-# and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.gcc.extract
+step_gcc_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
-cd $source_dir
+}
 
-# fix limit header
-cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
-   `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/include-fixed/limits.h
-log "$package_name.limit-header.fix" $?
+# step.limit-header.fix
+step_limit_header_fix() {
+    cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
+       `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/include-fixed/limits.h
+}
 
-# change gcc dynamic link to /tools
-for file in \
-   $(find gcc/config -name linux64.h -o -name linux.h -o -name sysv4.h)
-do
-   cp -uv $file{,.orig}
-   sed -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&@g' \
-      -e 's@/usr@/tools@g' $file.orig > $file
-   echo '
-      #undef STANDARD_STARTFILE_PREFIX_1
-      #undef STANDARD_STARTFILE_PREFIX_2
-      #define STANDARD_STARTFILE_PREFIX_1 "/tools/lib/"
-      #define STANDARD_STARTFILE_PREFIX_2 ""' >> $file
-   touch $file.orig
-done
-log "$package_name.gcc-dynamic-link.change-to-tools" $?
+# step.gcc.linker.change
+step_gcc_linker_change() {
+    for file in \
+       $(find gcc/config -name linux64.h -o -name linux.h -o -name sysv4.h)
+    do
+       cp -uv $file{,.orig}
+       sed -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&@g' \
+          -e 's@/usr@/tools@g' $file.orig > $file
+       echo '
+          #undef STANDARD_STARTFILE_PREFIX_1
+          #undef STANDARD_STARTFILE_PREFIX_2
+          #define STANDARD_STARTFILE_PREFIX_1 "/tools/lib/"
+          #define STANDARD_STARTFILE_PREFIX_2 ""' >> $file
+       touch $file.orig
+    done
+    return $?
+}
 
-# mpfr.verify
-if [ -f $mpfr_source_file ]; then
-    log "$package_mpfr_name.verify" 0
-else
-    log "$package_mpfr_name.verify" 1
-fi
+# step.mpfr.verify
+step_mpfr_verify() {
+    [ -f $mpfr_source_file ]
+    return $?
+}
 
-# mpfr.extract
-if [ -d $mpfr_source_dir ]; then
-    log "$package_mpfr_name.extract.idle" 0
-else
-    log "$package_mpfr_name.extract.start" 0
+# step.mpfr.extract
+step_mpfr_extract() {
     tar -vxf $mpfr_source_file
-    log "$package_mpfr_name.extract.finish" $?
     mv -v mpfr-3.1.3 $mpfr_source_dir
-fi
+}
 
-# gmp.verify
-if [ -f $gmp_source_file ]; then
-    log "$package_gmp_name.verify" 0
-else
-    log "$package_gmp_name.verify" 1
-fi
+# step.gmp.verify
+step_gmp_verify() {
+    [ -f $gmp_source_file ]
+    return $?
+}
 
-# gmp.extract
-if [ -d $gmp_source_dir ]; then
-    log "$package_gmp_name.extract.idle" 0
-else
-    log "$package_gmp_name.extract.start" 0
+# step.gmp.extract
+step_gmp_extract() {
     tar -vxf $gmp_source_file
-    log "$package_gmp_name.extract.finish" $?
     mv -v gmp-6.0.0 $gmp_source_dir
-fi
+}
 
-# mpc verify
-if [ -f $mpc_source_file ]; then
-    log "$package_mpc_name.verify" 0
-else
-    log "$package_mpc_name.verify" 1
-fi
+# step.mpc.verify
+step_mpc_verify() {
+    [ -f $mpc_source_file ]
+    return $?
+}
 
-# mpc extract
-if [ -d $mpc_source_dir ]; then
-    log "$package_mpc_name.extract.idle" 0
-else
-    log "$package_mpc_name.extract.start" 0
+# step.mpc.extract
+step_mpc_extract() {
     tar -vxf $mpc_source_file
-    log "$package_mpc_name.extract.finish" $?
-    mv mpc-1.0.3 -v $mpc_source_dir
-fi
+    mv -v mpc-1.0.3 $mpc_source_dir
+}
 
-# create and change to build directory
-cd ../
-rm -rf $build_dir
-mkdir -vp $build_dir
-cd $build_dir
+# step.build-dir.mkdir
+step_build_dir_mkdir() {
+    rm -rf $build_dir
+    mkdir -vp $build_dir
+}
+
 
 # configure
-log "$package_name.configure.start" 0
-CC=$LFS_TGT-gcc                                    \
-CXX=$LFS_TGT-g++                                   \
-AR=$LFS_TGT-ar                                     \
-RANLIB=$LFS_TGT-ranlib                             \
-../gcc-5.2.0/configure                             \
-    --prefix=/tools                                \
-    --with-local-prefix=/tools                     \
-    --with-native-system-header-dir=/tools/include \
-    --enable-languages=c,c++                       \
-    --disable-libstdcxx-pch                        \
-    --disable-multilib                             \
-    --disable-bootstrap                            \
-    --disable-libgomp
-log "$package_name.configure.finish" $?
+step_configure() {
+    CC=$LFS_TGT-gcc                                    \
+    CXX=$LFS_TGT-g++                                   \
+    AR=$LFS_TGT-ar                                     \
+    RANLIB=$LFS_TGT-ranlib                             \
+    ../gcc-5.2.0/configure                             \
+        --prefix=/tools                                \
+        --with-local-prefix=/tools                     \
+        --with-native-system-header-dir=/tools/include \
+        --enable-languages=c,c++                       \
+        --disable-libstdcxx-pch                        \
+        --disable-multilib                             \
+        --disable-bootstrap                            \
+        --disable-libgomp
+}
 
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
+# step.build
+step_build() {
+    make
+}
 
-# install
-log "$package_name.install.start" 0
-make install
-log "$package_name.install.finish" $?
+# step.install
+step_install() {
+    make install
+}
 
 # link
-ln -sv gcc /tools/bin/cc
-log "$package_name.link" $?
+step_link() {
+    ln -sv gcc /tools/bin/cc
+}
 
 # test
-cc "$simple_program_source" -o "$simple_program_dest" &&
-readelf -l "$simple_program_dest" | grep ': /tools' | \
-    grep "Requesting program interpreter"
-log "$package_name.compile" $?
+step_test() {
+    cc "$simple_program_source" -o "$simple_program_dest" &&
+    readelf -l "$simple_program_dest" | grep ': /tools' | \
+        grep "Requesting program interpreter"
+}
 
-# successfull
-log "$package_name.setup.finish" $?
+# run
+cd $root_sources
+run_step "$package_name.verify" step_gcc_verify
+run_step "$package_name.extract" step_gcc_extract
+cd $source_dir
+run_step "$package_name.limit-header.fix" step_limit_header_fix
+run_step "$package_name.linker.change" step_gcc_linker_change
+run_step "$package_mpfr_name.verify" step_mpfr_verify
+run_step "$package_mpfr_name.extract" step_mpfr_extract
+run_step "$package_gmp_name.verify" step_gmp_verify
+run_step "$package_gmp_name.extract" step_gmp_extract
+run_step "$package_mpc_name.verify" step_mpc_verify
+run_step "$package_mpc_name.extract" step_mpc_extract
+cd $root_sources
+run_step "$package_name.build-dir.mkdir" step_build_dir_mkdir
+cd $build_dir
+run_step "$package_name.configure" step_configure
+run_step "$package_name.build" step_build
+run_step "$package_name.install" step_install
+run_step "$package_name.link" step_link
+run_step "$package_name.test" step_test
 exit 0
