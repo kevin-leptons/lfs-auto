@@ -15,7 +15,7 @@ source $script_dir/util.sh
 
 # variables
 package_name="dejagnu"
-source_file="dejagnu-1.5.3.tar.gz"
+source_file="../dejagnu-1.5.3.tar.gz"
 source_dir="dejagnu-1.5.3"
 
 # step.verify
