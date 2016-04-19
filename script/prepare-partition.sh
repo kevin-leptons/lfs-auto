@@ -32,6 +32,13 @@ log "$root_tools.link" $?
 sudo chown -R $build_user_group:$build_user $root /tools
 log "$root_tools.chown" $?
 
+# create build directories
+mkdir -vp $root_tmp_sources
+mkdir -vp $root_system_sources
+sudo chown -R $build_user_group:$build_user \
+    $root_tmp_sources $root_system_sources
+log "build-dir.mkdir" $?
+
 # successfully
 log "$task_name.finish" $?
 exit 0

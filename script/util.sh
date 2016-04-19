@@ -141,7 +141,7 @@ step_state() {
     keywork=$(echo $1 | sed -e 's/[]\/$*.^|[]/\\&/g' )
 
     # state of step is idle
-    step_line=$(sed -ne "/$keywork/p" "$index_step_file")
+    step_line=$(sed -ne "/$keywork\s/p" "$index_step_file")
     if [[ $step_line == '' ]]; then
         echo "idle"
         exit 0
@@ -205,11 +205,14 @@ run_step() {
         # call setup function
         $2
 
+        # store exit code
+        exit_code=$?
+
         # index step
-        index_step "$1" $?
+        index_step "$1" $exit_code
 
         # finish
-        log "$1.finish" $?
+        log "$1.finish" $exit_code
 
     elif [[ $state == "ok" ]]; then
         log "$1.skip" 0

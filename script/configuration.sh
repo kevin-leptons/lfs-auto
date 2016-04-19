@@ -31,6 +31,8 @@ root="/mnt/lfs"
 # source code will download from internet by wget program and wget-list file
 # wget-list file contains list of source code file to download
 root_sources="$root/sources"
+root_tmp_sources="$root_sources/tmp-build"
+root_system_sources="$root_sources/system-build"
 
 # directory store tools to build some packages
 root_tools="$root/tools"

@@ -18,12 +18,12 @@ package_name="gcc-pass-2"
 package_mpfr_name="mpfr"
 package_gmp_name="gmp"
 package_mpc_name="mpc"
-source_file="gcc-5.2.0.tar.bz2"
+source_file="../gcc-5.2.0.tar.bz2"
 source_dir="gcc-5.2.0"
 build_dir="gcc-build"
-mpfr_source_file="../mpfr-3.1.3.tar.xz"
-gmp_source_file="../gmp-6.0.0a.tar.xz"
-mpc_source_file="../mpc-1.0.3.tar.gz"
+mpfr_source_file="../../mpfr-3.1.3.tar.xz"
+gmp_source_file="../../gmp-6.0.0a.tar.xz"
+mpc_source_file="../../mpc-1.0.3.tar.gz"
 mpfr_source_dir="mpfr"
 gmp_source_dir="gmp"
 mpc_source_dir="mpc"
@@ -75,6 +75,7 @@ step_mpfr_verify() {
 step_mpfr_extract() {
     tar -vxf $mpfr_source_file
     mv -v mpfr-3.1.3 $mpfr_source_dir
+    return $?
 }
 
 # step.gmp.verify
@@ -87,6 +88,7 @@ step_gmp_verify() {
 step_gmp_extract() {
     tar -vxf $gmp_source_file
     mv -v gmp-6.0.0 $gmp_source_dir
+    return $?
 }
 
 # step.mpc.verify
@@ -99,14 +101,15 @@ step_mpc_verify() {
 step_mpc_extract() {
     tar -vxf $mpc_source_file
     mv -v mpc-1.0.3 $mpc_source_dir
+    return $?
 }
 
 # step.build-dir.mkdir
 step_build_dir_mkdir() {
     rm -rf $build_dir
     mkdir -vp $build_dir
+    return $?
 }
-
 
 # configure
 step_configure() {
@@ -123,21 +126,25 @@ step_configure() {
         --disable-multilib                             \
         --disable-bootstrap                            \
         --disable-libgomp
+    return $?
 }
 
 # step.build
 step_build() {
     make
+    return $?
 }
 
 # step.install
 step_install() {
     make install
+    return $?
 }
 
 # link
 step_link() {
     ln -sv gcc /tools/bin/cc
+    return $?
 }
 
 # test
@@ -145,10 +152,11 @@ step_test() {
     cc "$simple_program_source" -o "$simple_program_dest" &&
     readelf -l "$simple_program_dest" | grep ': /tools' | \
         grep "Requesting program interpreter"
+    return $?
 }
 
 # run
-cd $root_sources
+cd $root_tmp_sources
 run_step "$package_name.verify" step_gcc_verify
 run_step "$package_name.extract" step_gcc_extract
 cd $source_dir
@@ -160,7 +168,7 @@ run_step "$package_gmp_name.verify" step_gmp_verify
 run_step "$package_gmp_name.extract" step_gmp_extract
 run_step "$package_mpc_name.verify" step_mpc_verify
 run_step "$package_mpc_name.extract" step_mpc_extract
-cd $root_sources
+cd $root_tmp_sources
 run_step "$package_name.build-dir.mkdir" step_build_dir_mkdir
 cd $build_dir
 run_step "$package_name.configure" step_configure
