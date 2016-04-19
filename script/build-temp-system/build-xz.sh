@@ -9,60 +9,53 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
+# variables
 package_name="xz"
-source_file="xz-5.2.1.tar.xz"
+source_file="../xz-5.2.1.tar.xz"
 source_dir="xz-5.2.1"
 
-# start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# change working directory to sources directory
-cd $root_sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
+
+
+# step.configure
+step_configure() {
+    ./configure --prefix=/tools
+}
+
+# step.build
+step_build() {
+    make
+}
+
+# step.test
+step_test() {
+    make check
+}
+
+# step.install
+step_install() {
+    make install
+}
+
+# run
+cd $root_tmp_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extra" step_extract
 cd $source_dir
-
-
-# configure
-log "$package_name.configure.start" 0
-./configure --prefix=/tools
-log "$package_name.configure.start" 0
-
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
-
-# test
-log "$package_name.test.start" 0
-make check
-log "$package_name.test.finish" $?
-
-# install
-log "$package_name.install.start" 0
-make install
-log "$package_name.install.finish" $?
-
-# successfull
-log "$package_name.setup.finish" 0
+run_step "$package_name.configure" step_configure
+run_step "$package_name.build" step_build
+run_step "$package_name.test" step_test
+run_step "$package_name.install" step_install
 exit 0
