@@ -35,6 +35,8 @@ step_configure() {
 
 # step.build
 step_build() {
+
+    pwd
     make -C gnulib-lib &&
     make -C intl pluralx.c &&
     make -C src msgfmt &&
@@ -51,7 +53,7 @@ step_install() {
 cd $root_tmp_sources
 run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
-cd $source_dir
+cd "$source_dir/gettext-tools"
 run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_build
 run_step "$package_name.install" step_install
