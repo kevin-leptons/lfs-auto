@@ -18,11 +18,6 @@ task_name="temp-system"
 # log start build temp system
 log "$task_name.setup.start" 0
 
-# clean source code and old build
-# to avoid error if old build is exists
-./clean-build.sh
-exit_on_error
-
 # clean installed tools
 # to avoid error when use wrong tools link from /tools
 # and change ownership to lfs
