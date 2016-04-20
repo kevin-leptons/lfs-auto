@@ -9,53 +9,47 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="sysvinit"
-source_file="sysvinit-2.88dsf.tar.bz2"
+package_name="sys.sysvinit"
+source_file="../sysvinit-2.88dsf.tar.bz2"
+patch_file="../../sysvinit-2.88dsf-consolidated-1.patch"
 source_dir="sysvinit-2.88dsf"
 
-# log start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# change working directory to sources directory
-cd /sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
+
+# step.patch
+step_patch() {
+    patch -Np1 -i $patch_file
+}
+
+# step.build
+step_build() {
+    make -C src
+}
+
+# step.install
+step_install() {
+    make -C src install
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
 cd $source_dir
-
-# patch
-patch -Np1 -i ../sysvinit-2.88dsf-consolidated-1.patch
-log "$package_name.patch" $?
-
-# build
-log "$package_name.make.start" 0
-make -C src
-log "$package_name.make.finish" $?
-
-# install
-log "$package_name.install.start" 0
-make -C src install
-log "$package_name.install.finish" $?
-
-# successfully
-log "$package_name.setup.finish" $?
+run_step "$package_name.patch" step_patch
+run_step "$package_name.build" step_build
+run_step "$package_name.install" step_install
 exit 0

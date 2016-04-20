@@ -9,57 +9,52 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="sysklogd"
-source_file="sysklogd-1.5.1.tar.gz"
+package_name="sys.sysklogd"
+source_file="../sysklogd-1.5.1.tar.gz"
 source_dir="sysklogd-1.5.1"
 
-# log start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# change working directory to sources directory
-cd /sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
+
+# step.ksym_mod.c.fix
+step_ksym_mod_c_fix() {
+    sed -i '/Error loading kernel symbols/{n;n;d}' ksym_mod.c
+}
+
+# step.build
+step_build() {
+    make
+}
+
+# step.install
+step_install() {
+    make BINDIR=/sbin install
+}
+
+# step./etc/syslog.conf.cp
+step_syslog_conf_cp() {
+    cp -vp /lfs-script/asset/syslog.conf /etc/syslog.conf
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
 cd $source_dir
-
-# fix a problem that causes a segmentation fault
-sed -i '/Error loading kernel symbols/{n;n;d}' ksym_mod.c
-log "$package_name.segmentation-fault.fix" $?
-
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
-
-# install
-log "$package_name.install.start" 0
-make BINDIR=/sbin install
-log "$package_name.install.finish" $?
-
-# create /etc/syslog.conf
-cp -vp /lfs-script/asset/syslog.conf /etc/syslog.conf
-log "/etc/syslog.conf.create" $?
-
-# successfully
-log "$package_name.setup.finish" $?
+run_step "$package_name.ksym-mod.c.fix" step_ksym_mod_c_fix
+run_step "$package_name.build" step_build
+run_step "$package_name.install" step_install
+run_step "$package_name.syslog.conf.cp" step_syslog_conf_cp
 exit 0

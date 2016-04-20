@@ -9,55 +9,48 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="iproute"
-source_file="iproute2-4.2.0.tar.xz"
+package_name="sys.iproute"
+source_file="../iproute2-4.2.0.tar.xz"
 source_dir="iproute2-4.2.0"
 
-# log start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# change working directory to sources directory
-cd /sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
+
+# step.makefile.edit
+step_makefile_edit() {
+    sed -i '/^TARGETS/s@arpd@@g' misc/Makefile &&
+    sed -i /ARPD/d Makefile &&
+    sed -i 's/arpd.8//' man/man8/Makefile
+}
+
+# step.build
+step_build( {
+    make
+}
+
+# step.install
+step_install() {
+    make DOCDIR=/usr/share/doc/iproute2-4.2.0 install
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
 cd $source_dir
-
-# prepare
-sed -i '/^TARGETS/s@arpd@@g' misc/Makefile &&
-sed -i /ARPD/d Makefile &&
-sed -i 's/arpd.8//' man/man8/Makefile
-log "$package_name.prepare" $?
-
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
-
-# install
-log "$package_name.install.start" 0
-make DOCDIR=/usr/share/doc/iproute2-4.2.0 install
-log "$package_name.install.finish" $?
-
-# successfully
-log "$package_name.setup.finish" $?
+run_step "$package_mpc_name.makefile.edit" step_makefile_edit
+run_step "$package_name.build" step_build
+run_step "$package_name.install" step_install
 exit 0

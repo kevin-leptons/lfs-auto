@@ -9,60 +9,55 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-
 # variables
-package_name="tar"
-source_file="tar-1.28.tar.xz"
+package_name="sys.tar"
+source_file="../tar-1.28.tar.xz"
 source_dir="tar-1.28"
 
-# change working directory to sources directory
-cd /sources
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
+
+# step.configure
+step_configure() {
+    FORCE_UNSAFE_CONFIGURE=1  \
+    ./configure --prefix=/usr \
+       --bindir=/bin
+}
+
+# step.build
+step_build() {
+    make
+}
+
+# step.test
+step_test() {
+    make check
+}
+
+# step.install
+step_install() {
+    make install &&
+    make -C doc install-html docdir=/usr/share/doc/tar-1.28
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
 cd $source_dir
-
-# configure
-log "$package_name.configure.start" 0
-FORCE_UNSAFE_CONFIGURE=1  \
-./configure --prefix=/usr \
-   --bindir=/bin
-log "$package_name.configure.finish" $?
-
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
-
-# test
-log "$package_name.test.start" 0
-make check
-log "$package_name.test.finish" $?
-
-# install
-log "$package_name.install.start" 0
-make install &&
-make -C doc install-html docdir=/usr/share/doc/tar-1.28
-log "$package_name.install.finish" $?
-
-# successfully
-log "$package_name.setup.finish" $?
+run_step "$package_name.configure" step_configure
+run_step "$package_name.build" step_build
+run_step "$package_name.test" step_test
+run_step "$package_name.install" step_install
 exit 0

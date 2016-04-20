@@ -20,6 +20,8 @@ source_dir="gcc-5.2.0"
 build_dir="gcc-build"
 test_log_file="/lfs-script/log/gcc.test.log"
 compile_log_file="/lfs-script/log/compile.log"
+simple_program_source="/lfs-script/asset/simple-program.c"
+simple_program_dest="/lfs-script/tmp/simple-program"
 
 # step.verify
 step_verify() {
@@ -129,7 +131,7 @@ run_step "$package_name.make" step_build
 run_step "$package_name.test" step_test
 run_step "$package_name.install" step_install
 run_step "$package_name.link" step_link
-run_step "$package.cc.compile" step_cc_compile
+run_step "$package_name.cc.compile" step_cc_compile
 run_step "$package_name./usr/lib/.verify" step_usr_lib_verify
 run_step "$package_name./usr/include/.verify" step_usr_include_verify
 run_step "$package.linker.verify" step_linker_verify
