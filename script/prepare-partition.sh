@@ -34,9 +34,9 @@ log "$root_tools.chown" $?
 
 # create build directories
 mkdir -vp $root_tmp_sources
-mkdir -vp $root_system_sources
+mkdir -vp "$root_sources/system-build"
 sudo chown -R $build_user_group:$build_user \
-    $root_tmp_sources $root_system_sources
+    $root_tmp_sources "$root_sources/system-build"
 log "build-dir.mkdir" $?
 
 # crea index file

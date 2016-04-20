@@ -20,9 +20,9 @@ task_name="lfs-source"
 # log start
 log "$task_name.copy.start" 0
 
-# copy sources from /lfs/sources
+# copy sources from /sources to /mnt/lfs/sources
 mkdir -vp /mnt/lfs/sources
-cp -vp /lfs/sources/* /mnt/lfs/sources
+cp -vpn /lfs/sources/* /mnt/lfs/sources
 
 # successfully
 log "$task_name.copy.finish" 0

@@ -49,6 +49,9 @@ docker run -ti --privileged -v $root:$root \
     bash /lfs-script/entry-lfs.sh
 log "$task_name.docker.finish" $?
 
+# release disk
+sudo umount /mnt/lfs
+
 # successfull
 log "$task_name.finish" $?
 exit 0

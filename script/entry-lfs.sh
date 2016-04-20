@@ -39,6 +39,9 @@ exit_on_error
 ./prepare-partition.sh
 exit_on_error
 
+# copy sources
+./copy-source-code.sh
+
 # change ownwership of /mnt/lfs
 chown lfs:lfs -R /mnt/lfs
 log "/mnt/lfs.chown" $?
