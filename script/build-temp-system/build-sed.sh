@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="sed"
+package_name="tmp.sed"
 source_file="../sed-4.2.2.tar.bz2"
 source_dir="sed-4.2.2"
 

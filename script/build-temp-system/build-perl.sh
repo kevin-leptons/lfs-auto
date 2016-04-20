@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="perl"
+package_name="tmp.perl"
 source_file="../perl-5.22.0.tar.bz2"
 source_dir="perl-5.22.0"
 

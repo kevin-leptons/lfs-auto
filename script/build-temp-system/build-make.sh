@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="make"
+package_name="tmp.make"
 source_file="../make-4.1.tar.bz2"
 source_dir="make-4.1"
 

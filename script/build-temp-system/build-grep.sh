@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="grep"
+package_name="tmp.grep"
 source_file="../grep-2.21.tar.xz"
 source_dir="grep-2.21"
 

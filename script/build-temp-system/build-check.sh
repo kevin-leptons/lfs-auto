@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="check"
+package_name="tmp.check"
 source_file="../check-0.10.0.tar.gz"
 source_dir="check-0.10.0"
 

@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="gawk"
+package_name="tmp.gawk"
 source_file="../gawk-4.1.3.tar.xz"
 source_dir="gawk-4.1.3"
 

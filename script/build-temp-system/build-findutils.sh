@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="findutils"
+package_name="tmp.findutils"
 source_file="../findutils-4.4.2.tar.gz"
 source_dir="findutils-4.4.2"
 

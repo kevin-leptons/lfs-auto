@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="tcl-core"
+package_name="tmp.tcl-core"
 source_file="../tcl-core8.6.4-src.tar.gz"
 source_dir="tcl8.6.4"
 

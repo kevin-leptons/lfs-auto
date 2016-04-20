@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="m4"
+package_name="tmp.m4"
 source_file="../m4-1.4.17.tar.xz"
 source_dir="m4-1.4.17"
 

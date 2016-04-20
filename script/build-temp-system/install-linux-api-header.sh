@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="linux"
+package_name="tmp.linux"
 source_file="../linux-4.2.tar.xz"
 source_dir="linux-4.2"
 

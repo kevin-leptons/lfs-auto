@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="ncurses"
+package_name="tmp.ncurses"
 source_file="../ncurses-6.0.tar.gz"
 source_dir="ncurses-6.0"
 

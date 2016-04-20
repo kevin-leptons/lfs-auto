@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="util-linux"
+package_name="tmp.util-linux"
 source_file="../util-linux-2.27.tar.xz"
 source_dir="util-linux-2.27"
 

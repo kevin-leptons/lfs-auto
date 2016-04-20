@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="glibc"
+package_name="tmp.glibc"
 source_file="../glibc-2.22.tar.xz"
 source_dir="glibc-2.22"
 build_dir="glibc-build"

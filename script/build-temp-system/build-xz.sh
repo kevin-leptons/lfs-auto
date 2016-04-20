@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="xz"
+package_name="tmp.xz"
 source_file="../xz-5.2.1.tar.xz"
 source_dir="xz-5.2.1"
 

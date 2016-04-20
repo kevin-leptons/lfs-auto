@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="bzip2"
+package_name="tmp.bzip2"
 source_file="../bzip2-1.0.6.tar.gz"
 source_dir="bzip2-1.0.6"
 

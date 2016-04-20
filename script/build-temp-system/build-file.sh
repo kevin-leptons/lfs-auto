@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="file"
+package_name="tmp.file"
 source_file="../file-5.24.tar.gz"
 source_dir="file-5.24"
 

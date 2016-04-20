@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="expect"
+package_name="tmp.expect"
 source_file="../expect5.45.tar.gz"
 source_dir="expect5.45"
 

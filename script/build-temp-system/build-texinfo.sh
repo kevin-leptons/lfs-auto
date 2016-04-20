@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="texinfo"
+package_name="tmp.texinfo"
 source_file="../texinfo-6.0.tar.xz"
 source_dir="texinfo-6.0"
 

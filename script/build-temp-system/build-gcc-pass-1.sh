@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="gcc-pass-1"
+package_name="tmp.gcc-pass-1"
 package_mpfr_name="mpfr"
 package_gmp_name="gmp"
 package_mpc_name="mpc"

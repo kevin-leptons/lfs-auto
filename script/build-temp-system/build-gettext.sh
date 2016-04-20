@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="gettext"
+package_name="tmp.gettext"
 source_file="../gettext-0.19.5.1.tar.xz"
 source_dir="gettext-0.19.5.1"
 

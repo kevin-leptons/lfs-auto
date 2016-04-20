@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="gzip"
+package_name="tmp.gzip"
 source_file="../gzip-1.6.tar.xz"
 source_dir="gzip-1.6"
 

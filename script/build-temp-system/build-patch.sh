@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="patch"
+package_name="tmp.patch"
 source_file="../patch-2.7.5.tar.xz"
 source_dir="patch-2.7.5"
 

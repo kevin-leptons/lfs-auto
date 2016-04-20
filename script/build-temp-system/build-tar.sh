@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="tar"
+package_name="tmp.tar"
 source_file="../tar-1.28.tar.xz"
 source_dir="tar-1.28"
 

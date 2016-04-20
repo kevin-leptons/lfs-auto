@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # define variables
-package_name="diffutils"
+package_name="tmp.diffutils"
 source_file="../diffutils-3.3.tar.xz"
 source_dir="diffutils-3.3"
 

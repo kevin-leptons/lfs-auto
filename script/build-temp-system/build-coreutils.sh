@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="coreutils"
+package_name="tmp.coreutils"
 source_file="../coreutils-8.24.tar.xz"
 source_dir="coreutils-8.24"
 

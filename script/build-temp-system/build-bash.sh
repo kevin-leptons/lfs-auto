@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="bash"
+package_name="tmp.bash"
 source_file="../bash-4.3.30.tar.gz"
 source_dir="bash-4.3.30"
 

@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="binutils-pass-2"
+package_name="tmp.binutils-pass-2"
 source_file="../binutils-2.25.1.tar.bz2"
 source_dir="binutils-pass-2"
 build_dir="binutils-pass-2-build"
