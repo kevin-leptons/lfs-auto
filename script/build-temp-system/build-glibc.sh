@@ -47,7 +47,7 @@ step_configure() {
     ../$source_dir/configure                             \
           --prefix=/tools                               \
           --host=$LFS_TGT                               \
-          --build=$(../glibc-2.22/scripts/config.guess) \
+          --build=$(../$source_dir/scripts/config.guess) \
           --disable-profile                             \
           --enable-kernel=2.6.32                        \
           --enable-obsolete-rpc                         \
@@ -87,4 +87,5 @@ run_step "$package_name.configure" step_configure
 run_step "$package_name.make" step_build
 run_step "$package_name.install" step_install
 run_step "$package_name.test" step_test
+rm -v $simple_program_dest
 exit 0

@@ -72,7 +72,7 @@ step_mpfr_verify() {
 # step.mpfr.extract
 step_mpfr_extract() {
     tar -vxf $mpfr_source_file
-    mv -v mpfr-3.1.3 $mpfr_source_dir
+    mv -v "mpfr-3.1.3" $mpfr_source_dir
 }
 
 # step.gmp.verify
@@ -83,7 +83,7 @@ step_gmp_verify() {
 # step.gmp.extract
 step_gmp_extract() {
     tar -vxf $gmp_source_file
-    mv -v gmp-6.0.0 $gmp_source_dir
+    mv -v "gmp-6.0.0" $gmp_source_dir
 }
 
 # step.mpc.verify
@@ -94,12 +94,11 @@ step_mpc_verify() {
 # step.mpc.extract
 step_mpc_extract() {
     tar -vxf $mpc_source_file
-    mv -v mpc-1.0.3 $mpc_source_dir
+    mv -v "mpc-1.0.3" $mpc_source_dir
 }
 
 # step.build-dir.mkdir
 step_build_dir_mkdir() {
-    rm -rf $build_dir
     mkdir -vp $build_dir
 }
 

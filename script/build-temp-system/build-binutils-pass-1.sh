@@ -55,7 +55,7 @@ step_make() {
 step_x64_mkdir() {
     case $(uname -m) in
         x86_64)
-            mkdir -vp /tools/lib;
+            mkdir -vp /tools/lib
             ln -vsf lib /tools/lib64;;
     esac
 }

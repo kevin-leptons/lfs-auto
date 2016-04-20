@@ -32,7 +32,6 @@ step_extract() {
 
 # step.build-dir.mkdir
 step_build_dir_mkdir() {
-    rm -rf $build_dir
     mkdir -vp $build_dir
 }
 

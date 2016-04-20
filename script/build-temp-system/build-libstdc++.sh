@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="tmp.libstdcc++"
+package_name="tmp.libstdc++"
 source_file="../gcc-5.2.0.tar.bz2"
 source_dir="libstdc++"
 build_dir="libstdc++-build"
@@ -32,7 +32,6 @@ step_extract() {
 
 # step.build-dir.mkdir
 step_build_dir_mkdir() {
-    rm -rf $build_dir
     mkdir -vp $build_dir
 }
 
