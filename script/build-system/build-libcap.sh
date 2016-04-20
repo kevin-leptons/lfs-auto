@@ -9,59 +9,54 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
+# variables
 package_name="libcap"
 source_file="libcap-2.24.tar.xz"
 source_dir="libcap-2.24"
 
-# log start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# change working directory to sources directory
-cd /sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
-cd $source_dir
+}
 
-# prevent a static library
-sed -i '/install.*STALIBNAME/d' libcap/Makefile
-log "$package_name.static-lib.prevent" $?
+# step.static-lib.prevent
+step_static_lib_prevent() {
+    sed -i '/install.*STALIBNAME/d' libcap/Makefile
+}
 
 # build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
+step_build() {
+    make
+}
+run_step "$package_name.build" step_build
 
-# install
-log "$package_name.install.start" 0
-make RAISE_SETFCAP=no prefix=/usr install &&
-chmod -v 755 /usr/lib/libcap.so
-log "$package_name.install.finish" $?
+# step.install
+step_install() {
+    make RAISE_SETFCAP=no prefix=/usr install &&
+    chmod -v 755 /usr/lib/libcap.so
+}
 
-# move library
-mv -v /usr/lib/libcap.so.* /lib &&
-ln -sfv ../../lib/$(readlink /usr/lib/libcap.so) /usr/lib/libcap.so
-log "$package_name.lib.move" $?
+# step.lib.mv
+step_lib_mv() {
+    mv -v /usr/lib/libcap.so.* /lib &&
+    ln -sfv ../../lib/$(readlink /usr/lib/libcap.so) /usr/lib/libcap.so
+}
 
-# successfully
-log "$package_name.setup.finish" $?
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
+cd $source_dir
+run_step "$package_name.static-lib.prevent" step_static_lib_prevent
+run_step "$package_name.install" step_install
+run_step "$package_name.lib.mv" step_lib_mv
 exit 0

@@ -9,72 +9,69 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
-package_name="attr"
-source_file="attr-2.4.47.src.tar.gz"
+# variables
+package_name="sys.attr"
+source_file="../attr-2.4.47.src.tar.gz"
 source_dir="attr-2.4.47"
 
-# log start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# change working directory to sources directory
-cd /sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
+
+# step.doc.modify
+step_doc_modify() {
+    sed -i -e 's|/@pkg_name@|&-@pkg_version@|' include/builddefs.in &&
+    sed -i -e "/SUBDIRS/s|man2||" man/Makefile
+}
+
+# step.configure
+step_configure() {
+    ./configure --prefix=/usr \
+       --bindir=/bin \
+       --disable-static
+}
+
+# step.build
+step_build() {
+    make
+}
+
+# step.test
+step_test() {
+    make -j1 tests root-tests
+}
+
+# step.install
+step_install() {
+    make install install-dev install-lib &&
+    chmod -v 755 /usr/lib/libattr.so
+}
+
+# step.libattr.so.mv
+step_libattr_so_mv() {
+    mv -v /usr/lib/libattr.so.* /lib &&
+    ln -sfv ../../lib/$(readlink /usr/lib/libattr.so) /usr/lib/libattr.so
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
 cd $source_dir
-
-# modify documentation
-sed -i -e 's|/@pkg_name@|&-@pkg_version@|' include/builddefs.in &&
-sed -i -e "/SUBDIRS/s|man2||" man/Makefile
-log "$package_name.documentation.modify" $?
-
-# configure
-log "$package_name.configure.start" 0
-./configure --prefix=/usr \
-   --bindir=/bin \
-   --disable-static
-log "$package_name.configure.finish" $?
-
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
-
-# test
-log "$package_name.test.start" 0
-make -j1 tests root-tests
-log "$package_name.test.finish" $?
-
-# install
-log "$package_name.install.start" 0
-make install install-dev install-lib &&
-chmod -v 755 /usr/lib/libattr.so
-log "$package_name.install.finish" $?
-
-# move library
-mv -v /usr/lib/libattr.so.* /lib &&
-ln -sfv ../../lib/$(readlink /usr/lib/libattr.so) /usr/lib/libattr.so
-log "$package_name.lib.move" $?
-
-# successfully
-log "$package_name.setup.finish" $?
+run_step "$package_name.doc.modify" step_doc_modify
+run_step "$package_name.configure" step_configure
+run_step "$package_name.build" step_build
+run_step "$package_name.test" step_test
+run_step "$package_name.install" step_install
+run_step "$package.libattr.so.mv" step_libattr_so_mv
 exit 0

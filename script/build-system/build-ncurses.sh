@@ -9,89 +9,88 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
-package_name="ncurses"
-source_file="ncurses-6.0.tar.gz"
+# variables
+package_name="sys.ncurses"
+source_file="../ncurses-6.0.tar.gz"
 source_dir="ncurses-6.0"
 
-# log start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# change working directory to sources directory
-cd /sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
+
+# step.static-lib.disable
+step_static_lib_disable() {
+    sed -i '/LIBTOOL_INSTALL/d' c++/Makefile.in
+}
+
+# step.configure
+step_configure() {
+    ./configure --prefix=/usr           \
+       --mandir=/usr/share/man \
+       --with-shared           \
+       --without-debug         \
+       --without-normal        \
+       --enable-pc-files       \
+       --enable-widec
+}
+
+# step.build
+step_build() {
+    make
+}
+
+# step.install
+step_install() {
+    make install
+}
+
+# step.lib.move
+step_lib_move() {
+    mv -v /usr/lib/libncursesw.so.6* /lib
+}
+
+# step.link
+step_link() {
+    ln -sfv ../../lib/$(readlink /usr/lib/libncursesw.so) \
+        /usr/lib/libncursesw.so &&
+
+    for lib in ncurses form panel menu ; do
+       rm -vf                    /usr/lib/lib${lib}.so
+       echo "INPUT(-l${lib}w)" > /usr/lib/lib${lib}.so
+       ln -sfv ${lib}w.pc        /usr/lib/pkgconfig/${lib}.pc
+    done
+
+    rm -vf                     /usr/lib/libcursesw.so &&
+    echo "INPUT(-lncursesw)" > /usr/lib/libcursesw.so &&
+    ln -sfv libncurses.so      /usr/lib/libcurses.so
+}
+
+# step.doc.install
+step_doc_install() {
+    mkdir -v       /usr/share/doc/ncurses-6.0 &&
+    cp -v -R doc/* /usr/share/doc/ncurses-6.0
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
 cd $source_dir
-
-# do not install s static library
-sed -i '/LIBTOOL_INSTALL/d' c++/Makefile.in
-log "$package_name.do-not-install-static-lib" $?
-
-# configure
-log "$package_name.configure.start" 0
-./configure --prefix=/usr           \
-   --mandir=/usr/share/man \
-   --with-shared           \
-   --without-debug         \
-   --without-normal        \
-   --enable-pc-files       \
-   --enable-widec
-log "$package_name.configure.finish" $?
-
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
-
-# install
-log "$package_name.install.start" 0
-make install
-log "$package_name.install.finish" $?
-
-# move library
-mv -v /usr/lib/libncursesw.so.6* /lib
-log "$package_name.move-lib" $?
-
-# link
-ln -sfv ../../lib/$(readlink /usr/lib/libncursesw.so) \
-    /usr/lib/libncursesw.so &&
-
-for lib in ncurses form panel menu ; do
-   rm -vf                    /usr/lib/lib${lib}.so
-   echo "INPUT(-l${lib}w)" > /usr/lib/lib${lib}.so
-   ln -sfv ${lib}w.pc        /usr/lib/pkgconfig/${lib}.pc
-done
-
-rm -vf                     /usr/lib/libcursesw.so
-echo "INPUT(-lncursesw)" > /usr/lib/libcursesw.so
-ln -sfv libncurses.so      /usr/lib/libcurses.so
-
-log "$package_name.link" $?
-
-# install documents
-mkdir -v       /usr/share/doc/ncurses-6.0 &&
-cp -v -R doc/* /usr/share/doc/ncurses-6.0
-log "$package_name.insatll-doc" $?
-
-# successfully
-log "$package_name.setup.finish" $?
+run_step "$package_name.static-lib.disable" step_static_lib_disable
+run_step "$package_name.configure" step_configure
+run_step "$package_name.build" step_build
+run_step "$package_name.install" step_install
+run_step "$package_name.lib.move" step_lib_move
+run_step "$package_name.link" step_link
+run_step "$package_name.doc.install" step_doc_install
 exit 0
