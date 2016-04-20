@@ -21,8 +21,8 @@ log "$task_name.setup.start" 0
 # clean installed tools
 # to avoid error when use wrong tools link from /tools
 # and change ownership to lfs
-./clean-tmp-system.sh
-exit_on_error
+# ./clean-tmp-system.sh
+# exit_on_error
 
 # list all script to build packages
 # each script not contains extension
