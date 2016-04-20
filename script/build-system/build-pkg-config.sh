@@ -30,7 +30,6 @@ step_extract() {
 
 # step.configure
 step_configure() {
-    log "$package_name.configure.start" 0
     ./configure --prefix=/usr        \
        --with-internal-glib \
        --disable-host-tool  \

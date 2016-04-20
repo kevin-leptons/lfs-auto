@@ -82,7 +82,7 @@ run_step "$task_name.gcc.amend" step_gcc_amend
 run_step "$task_name.gcc.compile" step_gcc_compile
 run_step "$task_name./usr/lib/.verify" step_usr_lib_verify
 run_step "$task_name./usr/include/.verify" step_usr_include_verify
-run_step "$task_name.linker.verify"
+run_step "$task_name.linker.verify" step_linker_verify
 run_step "$task_name.libc.verify" step_libc_verify
 run_step "$task_name.dynamic-linker.verify" step_dynamic_linker
 rm -v $simple_program_dest $compile_log_file

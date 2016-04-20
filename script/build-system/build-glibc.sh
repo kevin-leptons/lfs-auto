@@ -18,9 +18,9 @@ package_name="sys.glibc"
 source_file="../glibc-2.22.tar.xz"
 patch_fhs_file="../../glibc-2.22-fhs-1.patch"
 patch_upstream_file="../../glibc-2.22-upstream_i386_fix-1.patch"
+timezone_file="../../tzdata2015f.tar.gz"
 source_dir="glibc-2.22"
 build_dir="glibc-build"
-timezone_file="../../tzdata2015f.tar.gz"
 test_log_file="/lfs-script/tmp/build-system.glibc.test.log"
 test_sum_file="$root_system_sources/$build_dir/tests.sum"
 fail_allowed_file="/lfs-script/asset/build-syste.glibc.test.fail.allowed.txt"
@@ -141,9 +141,6 @@ step_locale_def() {
 step_nsswitch_cp() {
     cp -vp /lfs-script/asset/nsswitch.conf /etc/nsswitch.conf
 }
-
-# start setup timezone
-log "timezone.setup.start" 0
 
 # step.timezone.verify
 step_timezone_verify() {

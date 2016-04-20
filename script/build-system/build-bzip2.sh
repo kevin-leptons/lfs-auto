@@ -16,6 +16,7 @@ source $script_dir/util.sh
 # variables
 package_name="sys.bzip2"
 source_file="../bzip2-1.0.6.tar.gz"
+patch_file="../../bzip2-1.0.6-install_docs-1.patch"
 source_dir="bzip2-1.0.6"
 
 # step.verify
@@ -30,7 +31,7 @@ step_extract() {
 
 # step.patch
 step_patch() {
-    patch -Np1 -i ../bzip2-1.0.6-install_docs-1.patch &&
+    patch -Np1 -i $patch_file &&
     sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile &&
     sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
 }

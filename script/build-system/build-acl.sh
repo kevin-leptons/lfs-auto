@@ -76,7 +76,7 @@ run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.doc.modify" step_doc_modify
 run_step "$package_name.broken-test.fix" step_broken_test_fix
-run_step "$package_name" step_bug_fix
+run_step "$package_name.bug.fix" step_bug_fix
 run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_build
 run_step "$package_name.install" step_install

@@ -73,5 +73,5 @@ run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_build
 run_step "$package_name.test" step_test
 run_step "$package_name.install" step_install
-run_step "$package.libattr.so.mv" step_libattr_so_mv
+run_step "$package_name.libattr.so.mv" step_libattr_so_mv
 exit 0
