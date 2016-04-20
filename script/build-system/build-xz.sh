@@ -15,7 +15,7 @@ source $script_dir/util.sh
 
 # variables
 package_name="sys.xz"
-source_file=../"xz-5.2.1.tar.xz"
+source_file="../xz-5.2.1.tar.xz"
 source_dir="xz-5.2.1"
 
 # step.verify
@@ -61,5 +61,5 @@ cd $source_dir
 run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_build
 run_step "$package_name.test" step_test
-run_step "$package_mpc_name.install" step_install
+run_step "$package_name.install" step_install
 exit 0

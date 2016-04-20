@@ -51,7 +51,7 @@ step_install() {
 
 # run
 cd $root_system_sources
-run_step "$package_name" step_verify
+run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.configure" step_configure

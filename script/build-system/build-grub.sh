@@ -14,7 +14,7 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="step.grub"
+package_name="sys.grub"
 source_file="../grub-2.02~beta2.tar.xz"
 source_dir="grub-2.02~beta2"
 
@@ -23,7 +23,7 @@ step_verify() {
     [ -f $source_file ]
 }
 
-    # step.extract
+# step.extract
 step_extract() {
     tar -vxf $source_file
 }

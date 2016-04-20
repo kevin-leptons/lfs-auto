@@ -16,13 +16,13 @@ source $script_dir/util.sh
 # variables
 package_name="sys.eudev"
 source_file="../eudev-3.1.2.tar.gz"
+custom_rules_file="../../udev-lfs-20140408.tar.bz2"
 source_dir="eudev-3.1.2"
 
 # step.verify
 step_verify() {
     [ -f $source_file ]
 }
-run_step "$package_name.verify"
 
 # step.extract
 step_extract() {
@@ -86,12 +86,13 @@ step_install() {
 
 # step.custom-rules.install
 step_custom_rules_install() {
-    tar -xvf ../udev-lfs-20140408.tar.bz2 &&
+    tar -xvf $custom_rules_file &&
     make -f udev-lfs-20140408/Makefile.lfs install
 }
 
 # run
 cd $root_system_sources
+run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.test.fix" step_test_fix

@@ -24,7 +24,7 @@ step_verify()) {
 }
 
 # step.extract
-step_extract()) {
+step_extract() {
     tar -vxf $source_file
 }
 

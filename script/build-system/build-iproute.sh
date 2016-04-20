@@ -36,7 +36,7 @@ step_makefile_edit() {
 }
 
 # step.build
-step_build( {
+step_build() {
     make
 }
 
@@ -50,7 +50,7 @@ cd $root_system_sources
 run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir
-run_step "$package_mpc_name.makefile.edit" step_makefile_edit
+run_step "$package_name.makefile.edit" step_makefile_edit
 run_step "$package_name.build" step_build
 run_step "$package_name.install" step_install
 exit 0

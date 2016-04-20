@@ -16,6 +16,7 @@ source $script_dir/util.sh
 # variables
 package_name="sys.readline"
 source_file="../readline-6.3.tar.gz"
+patch_file="../../readline-6.3-upstream_fixes-3.patch"
 source_dir="readline-6.3"
 
 # step.verify
@@ -30,7 +31,7 @@ step_extract() {
 
 # step.patch
 step_patch() {
-    patch -Np1 -i ../readline-6.3-upstream_fixes-3.patch
+    patch -Np1 -i $patch_file
 }
 
 # step.issuing.avoid

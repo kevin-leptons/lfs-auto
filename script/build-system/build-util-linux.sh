@@ -75,5 +75,5 @@ run_step "$package_name./var/lib/hwclock.active" step_var_lib_hwcloc_active
 run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_build
 run_step "$package_name.test" step_test
-run_step "$package_name.install"
+run_step "$package_name.install" step_install
 exit 0

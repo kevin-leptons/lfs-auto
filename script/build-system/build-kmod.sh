@@ -15,7 +15,7 @@ source $script_dir/util.sh
 
 # variables
 package_name="sys.kmod"
-source_file="kmod-21.tar.xz"
+source_file="../kmod-21.tar.xz"
 source_dir="kmod-21"
 
 # step.verify

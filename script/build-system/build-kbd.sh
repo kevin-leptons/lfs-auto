@@ -17,6 +17,7 @@ source $script_dir/util.sh
 # variables
 package_name="sys.kbd"
 source_file="../kbd-2.0.3.tar.xz"
+patch_file="../../kbd-2.0.3-backspace-1.patch"
 source_dir="kbd-2.0.3"
 
 # step.verify
@@ -31,7 +32,7 @@ step_extract() {
 
 # step.patch
 step_patch() {
-    patch -Np1 -i ../kbd-2.0.3-backspace-1.patch
+    patch -Np1 -i $patch_file
 }
 
 # step.redundant.remove
