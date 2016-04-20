@@ -1,4 +1,4 @@
-# linux from scrapt automated build
+# linux from scratch automated build
 automated build linux from scratch in docker environemnt. continue update
 document
 
