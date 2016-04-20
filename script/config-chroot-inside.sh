@@ -26,4 +26,5 @@ chmod -v 600  /var/log/btmp
 log "$task_name.finish" $?
 
 # call build instructions
-exec /tools/bin/bash /lfs-script/build-system-auto.sh --login +h
+# exec /tools/bin/bash /lfs-script/build-system-auto.sh --login +h
+exec /tools/bin/bash --login +h

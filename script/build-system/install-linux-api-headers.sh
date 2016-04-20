@@ -9,49 +9,43 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="linux"
-source_file="linux-4.2.tar.xz"
+package_name="sys.linux"
+source_file="../linux-4.2.tar.xz"
 source_dir="linux-4.2"
 
-# log start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# change working directory to sources directory
-cd /sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
+
+# step.mrproper
+step_mrproper() {
+    make mrproper
+}
+
+# step.install
+step_install() {
+    make INSTALL_HDR_PATH=dest headers_install &&
+    find dest/include \( -name .install -o -name ..install.cmd \) -delete &&
+    cp -rv dest/include/* /usr/include
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
 cd $source_dir
+run_step "$package_name.mrproper" step_mrproper
+run_step "$package_name.install" step_install
 
-# make sure there are no stale files and dependencies
-make mrproper
-log "$package_name.mrproper" $?
-
-# install
-make INSTALL_HDR_PATH=dest headers_install &&
-find dest/include \( -name .install -o -name ..install.cmd \) -delete &&
-cp -rv dest/include/* /usr/include
-log "$package_name.install" $?
-
-# successfully
-log "$package_name.setup.finish" $?
 exit 0

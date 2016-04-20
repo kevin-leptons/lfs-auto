@@ -32,7 +32,7 @@ root="/mnt/lfs"
 # wget-list file contains list of source code file to download
 root_sources="$root/sources"
 root_tmp_sources="$root_sources/tmp-build"
-root_system_sources="$root_sources/system-build"
+root_system_sources="/sources/system-build"
 
 # directory store tools to build some packages
 root_tools="$root/tools"
@@ -44,7 +44,7 @@ boot_root="/dev/sdb1"
 
 # lfs virtual disk
 lfs_disk_file="lfs-disk.img"
-lfs_disk_size="20G"
+lfs_disk_size="64G"
 
 # log files
 log_host_package_file="log/host-package.log"
