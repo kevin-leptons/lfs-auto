@@ -1,5 +1,5 @@
 # linux from scrapt automated build
-automated build linux from scrapt in docker environemnt. continue update
+automated build linux from scratch in docker environemnt. continue update
 document
 
 # documenation
