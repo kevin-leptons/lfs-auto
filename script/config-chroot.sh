@@ -6,6 +6,9 @@
 # change to lfs-script
 cd /lfs-script
 
+# unset hash
+set +h
+
 # use util
 source util.sh
 

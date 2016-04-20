@@ -14,8 +14,8 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="libcap"
-source_file="libcap-2.24.tar.xz"
+package_name="sys.libcap"
+source_file="../libcap-2.24.tar.xz"
 source_dir="libcap-2.24"
 
 # step.verify

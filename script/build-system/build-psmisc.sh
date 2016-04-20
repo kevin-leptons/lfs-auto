@@ -9,59 +9,54 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
-package_name="psmisc"
-source_file="psmisc-22.21.tar.gz"
+# variables
+package_name="sys.psmisc"
+source_file="../psmisc-22.21.tar.gz"
 source_dir="psmisc-22.21"
 
-# log start
-log "$package_name.setup.start" 0
 
-# change working directory to sources directory
-cd /sources
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
+
+# step.configure
+step_configure() {
+    ./configure --prefix=/usr
+}
+
+# step.build
+step_build() {
+    make
+}
+
+# step.install
+step_install() {
+    make install
+}
+
+# step.exec.mv
+step_exec_mv() {
+    mv -v /usr/bin/fuser   /bin &&
+    mv -v /usr/bin/killall /bin
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
 cd $source_dir
-
-# configure
-log "$package_name.configure.start" 0
-./configure --prefix=/usr
-log "$package_name.configure.finish" $?
-
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
-
-# install
-log "$package_name.install.start" 0
-make install
-log "$package_name.install.finish" $?
-
-# move executable to the location specified by the fhs
-mv -v /usr/bin/fuser   /bin &&
-mv -v /usr/bin/killall /bin
-log "$package_name.executable.move" $?
-
-# successfully
-log "$package_name.setup.finish" $?
+run_step "$package_name.configure" step_configure
+run_step "$package_name.build" step_build
+run_step "$package_name.install" step_install
+run_step "$package_name.exec.mv" step_exec_mv
 exit 0

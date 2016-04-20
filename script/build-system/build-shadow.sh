@@ -9,85 +9,89 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
-package_name="shadow"
-source_file="shadow-4.2.1.tar.xz"
+# variables
+package_name="sys.shadow"
+source_file="../shadow-4.2.1.tar.xz"
 source_dir="shadow-4.2.1"
 
-# log start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# change working directory to sources directory
-cd /sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
-cd $source_dir
+}
 
-# disable the installation of the groups
-# coreutils provides a better version
-sed -i 's/groups$(EXEEXT) //' src/Makefile.in &&
-find man -name Makefile.in -exec sed -i 's/groups\.1 / /' {} \;
-log "$package_name.disable-install-group" $?
+# step.groups.disable
+step_groups_disable() {
+    sed -i 's/groups$(EXEEXT) //' src/Makefile.in &&
+    find man -name Makefile.in -exec sed -i 's/groups\.1 / /' {} \;
+}
 
-# use sha-512
-sed -i -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' \
-   -e 's@/var/spool/mail@/var/mail@' etc/login.defs
-log "$package_name.crypto.sha-512.active" $?
+# step.sha-512.active
+step_sha_512_active() {
+    sed -i -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' \
+       -e 's@/var/spool/mail@/var/mail@' etc/login.defs
+}
 
-# make a minor change to make the default useradd
-sed -i 's/1000/999/' etc/useradd
-log "$package_name.default-useradd" $?
+# step.etc/useradd.add
+step_etc_useradd_add() {
+    sed -i 's/1000/999/' etc/useradd
+}
 
-# configure
-log "$package_name.configure.start" 0
-./configure --sysconfdir=/etc --with-group-name-max-length=32
-log "$package_name.configure.finish" $?
+# step.configure
+step_configure() {
+    ./configure --sysconfdir=/etc --with-group-name-max-length=32
+}
 
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
+# step.build
+step_build() {
+    make
+}
 
-# install
-log "$package_name.install.start" 0
-make install
-log "$package_name.install.finish" $?
+# step.install
+step_install() {
+    make install
+}
 
-# move executable to its proper location
-mv -v /usr/bin/passwd /bin
-log "/usr/bin/passwd.move" $?
+# step./usr/bin/passwd.mv
+step_passwd_mv() {
+    mv -v /usr/bin/passwd /bin
+}
 
-# enable shadowed passwords
-pwconv
-log "$package_name.password.enable" $?
+# step.shadow.password.enable
+step_shadow_pass_enable() {
+    pwconv
+}
 
-# enable shadowed group passwords
-grpconv
-log "$package_name.group-password.enable" $?
+# step.shadow.group-password.enable
+step_shadow_pass_group_enable() {
+    grpconv
+}
 
 # change password for root user
 # todo: this way not work
 #echo -e "lfs\nlfs" | passwd root
 
-# successfully
-log "$package_name.setup.finish" $?
+# run
+cd $root_system_sources
+run_step "$package_name.verify"
+run_step "$package_name.extract" step_extract
+cd $source_dir
+run_step "$package_name.groups.disable" step_groups_disable
+run_step "$package_name.sha-512.active" step_sha_512_active
+run_step "$package_name.etc.useradd.add" step_etc_useradd_add
+run_step "$package_name.configure" step_configure
+run_step "$package_name.build" step_build
+run_step "$package_name.install" step_install
+run_step "$package_name.passwd.mv" step_passwd_mv
+run_step "$package_name.shadow.pass.enable" step_shadow_pass_enable
+run_step "$package_name.shadow.pass-group.enable" step_shadow_pass_group_enable
+
 exit 0

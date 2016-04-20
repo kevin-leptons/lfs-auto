@@ -12,6 +12,9 @@ __dir__="$(dirname "$0")"
 source $__dir__/configuration.sh
 source $__dir__/util.sh
 
+# unset hash
+set +h
+
 # define variables
 task_name="config-chroot-inside"
 
