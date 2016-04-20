@@ -49,17 +49,12 @@ step_build() {
 step_test() {
     make check
     if [[ $? == 0 ]]; then
-        log "$package_name.test.finish" $?
+        return 0
     else
 
         test_log_file="gnulib-tests/test-suite.log"
-        if grep -w "FAIL test-update-copyright.sh" "$test_log_file"; then
-            log "$package_name.test.fail.allowed" 0
-            log "$package_name.test.finish" 0
-        else
-            log "$package_name.test.fail.allowed" 1
-            log "$package_name.test.finish" 1
-        fi
+        grep -w "FAIL test-update-copyright.sh" "$test_log_file"
+        return $?
     fi
 }
 

@@ -37,7 +37,6 @@ step_static_lib_prevent() {
 step_build() {
     make
 }
-run_step "$package_name.build" step_build
 
 # step.install
 step_install() {
@@ -57,6 +56,7 @@ run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.static-lib.prevent" step_static_lib_prevent
+run_step "$package_name.build" step_build
 run_step "$package_name.install" step_install
 run_step "$package_name.lib.mv" step_lib_mv
 exit 0

@@ -17,6 +17,7 @@ source $script_dir/util.sh
 package_name="sys.e2fsprogs"
 source_file="../e2fsprogs-1.42.13.tar.gz"
 source_dir="e2fsprogs-1.42.13"
+build_dir="build"
 
 # step.verify
 step_verify() {
@@ -30,7 +31,7 @@ step_extract() {
 
 # step.build-dir.mkdir
 step_build_dir_mkdir() {
-    mkdir -vp build
+    mkdir -vp $build_dir
 }
 
 # step.configure
@@ -83,8 +84,9 @@ step_doc_install() {
 cd $root_system_sources
 run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
-cd $build_dir
+cd $source_dir
 run_step "$package_name.build-dir.mkdir" step_build_dir_mkdir
+cd $build_dir
 run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_build
 run_step "$package_name.test" step_test

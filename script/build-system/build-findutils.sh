@@ -39,7 +39,6 @@ step_build() {
     make
 }
 
-
 # step.test
 step_test() {
     make check

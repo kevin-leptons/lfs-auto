@@ -55,6 +55,6 @@ run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_build
-run_step "$package_name" step_test
-run_step "$package_name.install"
+run_step "$package_name.test" step_test
+run_step "$package_name.install" step_install
 exit 0

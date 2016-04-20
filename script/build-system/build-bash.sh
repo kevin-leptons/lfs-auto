@@ -16,6 +16,7 @@ source $script_dir/util.sh
 # variables
 package_name="sys.bash"
 source_file="../bash-4.3.30.tar.gz"
+patch_file="../../bash-4.3.30-upstream_fixes-2.patch"
 source_dir="bash-4.3.30"
 
 # step.verify
@@ -30,7 +31,7 @@ step_extract() {
 
 # step.patch
 step_patch() {
-    patch -Np1 -i ../bash-4.3.30-upstream_fixes-2.patch
+    patch -Np1 -i $patch_file
 }
 
 # step.configure
@@ -53,6 +54,11 @@ step_test() {
     su nobody -s /bin/bash -c "PATH=$PATH make tests"
 }
 
+# step.install
+step_install() {
+    make install
+}
+
 # run
 cd $root_system_sources
 run_step "$package_name.verify" step_verify
@@ -62,4 +68,5 @@ run_step "$package_name.patch" step_patch
 run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_build
 run_step "$package_name.test" step_test
+run_step "$package_name.install" step_install
 exit 0

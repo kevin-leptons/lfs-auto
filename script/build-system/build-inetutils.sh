@@ -25,7 +25,7 @@ step_verify() {
 
 # step.extract
 step_extract() {
-    [ -d $source_dir ]
+    tar -vxf $source_file
 }
 
 # step.configure
@@ -50,7 +50,6 @@ step_build() {
 step_test() {
     make check
 }
-run_step "$package_name.test" step_test
 
 # step.install
 step_install() {
@@ -70,6 +69,7 @@ run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_build
+run_step "$package_name.test" step_test
 run_step "$package_name.install" step_install
 run_step "$package_name.exec.mv" step_exec_mv
 exit 0

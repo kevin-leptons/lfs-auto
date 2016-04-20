@@ -13,7 +13,7 @@ source $script_dir/util.sh
 
 # variables
 package_name="sys.autoconf"
-source_file="autoconf-2.69.tar.xz"
+source_file="../autoconf-2.69.tar.xz"
 source_dir="autoconf-2.69"
 
 # step.verify

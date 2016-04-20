@@ -63,7 +63,7 @@ cd $root_system_sources
 run_step "$package_name" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir
-run_step "$package_name.regression-tests.skip" step_regression_test_skip
+run_step "$package_name.regression-tests.remove" step_regression_test_skip
 run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_build
 run_step "$package_name.test" step_test

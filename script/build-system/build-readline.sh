@@ -22,7 +22,6 @@ source_dir="readline-6.3"
 step_verify() {
     [ -f $source_file ]
 }
-run_step "$package_name.verify"
 
 # step.extract
 step_extract() {
@@ -72,6 +71,7 @@ step_doc_install() {
 
 # run
 cd $root_system_sources
+run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.patch" step_patch

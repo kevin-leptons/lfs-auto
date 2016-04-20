@@ -16,8 +16,8 @@ source $script_dir/util.sh
 # variables
 package_name="sys.bc"
 source_file="../bc-1.06.95.tar.bz2"
+patch_file="../../bc-1.06.95-memory_leak-1.patch"
 source_dir="bc-1.06.95"
-
 
 # step.verify
 step_verify() {
@@ -31,7 +31,7 @@ step_extract() {
 
 # step.patch
 step_patch() {
-    patch -Np1 -i ../bc-1.06.95-memory_leak-1.patch
+    patch -Np1 -i $patch_file
 }
 
 # step.configure

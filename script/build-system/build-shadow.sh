@@ -81,7 +81,7 @@ step_shadow_pass_group_enable() {
 
 # run
 cd $root_system_sources
-run_step "$package_name.verify"
+run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.groups.disable" step_groups_disable
