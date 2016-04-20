@@ -37,7 +37,6 @@ step_extract() {
 
 # step.patch
 step_patch() {
-    log "$package_name.patch.start" 0
     patch -Np1 -i $patch_fhs_file &&
     patch -Np1 -i $patch_upstream_file
 }
