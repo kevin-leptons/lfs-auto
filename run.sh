@@ -10,6 +10,9 @@ script_dir="$(readlink -f $__dir__/script)"
 
 # find all bug of bash script
 ./find-bug.sh
+if [[ $? != 0 ]]; then
+    exit 1
+fi
 
 # use configuration
 # use util

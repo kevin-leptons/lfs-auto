@@ -9,66 +9,62 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
-package_name="bc"
-source_file="bc-1.06.95.tar.bz2"
+# variables
+package_name="sys.bc"
+source_file="../bc-1.06.95.tar.bz2"
 source_dir="bc-1.06.95"
 
-# log start
-log "$package_name.setup.start" 0
 
-# change working directory to sources directory
-cd /sources
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
+
+# step.patch
+step_patch() {
+    patch -Np1 -i ../bc-1.06.95-memory_leak-1.patch
+}
+
+# step.configure
+step_configure() {
+    ./configure --prefix=/usr           \
+       --with-readline         \
+       --mandir=/usr/share/man \
+       --infodir=/usr/share/info
+}
+
+# step.build
+step_build() {
+    make
+}
+
+# step.test
+step_test() {
+    echo "quit" | ./bc/bc -l Test/checklib.b
+}
+
+# step.install
+step_install() {
+    make install
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
 cd $source_dir
-
-# path
-patch -Np1 -i ../bc-1.06.95-memory_leak-1.patch
-log "$package_name.patch" $?
-
-# configure
-log "$package_name.configure.start" 0
-./configure --prefix=/usr           \
-   --with-readline         \
-   --mandir=/usr/share/man \
-   --infodir=/usr/share/info
-log "$package_name.configure.finish" $?
-
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
-
-# test
-log "$package_name.test.start" 0
-echo "quit" | ./bc/bc -l Test/checklib.b
-log "$package_name.test.finish" $?
-
-# install
-log "$package_name.install.start" 0
-make install
-log "$package_name.install.finish" $?
-
-# successfully
-log "$package_name.setup.finish" $?
+run_step "$package_name.patch" step_patch
+run_step "$package_name.configure" step_configure
+run_step "$package_name.build" step_build
+run_step "$package_name.test" step_test
+run_step "$package_name.install" step_install
 exit 0

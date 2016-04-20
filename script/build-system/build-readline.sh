@@ -9,75 +9,76 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
-package_name="readline"
-source_file="readline-6.3.tar.gz"
+# variables
+package_name="sys.readline"
+source_file="../readline-6.3.tar.gz"
 source_dir="readline-6.3"
 
-# log start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
+run_step "$package_name.verify"
 
-# change working directory to sources directory
-cd /sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
-cd $source_dir
+}
 
-# path
-log "$package_name.patch.start" 0
-patch -Np1 -i ../readline-6.3-upstream_fixes-3.patch
-log "$package_name.patch.finish" $?
+# step.patch
+step_patch() {
+    patch -Np1 -i ../readline-6.3-upstream_fixes-3.patch
+}
 
-# avoid by issuing the following two seds
-sed -i '/MV.*old/d' Makefile.in &&
-sed -i '/{OLDSUFF}/c:' support/shlib-install
-log "$package_name.issues.avoid" $?
+# step.issuing.avoid
+step_issuing_avoid() {
+    sed -i '/MV.*old/d' Makefile.in &&
+    sed -i '/{OLDSUFF}/c:' support/shlib-install
+}
 
 # configure
-log "$package_name.configure.start" 0
-./configure --prefix=/usr    \
-   --disable-static \
-   --docdir=/usr/share/doc/readline-6.3
-log "$package_name.configure.finish" $?
+step_configure() {
+    ./configure --prefix=/usr    \
+       --disable-static \
+       --docdir=/usr/share/doc/readline-6.3
+}
 
-# build
-log "$package_name.make.start" 0
-make SHLIB_LIBS=-lncurses
-log "$package_name.make.finish" $?
+# step.build
+step_build() {
+    make SHLIB_LIBS=-lncurses
+}
 
-# install
-log "$package_name.install.start" 0
-make SHLIB_LIBS=-lncurses install
-log "$package_name.install.finish" $?
+# step.install
+step_install() {
+    make SHLIB_LIBS=-lncurses install
+}
 
-# link
-mv -v /usr/lib/lib{readline,history}.so.* /lib &&
-ln -sfv ../../lib/$(readlink /usr/lib/libreadline.so) /usr/lib/libreadline.so &&
-ln -sfv ../../lib/$(readlink /usr/lib/libhistory.so ) /usr/lib/libhistory.so
-log "$package_name.link" $?
+# step.link
+step_link() {
+    mv -v /usr/lib/lib{readline,history}.so.* /lib &&
+    ln -sfv ../../lib/$(readlink /usr/lib/libreadline.so) \
+        /usr/lib/libreadline.so &&
+    ln -sfv ../../lib/$(readlink /usr/lib/libhistory.so ) /usr/lib/libhistory.so
+}
 
-install -v -m644 doc/*.{ps,pdf,html,dvi} /usr/share/doc/readline-6.3
-log "$package_name.doc.install" $?
+# step.doc.install
+step_doc_install() {
+    install -v -m644 doc/*.{ps,pdf,html,dvi} /usr/share/doc/readline-6.3
+}
 
-# successfully
-log "$package_name.setup.finish" $?
+# run
+cd $root_system_sources
+run_step "$package_name.extract" step_extract
+cd $source_dir
+run_step "$package_name.patch" step_patch
+run_step "$package_name.issuing.avoid" step_issuing_avoid
+run_step "$package_name.configure" step_configure
+run_step "$package_name.build" step_build
+run_step "$package_name.install" step_install
+run_step "$package_name.link" step_link
+run_step "$package_name.doc.install" step_doc_install
 exit 0

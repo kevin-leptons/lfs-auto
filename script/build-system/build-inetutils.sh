@@ -9,72 +9,67 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="inetutils"
-source_file="inetutils-1.9.4.tar.xz"
+package_name="sys.inetutils"
+source_file="../inetutils-1.9.4.tar.xz"
 source_dir="inetutils-1.9.4"
 
-# log start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# change working directory to sources directory
-cd /sources
+# step.extract
+step_extract() {
+    [ -d $source_dir ]
+}
 
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
+# step.configure
+step_configure() {
+    ./configure --prefix=/usr        \
+       --localstatedir=/var \
+       --disable-logger     \
+       --disable-whois      \
+       --disable-rcp        \
+       --disable-rexec      \
+       --disable-rlogin     \
+       --disable-rsh        \
+       --disable-servers
+}
 
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
-    tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+# step.build
+step_build() {
+    make
+}
+
+# step.test
+step_test() {
+    make check
+}
+run_step "$package_name.test" step_test
+
+# step.install
+step_install() {
+    make install
+}
+
+# step.exec.mv
+step_exec_mv() {
+    mv -v /usr/bin/{hostname,ping,ping6,traceroute} /bin &&
+    mv -v /usr/bin/ifconfig /sbin
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
 cd $source_dir
-
-# configure
-log "$package_name.configure.start" 0
-./configure --prefix=/usr        \
-   --localstatedir=/var \
-   --disable-logger     \
-   --disable-whois      \
-   --disable-rcp        \
-   --disable-rexec      \
-   --disable-rlogin     \
-   --disable-rsh        \
-   --disable-servers
-log "$package_name.configure.finish" $?
-
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
-
-# test
-log "$package_name.test.start" 0
-make check
-log "$package_name.test.finish" $?
-
-# install
-log "$package_name.install.start" 0
-make install
-log "$package_name.install.finish" $?
-
-# move executable
-mv -v /usr/bin/{hostname,ping,ping6,traceroute} /bin &&
-mv -v /usr/bin/ifconfig /sbin
-log "$package_name.executable.move" $?
-
-# successfully
-log "$package_name.setup.finish" $?
+run_step "$package_name.configure" step_configure
+run_step "$package_name.build" step_build
+run_step "$package_name.install" step_install
+run_step "$package_name.exec.mv" step_exec_mv
 exit 0

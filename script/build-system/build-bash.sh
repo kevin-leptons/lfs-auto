@@ -9,66 +9,57 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
-# define variables
-package_name="bash"
-source_file="bash-4.3.30.tar.gz"
+# variables
+package_name="sys.bash"
+source_file="../bash-4.3.30.tar.gz"
 source_dir="bash-4.3.30"
 
-# log start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# change working directory to sources directory
-cd /sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
+}
+
+# step.patch
+step_patch() {
+    patch -Np1 -i ../bash-4.3.30-upstream_fixes-2.patch
+}
+
+# step.configure
+step_configure() {
+    ./configure --prefix=/usr                       \
+       --bindir=/bin                       \
+       --docdir=/usr/share/doc/bash-4.3.30 \
+       --without-bash-malloc               \
+       --with-installed-readline
+}
+
+# step.build
+step_build() {
+    make
+}
+
+# step.test
+step_test() {
+    chown -Rv nobody .
+    su nobody -s /bin/bash -c "PATH=$PATH make tests"
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
 cd $source_dir
-
-# path
-patch -Np1 -i ../bash-4.3.30-upstream_fixes-2.patch
-log "$package_name.patch" $?
-
-# configure
-log "$package_name.configure.start" 0
-./configure --prefix=/usr                       \
-   --bindir=/bin                       \
-   --docdir=/usr/share/doc/bash-4.3.30 \
-   --without-bash-malloc               \
-   --with-installed-readline
-log "$package_name.configure.finish" $?
-
-# build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
-
-# prepare test
-chown -Rv nobody .
-log "$package_name.tests.prepare" $?
-
-# test
-log "$package_name.test.start" 0
-su nobody -s /bin/bash -c "PATH=$PATH make tests"
-log "$package_name.test.finish" $?
-
-# successfully
-log "$package_name.setup.finish" $?
+run_step "$package_name.patch" step_patch
+run_step "$package_name.configure" step_configure
+run_step "$package_name.build" step_build
+run_step "$package_name.test" step_test
 exit 0

@@ -14,8 +14,8 @@ source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="bison"
-source_file="bison-3.0.4.tar.xz"
+package_name="sys.bison"
+source_file="../bison-3.0.4.tar.xz"
 source_dir="bison-3.0.4"
 
 # step.verify
