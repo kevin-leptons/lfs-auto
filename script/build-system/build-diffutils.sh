@@ -9,75 +9,65 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source $script_dir/util.sh
 
 # variables
-package_name="diffutils"
-source_file="diffutils-3.3.tar.xz"
+package_name="sys.diffutils"
+source_file="../diffutils-3.3.tar.xz"
 source_dir="diffutils-3.3"
 
-# log start
-log "$package_name.setup.start" 0
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# change working directory to sources directory
-cd /sources
-
-# verify
-if [ -f $source_file ]; then
-    log "$package_name.verify" 0
-else
-    log "$package_name.verify" 1
-fi
-
-# extract source code and change to source directory
-if [ -d $source_dir ]; then
-    log "$package_name.extract.idle" 0
-else
-    log "$package_name.extract.start" 0
+# step.extract
+step_extract() {
     tar -vxf $source_file
-    log "$package_name.extract.finish" $?
-fi
-cd $source_dir
+}
 
-# fix a file so locale file are isntalled
-sed -i 's:= @mkdir_p@:= /bin/mkdir -p:' po/Makefile.in.in
-log "$package_name.locale-file.fix" $?
+# step.locale-file.fix
+step_locale_file_fix() {
+    sed -i 's:= @mkdir_p@:= /bin/mkdir -p:' po/Makefile.in.in
+}
 
-# configure
-log "$package_name.configure.start" 0
-./configure --prefix=/usr
-log "$package_name.configure.finish" $?
+# step.configure
+step_configure() {
+    ./configure --prefix=/usr
+}
 
 # build
-log "$package_name.make.start" 0
-make
-log "$package_name.make.finish" $?
+step_build() {
+    make
+}
 
-# test
-log "$package_name.test.start" 0
-make check
-if [[ $? == 0 ]]; then
-    log "$package_name.test.finish" 0
-else
-
-    test_log_file="gnulib-tests/test-suite.log"
-    if grep -w "FAIL: test-update-copyright.sh" "$test_log_file"; then
-        log "$package_name.test.fail.allowed" 0
-        log "$package_name.test.finish" 0
+# step.test
+step_test() {
+    make check
+    if [[ $? == 0 ]]; then
+        return 0
     else
-        log "$package_name.test.fail.allowed" 1
-        log "$package_name.test.finish" 1
+        test_log_file="gnulib-tests/test-suite.log"
+        grep -w "FAIL: test-update-copyright.sh" "$test_log_file"
+        return $?
     fi
-fi
+}
 
-# install
-log "$package_name.install.start" 0
-make install
-log "$package_name.install.finish" $?
+# step.install
+step_install() {
+    make install
+}
 
-# successfully
-log "$package_name.setup.finish" $?
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
+cd $source_dir
+run_step "$package_name.locale-file.fix" step_locale_file_fix
+run_step "$package_name.configure" step_configure
+run_step "$package_name.build" step_build
+run_step "$package_name.test" step_test
+run_step "$package_name.install" step_install
 exit 0

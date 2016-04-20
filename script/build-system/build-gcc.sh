@@ -15,7 +15,7 @@ source $script_dir/util.sh
 
 # variables
 package_name="sys.gcc"
-source_file="gcc-5.2.0.tar.bz2"
+source_file="../gcc-5.2.0.tar.bz2"
 source_dir="gcc-5.2.0"
 build_dir="gcc-build"
 test_log_file="/lfs-script/log/gcc.test.log"
