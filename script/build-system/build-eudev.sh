@@ -36,11 +36,7 @@ step_test_fix() {
 
 # step./tools.prevent
 step_tools_prevent() {
-    cat > config.cache << "EOF"
-    HAVE_BLKID=1
-    BLKID_LIBS="-lblkid"
-    BLKID_CFLAGS="-I/tools/include"
-    EOF
+    cp /lfs-script/asset/eudev.config.cache ./
 }
 
 # step.configure

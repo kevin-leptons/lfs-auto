@@ -19,7 +19,7 @@ source_file="../man-db-2.7.2.tar.xz"
 source_dir="man-db-2.7.2"
 
 # step.verify
-step_verify()) {
+step_verify() {
     [ -f $source_file ]
 }
 
