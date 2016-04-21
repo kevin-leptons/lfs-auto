@@ -2,6 +2,10 @@
 automated build linux from scratch in docker environemnt. continue update
 document
 
+# news
+
+setup system has successful by run script ./run.sh. more work todo
+
 # documenation
 
 see [doc directory](./doc)
@@ -15,7 +19,7 @@ see [doc directory](./doc)
 # requirements
 
     - operating system: unix, gnu/linux (only debian now)
-    - disk space about 20GB
+    - disk space about 64GB
 
 # general architecture
 
