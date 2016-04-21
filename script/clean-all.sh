@@ -18,5 +18,5 @@ sudo rm -rf /mnt/lfs/tools/*
 ./clean-system.sh
 
 # clean build
-sudo rm -rf /mnt/lfs/sources/tmp-build
-sudo rm -rf /mnt/lfs/sources/system-build
+sudo rm -rf /mnt/lfs/sources/tmp-build/*
+sudo rm -rf /mnt/lfs/sources/system-build/*
