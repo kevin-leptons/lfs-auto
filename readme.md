@@ -4,7 +4,7 @@ document
 
 # news
 
-setup system has successful by run script ./run.sh. more work todo
+setup system has successful by run script ./run.sh. more work to do
 
 # documenation
 
