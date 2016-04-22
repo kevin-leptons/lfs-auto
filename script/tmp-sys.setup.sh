@@ -27,38 +27,38 @@ log "$task_name.setup.start" 0
 # list all script to build packages
 # each script not contains extension
 tool_packages=( \
-    001.binutils-pass-1 \
-    002.gcc-pass-1 \
-    003.linux-api-headers \
-    004.glibc \
-    005.libstdc++ \
-    006.binutils-pass-2 \
-    007.gcc-pass-2 \
-    008.tcl-core \
-    009.expect \
-    010.dejagnu \
-    011.check \
-    012.ncurses \
-    013.bash \
-    014.bzip2 \
-    015.coreutils \
-    016.diffutils \
-    017.file \
-    018.findutils \
-    019.gawk \
-    020.gettext \
-    021.grep \
-    022.gzip \
-    023.m4 \
-    024.make \
-    025.patch \
-    026.perl \
-    027.sed \
-    028.tar \
-    029.texinfo \
-    030.util-linux \
-    031.xz \
-    032.ownership \
+    binutils-pass-1 \
+    gcc-pass-1 \
+    linux-api-headers \
+    glibc \
+    libstdc++ \
+    binutils-pass-2 \
+    gcc-pass-2 \
+    tcl-core \
+    expect \
+    dejagnu \
+    check \
+    ncurses \
+    bash \
+    bzip2 \
+    coreutils \
+    diffutils \
+    file \
+    findutils \
+    gawk \
+    gettext \
+    grep \
+    gzip \
+    m4 \
+    make \
+    patch \
+    perl \
+    sed \
+    tar \
+    texinfo \
+    util-linux \
+    xz \
+    ownership \
 )
 
 # build each package
