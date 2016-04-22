@@ -13,7 +13,7 @@ source $__dir__/configuration.sh
 source $__dir__/util.sh
 
 # define variables
-task_name="temp-system"
+task_name="tmp-sys"
 
 # log start build temp system
 log "$task_name.setup.start" 0

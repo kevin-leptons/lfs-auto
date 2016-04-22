@@ -7,16 +7,18 @@
 __dir__="$(dirname "$0")"
 build_sysem_dir=$__dir__/build-system
 
-# use configuration
-# use util
+# libs
 source $__dir__/configuration.sh
 source $__dir__/util.sh
 
 # variables
-task_name="system"
+task_name="sys"
 
 # start
 log "$task_name.setup.start" 0
+
+# hash-flag.off
+set +h
 
 # list all script to build package in system
 # each script not contains extension
@@ -88,19 +90,6 @@ packages=( \
     clean \
 )
 
-packages_2=( \
-    lfs-bootscripts \
-    config-network \
-    config-systemv \
-    config-profile \
-    config-inputrc \
-    config-shell \
-    config-file-system \
-    kernel \
-    config-grub \
-    create-status-build \
-)
-
 # build each package
 # log is generate by internal build script
 result=done
@@ -112,6 +101,19 @@ for package in ${packages[@]}; do
     # log setup result
     exit_on_error
 done
+
+# continue process depend on params
+case "$1" in
+
+    # transfer control to user unser shell
+    "sys" )
+        log "sys.root.login" 0
+        bash;;
+
+    # continue process immediately
+    # todo: implement this
+    * ) 
+esac
 
 # successfully
 log "$task_name.setup.finish" $?

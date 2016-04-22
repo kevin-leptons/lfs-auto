@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# using     : run docker and build lfs inside docker
+# using     : setup box and use it to setup gnu/linux system
 # params    :
 #   $1
 #       box: enter container environemnt under lfs user
@@ -13,51 +13,51 @@
 __dir__="$(dirname "$0")"
 script_dir="$(readlink -f $__dir__/script)"
 
-# find all bug of bash script
-./find-bug.sh
+# script.verify
+./script.verify.sh
 if [[ $? != 0 ]]; then
     exit 1
 fi
 
-# use configuration
-# use util
+# libs
 source $script_dir/configuration.sh
 source util.sh
 
-# define variables
-task_name="lfs-auto"
+# variables
+task_name="run"
 lfs_disk_path="disk/$lfs_disk_file"
 
-# clear log file
-# and log start run
+# log-file.clear
 clear_log
 log "$task_name.start" 0
 
-# prepare packages
-./prepare-package.sh
+# host.env.setup
+./host.env.setup.sh
 exit_on_error
 
-# prepare virtual disk
-./prepare-disk.sh
+# file-system.setup
+./file-system.setup.sh
 exit_on_error
 
-# build container
-log "container.setup.start" 0
-cd container
+# box.setup
+log "$task_name.box.setup.start" 0
+cd box
 docker build -t $docker_name ./
-log "container.setup.finish" $?
+log "$task_name.box.setup.finish" $?
 cd ..
 
-# run docker
+# box.active
 # mount hard disk use to build lfs into docker
 # $root:root is mean <host-file-system>:<docker-file-system>
-log "$task_name.docker.start" 0
-docker run -ti --privileged -v $root:$root \
+# transfer control to /lfs-script/box.entry.sh
+log "$task_name.box.start" 0
+docker run -ti --privileged \
+    -v $root:$root \
     -v $script_dir:$docker_script_dir $docker_name \
     bash /lfs-script/box.entry.sh $1
-log "$task_name.docker.finish" $?
+log "$task_name.box.finish" $?
 
-# release disk
+# file-system.umount
 sudo umount /mnt/lfs
 
 # successfull

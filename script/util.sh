@@ -18,8 +18,9 @@ current_time() {
 
 # using     : write information to log file. exit if error
 # params    :
-#   $1: message name
+#   $1: name of task
 #   $2: returned value from pre-command
+#   $3: message
 # exit on $1 != 0
 log() {
 
@@ -37,11 +38,13 @@ log() {
 
     # log to file
     printf "%s\n" "$log_time" >> "$log_build_file"
-    printf "%-78s%2s\n\n" "$1" "$result" >> "$log_build_file"
+    printf "%-78s%2s\n" "$1" "$result" >> "$log_build_file"
+    printf "%s\n\n" $3 >> "$log_build_file"
 
     # log to console
     printf "%s\n" "$log_time"
-    printf "%-78s%2s\n\n" "$1" "$result"
+    printf "%-78s%2s\n" "$1" "$result"
+    printf "%s\n\n" $3
 
     # exit if error
     if [[ $2 != 0 ]]; then

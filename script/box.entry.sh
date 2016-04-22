@@ -1,37 +1,33 @@
 #!/bin/bash
 
-# using     : prepare lfs user and partition
-# user      : root is current user when execute this script
+# using     : setup inside of box and continues process under dev user
 # author    : kevin.leptons@gmail.com
 
 # locate location of this script
 __dir__="$(dirname "$0")"
 
-# change to /lfs-script
+# working-dir.change
 cd /lfs-script
 
 # require root permision
-$__dir__/require-root.sh
+./require-root.sh
 
-# use configuration
-# use util
+# libs
 source configuration.sh
 source util.sh
 
-# define variables
-task_name="container"
+# variables
+task_name="box.inside"
 
-# create log directory
-# create tmp directory
-mkdir -vp $__dir__/log
+# necessary-dir.mkdir
+mkdir -vp /log
 mkdir -vp /lfs-script/tmp
 
-# clear log files
-# log start
+# log-files.clear
 clear_log
-log "$task_name.start" 0
+log "$task_name.setup.start" 0
 
-# create user
+# dev-user.create
 ./dev-user.create.sh
 exit_on_error
 
@@ -39,16 +35,16 @@ exit_on_error
 ./partition.setup.sh
 exit_on_error
 
-# copy sources
+# source-code.copy
 ./source-code.copy.sh
 
-# chnage ownwership of /lfs-script/tmp
+# /lfs-script/tmp.chown
 chown lfs:lfs -R /lfs-script/tmp
 log "/lfs-script/tmp.chown" $?
 
-# change ownwership of /lfs-script/log
-chown lfs:lfs -R $__dir__/log
+# /lfs-script/log.chown
+chown lfs:lfs -R /log
 log "/lfs-script/log.chown" $?
 
-# login as lfs user and continue process
-sudo -u $build_user bash box.dev.login.sh "$1"
+# box.dev.entry
+sudo -u $build_user bash box.dev.entry.sh "$1"

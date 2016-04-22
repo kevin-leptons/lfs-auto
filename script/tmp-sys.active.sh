@@ -1,16 +1,17 @@
 #!/bin/bash
 
-# using     : enter chroot environemnt without temporary tools
+# using     : active temporary-system, this is part of tmp-sys.setup
+#             active tmp-sys and call inside setup
 # author    : kevin.leptons@gmail.com
 
 # libs
 source configuration.sh
 source util.sh
 
-# define variables
-task_name="system"
+# variables
+task_name="tmp-sys.inside"
 
-# log start
+# start
 log "$task_name.setup.start" 0
 
 # create directories onto which the file system will be mounted
@@ -41,14 +42,12 @@ mkdir -vp $LFS/lfs-script &&
 sudo mount -v --bind /lfs-script $LFS/lfs-script
 log "lfs-script.mount" $?
 
-# enter the virtual kernel environemnt
-log "$task_name.virtual-kernel.start" 0
-sudo chroot "$LFS" /usr/bin/env -i              \
-    HOME=/root TERM="$TERM" PS1='\u:\w\$ ' \
-    PATH=/bin:/usr/bin:/sbin:/usr/sbin     \
-    /bin/bash /lfs-script/sys.env.setup.sh "$1" --login +h
-log "$task_name.virtual-kernel.finish" $?
-
-# successfull
-log "$task_name.setup.finish" $?
-exit 0
+# enter the chroot environemnt
+log "chroot.start" 0
+sudo chroot "$LFS" /tools/bin/env -i \
+    HOME=/root                  \
+    TERM="$TERM"                \
+    PS1='\u:\w\$ '              \
+    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin \
+    /tools/bin/bash /lfs-script/tmp-sys.inside.setup.sh "$1" --login +h
+log "chroot.finish" $?

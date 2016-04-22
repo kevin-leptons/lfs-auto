@@ -18,13 +18,14 @@ exit_on_error
 exit_on_error
 
 # step 4. build programm as tools what use to build when enter lfs root
-./tmp-sys.setup.sh
+./tmp-sys.pack.setup.sh
 exit_on_error
 
-# step 5. build system
-./sys.entry.sh
+# active tmp-sys
+# inside of tmp-sys, continue setup sys
+./tmp-sys.active.sh
 exit_on_error
 
-# step 6. install boot loader
-# ./install-boot-loader.sh
-# exit_on_error
+# enter sys
+# continue sys.inside.setup
+./sys.active.sh
