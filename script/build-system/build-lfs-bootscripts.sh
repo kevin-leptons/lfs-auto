@@ -7,17 +7,34 @@
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 
-# use configuration
+# libs
 source $script_dir/configuration.sh
+source $script_dir/util.sh
 
-# change working directory to sources directory
-cd /sources &&
+# veriables
+package_name="sys.lfs-bootscripts"
+source_file="../lfs-bootscripts-20150222.tar.bz2"
+source_dir="lfs-bootscripts-20150222"
 
-# extract source code and change to source directory
-if [ ! -d lfs-bootscripts-20150222 ]; then
-   tar -xf lfs-bootscripts-20150222.tar.bz2
-fi
-cd lfs-bootscripts-20150222
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# install
-make install
+# step.extract
+step_extract() {
+    tar -vxf $source_file
+}
+
+# step.install
+step_install() {
+    make install
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
+cd $source_dir
+run_step "$package_name.install" step_install
+exit 0
