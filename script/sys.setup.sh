@@ -21,82 +21,82 @@ log "$task_name.setup.start" 0
 # list all script to build package in system
 # each script not contains extension
 packages=( \
-    install-linux-api-headers \
-    build-man-pages \
-    build-glibc \
+    linux-api-headers \
+    man-pages \
+    glibc \
     adjust-toolchain \
-    build-zlib \
-    build-file \
-    build-binutils \
-    build-gmp \
-    build-mpfr \
-    build-mpc \
-    build-gcc \
-    build-bzip2 \
-    build-pkg-config \
-    build-ncurses \
-    build-attr \
-    build-acl \
-    build-libcap \
-    build-sed \
-    build-shadow \
-    build-psmisc \
-    build-procps-ng \
-    build-e2fsprogs \
-    build-coreutils \
-    build-iana-etc \
-    build-m4 \
-    build-flex \
-    build-bison \
-    build-grep \
-    build-readline \
-    build-bash \
-    build-bc \
-    build-libtool \
-    build-gdbm \
-    build-expat \
-    build-inetutils \
-    build-perl \
-    build-xml-parser \
-    build-autoconf \
-    build-automake \
-    build-diffutils \
-    build-gawk \
-    build-findutils \
-    build-gettext \
-    build-intltool \
-    build-gperf \
-    build-groff \
-    build-xz \
-    build-grub \
-    build-less \
-    build-gzip \
-    build-iproute \
-    build-kbd \
-    build-kmod \
-    build-libpipeline \
-    build-make \
-    build-patch \
-    build-sysklogd \
-    build-sysvinit \
-    build-tar \
-    build-texinfo \
-    build-eudev \
-    build-util-linux \
-    build-man-db \
-    build-vim \
+    zlib \
+    file \
+    binutils \
+    gmp \
+    mpfr \
+    mpc \
+    gcc \
+    bzip2 \
+    pkg-config \
+    ncurses \
+    attr \
+    acl \
+    libcap \
+    sed \
+    shadow \
+    psmisc \
+    procps-ng \
+    e2fsprogs \
+    coreutils \
+    iana-etc \
+    m4 \
+    flex \
+    bison \
+    grep \
+    readline \
+    bash \
+    bc \
+    libtool \
+    gdbm \
+    expat \
+    inetutils \
+    perl \
+    xml-parser \
+    autoconf \
+    automake \
+    diffutils \
+    gawk \
+    findutils \
+    gettext \
+    intltool \
+    gperf \
+    groff \
+    xz \
+    grub \
+    less \
+    gzip \
+    iproute \
+    kbd \
+    kmod \
+    libpipeline \
+    make \
+    patch \
+    sysklogd \
+    sysvinit \
+    tar \
+    texinfo \
+    eudev \
+    util-linux \
+    man-db \
+    vim \
     clean \
 )
 
 packages_2=( \
-    build-lfs-bootscripts \
+    lfs-bootscripts \
     config-network \
     config-systemv \
     config-profile \
     config-inputrc \
     config-shell \
     config-file-system \
-    build-kernel \
+    kernel \
     config-grub \
     create-status-build \
 )
