@@ -39,8 +39,8 @@ sudo chown $build_user_group:$build_user \
     $root_tmp_sources "$root_sources/system-build"
 log "build-dir.mkdir" $?
 
-# crea index file
-if [ -f $index_step_file ]; then
+# create index file
+if [ ! -f $index_step_file ]; then
     touch $index_step_file
 fi
 chown $build_user_group:$build_user $index_step_file
