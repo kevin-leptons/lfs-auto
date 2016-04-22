@@ -29,5 +29,9 @@ chmod -v 600  /var/log/btmp
 log "$task_name.finish" $?
 
 # call build instructions
-exec /tools/bin/bash /lfs-script/build-system-auto.sh --login +h
-# exec /tools/bin/bash --login +h
+case "$1" in
+    "bash" )
+        echo "vkernel.enter ok"
+        exec /tools/bin/bash --login +h;;
+    * ) exec /tools/bin/bash /lfs-script/build-system-auto.sh --login +h
+esac

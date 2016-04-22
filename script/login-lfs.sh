@@ -9,5 +9,12 @@
 source ~/.bashrc
 cd /lfs-script
 
-# call build instructions
-./build.sh
+# active script depend on params
+case "$1" in
+    "bash" )
+        echo "lfs.enter ok"
+        source ~/.profile
+        bash;;
+    "vkernel" ) bash "enter-chroot.sh" "bash";;
+    * ) bash "./build.sh";;
+esac

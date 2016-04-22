@@ -44,10 +44,11 @@ log "lfs-script.mount" $?
 
 # enter the chroot environemnt
 log "chroot.start" 0
+echo "\$LFS=$LFS"
 sudo chroot "$LFS" /tools/bin/env -i \
     HOME=/root                  \
     TERM="$TERM"                \
     PS1='\u:\w\$ '              \
     PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin \
-    /tools/bin/bash /lfs-script/config-chroot.sh --login +h
+    /tools/bin/bash /lfs-script/config-chroot.sh "$1" --login +h
 log "chroot.finish" $?

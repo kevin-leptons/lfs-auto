@@ -49,7 +49,7 @@ cd ..
 log "$task_name.docker.start" 0
 docker run -ti --privileged -v $root:$root \
     -v $script_dir:$docker_script_dir $docker_name \
-    bash /lfs-script/entry-lfs.sh
+    bash /lfs-script/entry-lfs.sh $1
 log "$task_name.docker.finish" $?
 
 # release disk

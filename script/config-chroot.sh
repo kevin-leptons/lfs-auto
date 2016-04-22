@@ -84,4 +84,4 @@ nogroup:x:99:
 users:x:999:
 EOF
 
-exec /tools/bin/bash --login +h /lfs-script/config-chroot-inside.sh
+exec /tools/bin/bash --login +h /lfs-script/config-chroot-inside.sh "$1"
