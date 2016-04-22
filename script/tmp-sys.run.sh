@@ -30,8 +30,12 @@ log "$task_name.finish" $?
 
 # call build instructions
 case "$1" in
+
+    # start bash and transfer control to user
     "bash" )
-        echo "vkernel.enter ok"
+        echo "tmp-sys.root.login ok"
         exec /tools/bin/bash --login +h;;
+
+    # start setup imediately
     * ) exec /tools/bin/bash /lfs-script/sys.setup.entry.sh --login +h
 esac

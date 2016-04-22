@@ -29,13 +29,13 @@ sudo ln -svnf $root_tools /tools
 log "$root_tools.link" $?
 
 # transfer partition own from root to build user
-sudo chown -R $build_user_group:$build_user $root /tools
+sudo chown $build_user_group:$build_user $root /tools
 log "$root_tools.chown" $?
 
 # create build directories
 mkdir -vp $root_tmp_sources
 mkdir -vp "$root_sources/system-build"
-sudo chown -R $build_user_group:$build_user \
+sudo chown $build_user_group:$build_user \
     $root_tmp_sources "$root_sources/system-build"
 log "build-dir.mkdir" $?
 

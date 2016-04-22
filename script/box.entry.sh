@@ -32,19 +32,15 @@ clear_log
 log "$task_name.start" 0
 
 # create user
-./create-build-user.sh
+./dev-user.create.sh
 exit_on_error
 
 # prepare partition
-./prepare-partition.sh
+./partition.setup.sh
 exit_on_error
 
 # copy sources
-./copy-source-code.sh
-
-# change ownwership of /mnt/lfs
-chown lfs:lfs -R /mnt/lfs
-log "/mnt/lfs.chown" $?
+./source-code.copy.sh
 
 # chnage ownwership of /lfs-script/tmp
 chown lfs:lfs -R /lfs-script/tmp
@@ -55,4 +51,4 @@ chown lfs:lfs -R $__dir__/log
 log "/lfs-script/log.chown" $?
 
 # login as lfs user and continue process
-sudo -u $build_user bash "box.dev.login" "$1"
+sudo -u $build_user bash box.dev.login.sh "$1"

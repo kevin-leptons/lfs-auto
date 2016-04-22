@@ -3,7 +3,7 @@
 # using     : run docker and build lfs inside docker
 # params    :
 #   $1
-#       con: enter container environemnt under lfs user
+#       box: enter container environemnt under lfs user
 #       tsys: enter virtual-kernel.temporary-system under root user
 #       sys: enter virtual-kernel.system under root user
 #       "other": run setup imediately
@@ -54,7 +54,7 @@ cd ..
 log "$task_name.docker.start" 0
 docker run -ti --privileged -v $root:$root \
     -v $script_dir:$docker_script_dir $docker_name \
-    bash /lfs-script/entry-container.sh $1
+    bash /lfs-script/box.entry.sh $1
 log "$task_name.docker.finish" $?
 
 # release disk

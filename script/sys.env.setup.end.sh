@@ -29,8 +29,12 @@ log "$task_name.finish" $?
 
 # call build instructions
 case "$1" in
+
+    # start bash and transfer control to user
     "bash" )
-        echo "vkernel.system.enter ok"
+        echo "sys.root.login ok"
         exec /tools/bin/bash --login +h;;
+
+    # start setup imediately
     * ) exec /tools/bin/bash /lfs-script/build-system-auto.sh --login +h
 esac

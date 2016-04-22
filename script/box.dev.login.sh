@@ -13,16 +13,16 @@ cd /lfs-script
 case "$1" in
 
     # use bash
-    "box.dev" )
+    "box" )
         echo "box.dev.login ok"
         source ~/.profile
         bash;;
 
     # use virtual-kernel.temporary-system
-    "tsys" ) bash "tmp-sys.entry.sh" bash;;
+    "tmp-sys" ) bash tmp-sys.entry.sh bash;;
 
     # use virtual-kernel.system
-    "sys" ) bash "enter-system.sh" bash;;
+    "sys" ) bash sys.entry.sh bash;;
 
     # setup
     * ) bash "./build.sh";;
