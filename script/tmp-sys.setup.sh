@@ -27,38 +27,38 @@ log "$task_name.setup.start" 0
 # list all script to build packages
 # each script not contains extension
 tool_packages=( \
-    build-binutils-pass-1 \
-    build-gcc-pass-1 \
-    install-linux-api-header \
-    build-glibc \
-    build-libstdc++ \
-    build-binutils-pass-2 \
-    build-gcc-pass-2 \
-    build-tcl-core \
-    build-expect \
-    build-dejagnu \
-    build-check \
-    build-ncurses \
-    build-bash \
-    build-bzip2 \
-    build-coreutils \
-    build-diffutils \
-    build-file \
-    build-findutils \
-    build-gawk \
-    build-gettext \
-    build-grep \
-    build-gzip \
-    build-m4 \
-    build-make \
-    build-patch \
-    build-perl \
-    build-sed \
-    build-tar \
-    build-texinfo \
-    build-util-linux \
-    build-xz \
-    change-ownership \
+    001.binutils-pass-1 \
+    002.gcc-pass-1 \
+    003.linux-api-headers \
+    004.glibc \
+    005.libstdc++ \
+    006.binutils-pass-2 \
+    007.gcc-pass-2 \
+    008.tcl-core \
+    009.expect \
+    010.dejagnu \
+    011.check \
+    012.ncurses \
+    013.bash \
+    014.bzip2 \
+    015.coreutils \
+    016.diffutils \
+    017.file \
+    018.findutils \
+    019.gawk \
+    020.gettext \
+    021.grep \
+    022.gzip \
+    023.m4 \
+    024.make \
+    025.patch \
+    026.perl \
+    027.sed \
+    028.tar \
+    029.texinfo \
+    030.util-linux \
+    031.xz \
+    032.ownership \
 )
 
 # build each package
