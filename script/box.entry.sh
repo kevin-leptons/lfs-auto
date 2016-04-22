@@ -19,7 +19,7 @@ source configuration.sh
 source util.sh
 
 # define variables
-task_name="entry-lfs"
+task_name="container"
 
 # create log directory
 # create tmp directory
@@ -55,4 +55,4 @@ chown lfs:lfs -R $__dir__/log
 log "/lfs-script/log.chown" $?
 
 # login as lfs user and continue process
-sudo -u $build_user bash "login-lfs.sh" "$1"
+sudo -u $build_user bash "box.dev.login" "$1"

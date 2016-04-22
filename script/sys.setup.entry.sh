@@ -7,4 +7,4 @@ set +h
 cd /lfs-script
 
 # start build system
-./build-system.sh
+./sys.setup.sh

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# using     : config system directories
+# using     : config chroot environemnt
 # author    : kevin.leptons@gmail.com
 
 # change to lfs-script
@@ -13,10 +13,10 @@ set +h
 source util.sh
 
 # define variables
-task_name="system.dir"
+task_name="chroot-config"
 
 # log start
-log "$task_name.setup.start" 0
+log "$task_name.start" 0
 
 # create directories
 mkdir -pv /{bin,boot,etc/{opt,sysconfig},home,lib/firmware,mnt,opt}
@@ -84,4 +84,4 @@ nogroup:x:99:
 users:x:999:
 EOF
 
-exec /tools/bin/bash --login +h /lfs-script/config-system-inside.sh "$1"
+exec /tools/bin/bash --login +h /lfs-script/tmp-sys.run.sh "$1"

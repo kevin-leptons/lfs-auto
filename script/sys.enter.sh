@@ -1,18 +1,17 @@
 #!/bin/bash
 
-# using     : enter chroot environemnt and transfer control to bash
+# using     : enter chroot environemnt without temporary tools
 # author    : kevin.leptons@gmail.com
 
-# use configuration
-# use util
+# libs
 source configuration.sh
 source util.sh
 
 # define variables
-task_name="chroot"
+task_name="system"
 
 # log start
-log "$task_name.start" 0
+log "$task_name.setup.start" 0
 
 # create directories onto which the file system will be mounted
 sudo mkdir -pv $LFS/{dev,proc,sys,run}
@@ -42,12 +41,15 @@ mkdir -vp $LFS/lfs-script &&
 sudo mount -v --bind /lfs-script $LFS/lfs-script
 log "lfs-script.mount" $?
 
-# enter the chroot environemnt
-log "chroot.start" 0
-sudo chroot "$LFS" /tools/bin/env -i \
-    HOME=/root                  \
-    TERM="$TERM"                \
-    PS1='\u:\w\$ '              \
-    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin \
-    /tools/bin/bash /lfs-script/config-chroot.sh "$1" --login +h
-log "chroot.finish" $?
+# enter the virtual kernel environemnt
+ls /lfs-script/
+log "$task_name.virtual-kernel.start" 0
+sudo chroot "$LFS" /usr/bin/env -i              \
+    HOME=/root TERM="$TERM" PS1='\u:\w\$ ' \
+    PATH=/bin:/usr/bin:/sbin:/usr/sbin     \
+    /bin/bash /lfs-script/sys.env.setup.sh "$1" --login +h
+log "$task_name.virtual-kernel.finish" $?
+
+# successfull
+log "$task_name.setup.finish" $?
+exit 0

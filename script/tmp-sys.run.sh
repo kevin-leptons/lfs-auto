@@ -33,5 +33,5 @@ case "$1" in
     "bash" )
         echo "vkernel.enter ok"
         exec /tools/bin/bash --login +h;;
-    * ) exec /tools/bin/bash /lfs-script/build-system-auto.sh --login +h
+    * ) exec /tools/bin/bash /lfs-script/sys.setup.entry.sh --login +h
 esac
