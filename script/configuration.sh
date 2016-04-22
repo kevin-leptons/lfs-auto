@@ -44,7 +44,7 @@ boot_root="/dev/sdb1"
 
 # lfs virtual disk
 lfs_disk_file="lfs-disk.img"
-lfs_disk_size="64G"
+lfs_disk_size="32G"
 
 # log files
 log_host_package_file="log/host-package.log"

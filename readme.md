@@ -19,7 +19,7 @@ see [doc directory](./doc)
 # requirements
 
     - operating system: unix, gnu/linux (only debian now)
-    - disk space about 64GB
+    - disk space about 32GB
 
 # general architecture
 

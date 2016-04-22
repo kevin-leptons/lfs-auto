@@ -36,5 +36,5 @@ case "$1" in
         exec /tools/bin/bash --login +h;;
 
     # start setup imediately
-    * ) exec /tools/bin/bash /lfs-script/build-system-auto.sh --login +h
+    * ) exec /tools/bin/bash /lfs-script/sys.setup.entry.sh --login +h
 esac
