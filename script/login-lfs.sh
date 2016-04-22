@@ -11,10 +11,19 @@ cd /lfs-script
 
 # active script depend on params
 case "$1" in
-    "bash" )
+
+    # use bash
+    "host" )
         echo "lfs.enter ok"
         source ~/.profile
         bash;;
-    "vkernel" ) bash "enter-chroot.sh" "bash";;
+
+    # use virtual-kernel.temporary-system
+    "tsys" ) bash "enter-chroot.sh" "bash";;
+
+    # use virtual-kernel.system
+    "sys" ) bash "enter-system.sh" "bash";;
+
+    # setup
     * ) bash "./build.sh";;
 esac

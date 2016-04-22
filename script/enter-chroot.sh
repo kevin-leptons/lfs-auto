@@ -44,7 +44,6 @@ log "lfs-script.mount" $?
 
 # enter the chroot environemnt
 log "chroot.start" 0
-echo "\$LFS=$LFS"
 sudo chroot "$LFS" /tools/bin/env -i \
     HOME=/root                  \
     TERM="$TERM"                \
