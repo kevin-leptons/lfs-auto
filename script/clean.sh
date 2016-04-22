@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# using     : clean all build file system
+# using     : clear all build file system
 # warning   : run this script in lfs user
 # author    : kevin.leptons@gmail.com
 
@@ -11,12 +11,11 @@ __dir__="$(dirname "$0")"
 source configuration.sh
 source util.sh
 
-# clean /tools
-sudo rm -rf /mnt/lfs/tools/*
+# clear tmp-sys directories
+./tmp-sys.clear.sh
 
-# clean system
-./clean-system.sh
+# clear system directories
+./sys.clear.sh
 
-# clean build
-sudo rm -rf /mnt/lfs/sources/tmp-build/*
-sudo rm -rf /mnt/lfs/sources/system-build/*
+# clear build directories
+./build-dir.clear

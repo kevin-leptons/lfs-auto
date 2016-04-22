@@ -15,7 +15,8 @@ source util.sh
 # clean installed tools
 # to avoid error when use wrong tools link from /tools
 log "/tools.rm.start" 0
-sudo rm -rf /tools/*
+sudo rm -rf $root_tools
+mkdir -vp $root_tools
 log "/tools.rm.finish" $?
 
 # change ownership of /tools to lfs

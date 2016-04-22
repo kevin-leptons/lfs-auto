@@ -25,5 +25,5 @@ case "$1" in
     "sys" ) bash sys.entry.sh bash;;
 
     # setup
-    * ) bash "./build.sh";;
+    * ) bash "./setup.sh";;
 esac

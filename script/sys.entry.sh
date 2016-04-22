@@ -42,7 +42,6 @@ sudo mount -v --bind /lfs-script $LFS/lfs-script
 log "lfs-script.mount" $?
 
 # enter the virtual kernel environemnt
-ls /lfs-script/
 log "$task_name.virtual-kernel.start" 0
 sudo chroot "$LFS" /usr/bin/env -i              \
     HOME=/root TERM="$TERM" PS1='\u:\w\$ ' \

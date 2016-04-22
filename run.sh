@@ -4,7 +4,7 @@
 # params    :
 #   $1
 #       box: enter container environemnt under lfs user
-#       tsys: enter virtual-kernel.temporary-system under root user
+#       tmp-sys: enter virtual-kernel.temporary-system under root user
 #       sys: enter virtual-kernel.system under root user
 #       "other": run setup imediately
 # author    : kevin.leptons@gmail.com

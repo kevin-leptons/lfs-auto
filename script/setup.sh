@@ -10,23 +10,19 @@ __dir__="$(dirname "$0")"
 source util.sh
 
 # step 1. check host environment
-./setup-host-environment.sh
+./box.env.setup.sh
 exit_on_error
 
 # step 3. copy sources
-./copy-source-code.sh
+./source-code.copy.sh
 exit_on_error
 
 # step 4. build programm as tools what use to build when enter lfs root
-./build-tools.sh
-exit_on_error
-
-# clean old system build before enter system build environment
-./clean-build-system.sh
+./tmp-sys.setup.sh
 exit_on_error
 
 # step 5. build system
-./enter-chroot.sh
+./sys.entry.sh
 exit_on_error
 
 # step 6. install boot loader
