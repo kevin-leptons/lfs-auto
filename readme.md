@@ -42,26 +42,22 @@ see [doc directory](./doc)
 
 # instructions
 
-## host operating system environment
+## run automated setup
 ```shell
-# build lfs
 ./run.sh
 ```
 
-## docker container, root user
+## enter box environment under dev user
 ```shell
-# enter lfs user
-sudo bash enter-lfs.sh
+./run.sh box
 ```
 
-## docker container, lfs user
+## enter tmp-sys environment under root user
 ```shell
-# enter chroot
-sudo bash enter-chroot.sh
+./run.sh tmp-sys
 ```
 
-## docker container, chroot
+## enter sys environment under root user
 ```shell
-# build lfs system
-./build-system.sh
+./run.sh sys
 ```
