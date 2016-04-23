@@ -14,11 +14,23 @@ source util.sh
 # update shell
 source ~/.bashrc
 
+# log.touch
+mkdir -vp log
+
+# tmp.touch
+mkdir -vp tmp
+
+# tmp/step-index.touch
+if [ ! -f $index_step_file ]; then
+    touch $index_step_file
+fi
+
 # continue process depend on params
 case "$1" in
 
     # transfer control to user under shell
     "box" )
+        ls -la | grep log
         log "box.dev.enter" 0
         bash;;
 

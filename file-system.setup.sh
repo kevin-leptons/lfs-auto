@@ -3,23 +3,19 @@
 # using     : create disk file, using to make virtual disk on build
 # author    : kevin.leptons@gmail.com
 
-# locate location of this script
-__dir__="$(dirname "$0")"
+# libs
+source config.sh
+source util.sh
 
-# use configuration
-# use util
-source $__dir__/script/configuration.sh
-source $__dir__/util.sh
-
-# define variables
+# variables
 task_name="lfs-disk"
-lfs_disk_path=$__dir__/disk/$lfs_disk_file
+lfs_disk_path=$(realpath ./disk/$lfs_disk_file)
 
-# log start task
+# start
 log "$task_name.start" 0
 
 # create directory to store virtual disk
-mkdir -vp $__dir__/disk
+mkdir -vp disk
 
 # create disk image
 if [ -f $lfs_disk_path ]; then

@@ -15,23 +15,12 @@ cd /lfs-script
 source configuration.sh
 source util.sh
 
-# variables
-task_name="box.inside"
-
-# necessary-dir.mkdir
-mkdir -vp /log
-mkdir -vp /lfs-script/tmp
-
-# log-files.clear
-clear_log
-log "$task_name.setup.start" 0
-
 # box.dev.setup
-./box.dev.setup.sh
+./box.inside.dev.setup.sh
 exit_on_error
 
 # box.partition.setup
-./box.partition.setup.sh
+./box.inside.partition.setup.sh
 exit_on_error
 
 # box.dev.active

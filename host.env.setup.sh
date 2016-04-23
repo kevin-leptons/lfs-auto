@@ -3,13 +3,9 @@
 # using     : prepare packages will use
 # author    : kevin.leptons@gmail.com
 
-# locate location of this script
-__dir__="$(dirname "$0")"
-
-# use configuration
-# use util
-source $__dir__/script/configuration.sh
-source $__dir__/util.sh
+# libs
+source config.sh
+source util.sh
 
 # define variables
 task_name="host-package.prepare"

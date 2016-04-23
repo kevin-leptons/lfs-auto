@@ -9,10 +9,6 @@
 #       "other": run setup imediately
 # author    : kevin.leptons@gmail.com
 
-# locate locatin of this script
-__dir__="$(dirname "$0")"
-script_dir="$(readlink -f $__dir__/script)"
-
 # script.verify
 ./script.verify.sh
 if [[ $? != 0 ]]; then
@@ -20,12 +16,13 @@ if [[ $? != 0 ]]; then
 fi
 
 # libs
-source $script_dir/configuration.sh
+source config.sh
 source util.sh
 
 # variables
-task_name="run"
+task_name="lfs"
 lfs_disk_path="disk/$lfs_disk_file"
+script_dir=$(realpath ./script)
 
 # log-file.clear
 clear_log
@@ -52,8 +49,8 @@ cd ..
 # transfer control to /lfs-script/box.entry.sh
 log "$task_name.box.start" 0
 docker run -ti --privileged \
-    -v $root:$root \
-    -v $script_dir:$docker_script_dir $docker_name \
+    -v "$root":"$root" \
+    -v "$script_dir":"$docker_script_dir" "$docker_name" \
     bash /lfs-script/box.entry.sh $1
 log "$task_name.box.finish" $?
 
