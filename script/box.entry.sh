@@ -26,24 +26,13 @@ mkdir -vp /lfs-script/tmp
 clear_log
 log "$task_name.setup.start" 0
 
-# dev-user.create
-./dev-user.create.sh
+# box.dev.setup
+./box.dev.setup.sh
 exit_on_error
 
-# prepare partition
-./partition.setup.sh
+# box.partition.setup
+./box.partition.setup.sh
 exit_on_error
 
-# source-code.copy
-./source-code.copy.sh
-
-# /lfs-script/tmp.chown
-chown lfs:lfs -R /lfs-script/tmp
-log "/lfs-script/tmp.chown" $?
-
-# /lfs-script/log.chown
-chown lfs:lfs -R /log
-log "/lfs-script/log.chown" $?
-
-# box.dev.entry
+# box.dev.active
 sudo -u $build_user bash box.dev.entry.sh "$1"

@@ -1,22 +1,25 @@
 #!/bin/bash
 
-# using     : entry of box.dev user
-#             execute bashrc, and continue process
+# using     : entry of box.dev
+#             setup inside of box.dev
+#             fork process depend on params
 # author    : kevin.leptons@gmail.com
 
 # working-dir.change
 cd /lfs-script
-source ~/.bashrc
 
 # libs
 source util.sh
+
+# update shell
+source ~/.bashrc
 
 # continue process depend on params
 case "$1" in
 
     # transfer control to user under shell
     "box" )
-        echo "box.dev.login ok"
+        log "box.dev.enter" 0
         bash;;
 
     # enter tmp-sys, transfer control to user under shell

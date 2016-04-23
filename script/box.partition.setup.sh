@@ -9,16 +9,15 @@
 # locate location of this script
 __dir__="$(dirname "$0")"
 
-# use configuration
-# use util
+# libs
 source $__dir__/configuration.sh
 source $__dir__/util.sh
 
-# define variables
-task_name="partition"
+# variables
+task_name="box.partition"
 
-# log start
-log "$task_name.start" 0
+# start
+log "$task_name.setup.start" 0
 
 # create tools directory to build temporary system
 mkdir -vp $root_tools
@@ -44,7 +43,16 @@ if [ ! -f $index_step_file ]; then
     touch $index_step_file
 fi
 chown $build_user_group:$build_user $index_step_file
+log "$index_step_file.touch" $?
+
+# /lfs-script/tmp.chown
+chown lfs:lfs /lfs-script/tmp
+log "/lfs-script/tmp.chown" $?
+
+# /lfs-script/log.chown
+chown lfs:lfs /log
+log "/lfs-script/log.chown" $?
 
 # successfully
-log "$task_name.finish" $?
+log "$task_name.setup.finish" $?
 exit 0
