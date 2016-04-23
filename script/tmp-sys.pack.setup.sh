@@ -5,7 +5,7 @@
 
 # locate location of this script
 __dir__="$(dirname "$0")"
-build_temp_system_dir=$__dir__/tmp-sys.setup
+build_temp_system_dir=$__dir__/tmp-sys.pack.setup
 
 # use configuration
 # use util

@@ -5,6 +5,9 @@
 #             fork process depend on params
 # author    : kevin.leptons@gmail.com
 
+# exit on error
+set -e
+
 # working-dir.change
 cd /lfs-script
 
@@ -14,15 +17,6 @@ source util.sh
 
 # update shell
 source ~/.bashrc
-
-# log.touch
-mkdir -vp log
-
-# tmp.touch
-mkdir -vp tmp
-
-# tmp/step-index.touch
-touch $index_step_file
 
 # create build directories
 mkdir -vp "$root_tmp_sources" "$root_sources/system-build"

@@ -47,5 +47,5 @@ lfs_disk_size="32G"
 
 # log files
 log_host_package_file="log/host-package.log"
-log_build_file="log/build.log"
-index_step_file="tmp/step-index.txt"
+log_build_file="/lfs-script/log/build.log"
+index_step_file="/lfs-script/tmp/step-index.txt"

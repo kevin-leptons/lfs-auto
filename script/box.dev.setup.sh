@@ -25,3 +25,8 @@ cp -v asset/build-user-profile.sh $build_user_home/.profile
 
 # create bashrc
 cp -v asset/build-user-bashrc.sh $build_user_home/.bashrc
+
+# essential-file-system.create
+mkdir -vp log tmp
+touch $index_step_file
+chown $build_user_group:$build_user log tmp $index_step_file

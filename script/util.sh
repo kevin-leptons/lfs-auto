@@ -82,7 +82,6 @@ clear_log() {
 #   1: on first version less than second version
 version_gt() {
     test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1";
-    echo $?
 }
 
 # function compare version string
@@ -94,7 +93,6 @@ version_gt() {
 #   1: on first version greater than second version
 version_lt() {
     test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" == "$1";
-    echo $?
 }
 
 # function compare two string
@@ -106,7 +104,6 @@ version_lt() {
 #     1: on two string are different
 str_eq() {
     [[ "$1" == "$2" ]]
-    echo $?
 }
 
 # exit process when error

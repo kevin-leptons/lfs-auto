@@ -15,10 +15,13 @@ cd /lfs-script
 source configuration.sh
 
 # box.dev.setup
-./box.inside.dev.setup.sh
+./box.dev.setup.sh
+
+# box.dev.pack.verify
+./box.dev.pack.verify.sh
 
 # box.partition.setup
-./box.inside.partition.setup.sh
+./box.dev.partition.setup.sh
 
 # box.dev.active
 sudo -u $build_user bash box.dev.entry.sh "$1"
