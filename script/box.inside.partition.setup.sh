@@ -8,7 +8,6 @@
 
 # libs
 source configuration.sh
-source util.sh
 
 # exit on error
 set -e
@@ -21,9 +20,3 @@ sudo ln -svnf $root_tools /tools
 
 # transfer partition own from root to build user
 sudo chown $build_user_group:$build_user $root /tools
-
-# create build directories
-mkdir -vp $root_tmp_sources
-mkdir -vp "$root_sources/system-build"
-sudo chown $build_user_group:$build_user \
-    $root_tmp_sources "$root_sources/system-build"

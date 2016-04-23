@@ -47,5 +47,5 @@ lfs_disk_size="32G"
 
 # log files
 log_host_package_file="log/host-package.log"
-log_build_file=$(realpath "log/build.log")
-index_step_file=$(realpath "tmp/step-index.txt")
+log_build_file="log/build.log"
+index_step_file="tmp/step-index.txt"

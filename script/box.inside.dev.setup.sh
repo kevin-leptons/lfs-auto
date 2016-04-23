@@ -10,10 +10,6 @@ set -e
 
 # libs
 source configuration.sh
-source util.sh
-
-# log-files.clear
-clear_log
 
 # create user group
 groupadd $build_user_group
@@ -25,7 +21,7 @@ useradd -s /bin/bash -g $build_user_group -m -k /dev/null $build_user
 echo -e "$build_user_password\n$build_user_password" | passwd $build_user
 
 # create profile
-cp -v $__dir__/asset/build-user-profile.sh $build_user_home/.profile
+cp -v asset/build-user-profile.sh $build_user_home/.profile
 
 # create bashrc
-cp -v $__dir__/asset/build-user-bashrc.sh $build_user_home/.bashrc
+cp -v asset/build-user-bashrc.sh $build_user_home/.bashrc

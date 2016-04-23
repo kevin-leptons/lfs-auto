@@ -9,6 +9,7 @@
 cd /lfs-script
 
 # libs
+source configuration.sh
 source util.sh
 
 # update shell
@@ -21,9 +22,10 @@ mkdir -vp log
 mkdir -vp tmp
 
 # tmp/step-index.touch
-if [ ! -f $index_step_file ]; then
-    touch $index_step_file
-fi
+touch $index_step_file
+
+# create build directories
+mkdir -vp "$root_tmp_sources" "$root_sources/system-build"
 
 # continue process depend on params
 case "$1" in
