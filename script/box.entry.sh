@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# using     : setup inside of box and continues process under dev user
+# using     : box.entry
+#             setup inside of box
+#             active box.dev
 # author    : kevin.leptons@gmail.com
 
 # locate location of this script
@@ -8,9 +10,6 @@ __dir__="$(dirname "$0")"
 
 # working-dir.change
 cd /lfs-script
-
-# require root permision
-./require-root.sh
 
 # libs
 source configuration.sh
