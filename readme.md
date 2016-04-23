@@ -5,7 +5,7 @@ document
 # news
 
 setup system has successful by run script ./run.sh. more work to do
-re construct repo because it was become complicated
+re construct project because it was become complicated
 
 # documenation
 
