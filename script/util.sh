@@ -36,15 +36,22 @@ log() {
         result="no"
     fi
 
+    # convert message
+    if [[ $3 == "" ]]; then
+        msg="no-message"
+    else
+        msg=$3
+    fi
+
     # log to file
     printf "%s\n" "$log_time" >> "$log_build_file"
     printf "%-78s%2s\n" "$1" "$result" >> "$log_build_file"
-    printf "%s\n\n" $3 >> "$log_build_file"
+    printf "%s\n\n" $msg >> "$log_build_file"
 
     # log to console
     printf "%s\n" "$log_time"
     printf "%-78s%2s\n" "$1" "$result"
-    printf "%s\n\n" $3
+    printf "%s\n\n" $msg
 
     # exit if error
     if [[ $2 != 0 ]]; then
