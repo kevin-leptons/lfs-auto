@@ -26,7 +26,7 @@ packages=( \
     linux-api-headers \
     man-pages \
     glibc \
-    adjust-toolchain \
+    toolchain \
     zlib \
     file \
     binutils \
