@@ -3,26 +3,30 @@
 # using     : configure file system
 # author    : kevin.leptons@gmail.com
 
-# locate location of this script
-__dir__="$(dirname "$0")"
-script_dir="$(dirname $__dir__)"
+# libs
+source util.sh
 
-# create /etc/fstab
-cat > /etc/fstab << "EOF"
-# Begin /etc/fstab
+# variables
+task_name="fs.configure"
 
-# file system  mount-point  type     options             dump  fsck
-#                                                              order
+config_fs() {
+    # create /etc/fstab
+    cat > /etc/fstab << "EOF"
+    # Begin /etc/fstab
 
-/dev/sdb1     /             ext4     defaults            1     1
-#/dev/<yyy>     swap        swap     pri=1               0     0
-proc           /proc        proc     nosuid,noexec,nodev 0     0
-sysfs          /sys         sysfs    nosuid,noexec,nodev 0     0
-devpts         /dev/pts     devpts   gid=5,mode=620      0     0
-tmpfs          /run         tmpfs    defaults            0     0
-devtmpfs       /dev         devtmpfs mode=0755,nosuid    0     0
+    # file system  mount-point  type     options             dump  fsck
+    #                                                              order
 
-# End /etc/fstab
-EOF
+    /dev/sdb1     /             ext4     defaults            1     1
+    #/dev/<yyy>     swap        swap     pri=1               0     0
+    proc           /proc        proc     nosuid,noexec,nodev 0     0
+    sysfs          /sys         sysfs    nosuid,noexec,nodev 0     0
+    devpts         /dev/pts     devpts   gid=5,mode=620      0     0
+    tmpfs          /run         tmpfs    defaults            0     0
+    devtmpfs       /dev         devtmpfs mode=0755,nosuid    0     0
 
+    # End /etc/fstab
+    EOF
+}
 
+run_step "$task_name" config_fs

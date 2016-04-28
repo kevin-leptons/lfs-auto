@@ -3,49 +3,80 @@
 # using     : build kernel
 # author    : kevin.leptons@gmail.com
 
-# locate location of this script
-__dir__="$(dirname "$0")"
-script_dir="$(dirname $__dir__)"
+# libs
+source configuration.sh
+source util.sh
 
-# use configuration
-source $script_dir/configuration.sh
+# variables
+package_name="kernel"
+source_file="../linux-4.2.tar.xz"
+source_dir="linux-4.2"
 
-# change working directory to sources directory
-cd /sources &&
+# step.verify
+step_verify() {
+    [ -f $source_file ]
+}
 
-# extract source code and change to source directory
-if [ ! -d linux-4.2 ]; then
-   tar -xf linux-4.2.tar.xz
-fi
-cd linux-4.2
+# step.extract
+step_extract() {
+    tar -vxf $source_file
+}
 
-# prepre
-make mrproper &&
-make defconfig &&
+# prepare
+step_prepare() {
+    make mrproper
+    make defconfig
+}
 
 # build
-make &&
+step_build() {
+    make
+}
 
 # install
-make modules_install &&
+step_install() {
+    make modules_install
+}
 
-# copy kernel
-cp -v arch/x86/boot/bzImage /boot/vmlinuz-4.2-lfs-7.8 &&
+# kernel.cp
+step_kernel_cp() {
+    cp -v arch/x86/boot/bzImage /boot/vmlinuz-4.2-lfs-7.8
+}
 
-# copy configuration of kernel
-cp -v .config /boot/config-4.2 &&
+# kernel.configuration.cp
+step_kernel_config_cp() {
+    cp -v .config /boot/config-4.2
+}
 
-# install documents
-install -d /usr/share/doc/linux-4.2 &&
-cp -r Documentation/* /usr/share/doc/linux-4.2 &&
+# doc.install
+step_doc_install() {
+    install -d /usr/share/doc/linux-4.2
+    cp -r Documentation/* /usr/share/doc/linux-4.2
+}
 
-# configure linux module load oder
-install -v -m755 -d /etc/modprobe.d &&
-cat > /etc/modprobe.d/usb.conf << "EOF"
-# Begin /etc/modprobe.d/usb.conf
+# module.load-order
+step_module_load_order() {
+    install -v -m755 -d /etc/modprobe.d &&
+    cat > /etc/modprobe.d/usb.conf << "EOF"
+    # Begin /etc/modprobe.d/usb.conf
 
-install ohci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i ohci_hcd ; true
-install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true
+    install ohci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i ohci_hcd ; true
+    install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true
 
-# End /etc/modprobe.d/usb.conf
-EOF
+    # End /etc/modprobe.d/usb.conf
+    EOF
+}
+
+# run
+cd $root_system_sources
+run_step "$package_name.verify" step_verify
+run_step "$package_name.extract" step_extract
+cd $source_dir
+run_step "$package_name.prepare" step_prepare
+run_step "$package_name.make" step_build
+run_step "$package_name.install" step_install
+run_step "$package_name.kernel.cp" step_kernel_cp
+run_step "$package_name.kernel.config.cp" step_kernel_config_cp
+run_step "$package_name.doc.install" step_doc_install
+run_step "$package_name.module.config" step_module_load_order
+exit 0

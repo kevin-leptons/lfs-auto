@@ -3,13 +3,9 @@
 # using     : build lfs-bootscripts
 # author    : kevin.leptons@gmail.com
 
-# locate location of this script
-__dir__="$(dirname "$0")"
-script_dir="$(dirname $__dir__)"
-
 # libs
-source $script_dir/configuration.sh
-source $script_dir/util.sh
+source configuration.sh
+source util.sh
 
 # veriables
 package_name="sys.lfs-bootscripts"
