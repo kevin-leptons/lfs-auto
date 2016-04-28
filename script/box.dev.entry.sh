@@ -26,7 +26,6 @@ case "$1" in
 
     # transfer control to user under shell
     "box" )
-        ls -la | grep log
         log "box.dev.enter" 0
         bash;;
 

@@ -15,6 +15,9 @@ set -e
 # script.verify
 ./script.verify.sh
 
+# enssential-dir.mkdir
+mkdir -vp log tmp disk
+
 # libs
 source config.sh
 source util.sh
@@ -23,9 +26,6 @@ source util.sh
 task_name="lfs"
 lfs_disk_path="disk/$lfs_disk_file"
 script_dir=$(realpath ./script)
-
-# enssential-dir.mkdir
-mkdir -vp log tmp disk
 
 # log-file.clear
 clear_log

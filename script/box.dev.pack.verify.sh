@@ -16,7 +16,7 @@ source util.sh
 export LC_ALL=C
 
 # define variables
-task_name="box.pack.verify"
+task_name="box.dev.pack.verify"
 bash_version_req="3.2"
 sh_link_req="/bin/bash"
 binutils_version_req="2.17"
