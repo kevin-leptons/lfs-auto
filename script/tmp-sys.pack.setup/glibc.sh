@@ -87,5 +87,5 @@ run_step "$package_name.configure" step_configure
 run_step "$package_name.make" step_build
 run_step "$package_name.install" step_install
 run_step "$package_name.test" step_test
-rm -v $simple_program_dest
+rm -vf $simple_program_dest
 exit 0
