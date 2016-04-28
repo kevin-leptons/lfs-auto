@@ -9,11 +9,11 @@
 #       "other": run setup imediately
 # author    : kevin.leptons@gmail.com
 
+# exit on error
+set -e
+
 # script.verify
 ./script.verify.sh
-if [[ $? != 0 ]]; then
-    exit 1
-fi
 
 # libs
 source config.sh
@@ -24,17 +24,18 @@ task_name="lfs"
 lfs_disk_path="disk/$lfs_disk_file"
 script_dir=$(realpath ./script)
 
+# enssential-dir.mkdir
+mkdir -vp log tmp disk
+
 # log-file.clear
 clear_log
 log "$task_name.start" 0
 
 # host.env.setup
 ./host.env.setup.sh
-exit_on_error
 
 # file-system.setup
 ./file-system.setup.sh
-exit_on_error
 
 # box.setup
 log "$task_name.box.setup.start" 0
