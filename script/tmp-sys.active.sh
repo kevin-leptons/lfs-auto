@@ -43,11 +43,12 @@ sudo mount -v --bind /lfs-script $LFS/lfs-script
 log "lfs-script.mount" $?
 
 # enter the chroot environemnt
+# transfer control to tmp-sys.entry.sh
 log "chroot.start" 0
 sudo chroot "$LFS" /tools/bin/env -i \
     HOME=/root                  \
     TERM="$TERM"                \
     PS1='\u:\w\$ '              \
     PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin \
-    /tools/bin/bash /lfs-script/tmp-sys.inside.setup.sh "$1" --login +h
+    /tools/bin/bash /lfs-script/tmp-sys.entry.sh "$1" --login +h
 log "chroot.finish" $?

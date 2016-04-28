@@ -102,19 +102,6 @@ for package in ${packages[@]}; do
     exit_on_error
 done
 
-# continue process depend on params
-case "$1" in
-
-    # transfer control to user unser shell
-    "sys" )
-        log "sys.root.login" 0
-        bash;;
-
-    # continue process immediately
-    # todo: implement this
-    * ) 
-esac
-
 # successfully
 log "$task_name.setup.finish" $?
 exit 0

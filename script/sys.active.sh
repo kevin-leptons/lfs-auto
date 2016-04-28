@@ -42,11 +42,12 @@ sudo mount -v --bind /lfs-script $LFS/lfs-script
 log "lfs-script.mount" $?
 
 # enter the virtual kernel environemnt
+# transfer control to sys.entry.sh
 log "$task_name.virtual-kernel.start" 0
 sudo chroot "$LFS" /usr/bin/env -i              \
     HOME=/root TERM="$TERM" PS1='\u:\w\$ ' \
     PATH=/bin:/usr/bin:/sbin:/usr/sbin     \
-    /bin/bash /lfs-script/sys.inside.setup.sh "$1" --login +h
+    /bin/bash /lfs-script/sys.entry.sh "$1" --login +h
 log "$task_name.virtual-kernel.finish" $?
 
 # successfull

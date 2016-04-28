@@ -10,3 +10,5 @@ packages_2=( \
     config-grub \
     create-status-build \
 )
+echo "sys.inside.pack.setup must be implement"
+exit 1

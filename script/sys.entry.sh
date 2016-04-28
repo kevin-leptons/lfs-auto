@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# using     : setup inside of tmp-sys
+# using     : setup inside of system
 # author    : kevin.leptons@gmail.com
 
 # locate location of this script
@@ -8,11 +8,11 @@ cd /lfs-script
 __dir__="$(dirname "$0")"
 
 # libs
-source $__dir__/configuration.sh
-source $__dir__/util.sh
+source configuration.sh
+source util.sh
 
 # variables
-task_name="tmp-sys.inside.setup"
+task_name="sys.entry"
 
 # unset hash
 set +h
@@ -32,9 +32,10 @@ case "$1" in
 
     # transfer control to user unser shell
     "bash" )
-        log "tmp-sys.root.login" 0
+        log "sys.root.login" 0
         exec /tools/bin/bash --login +h;;
 
     # continue process immediately
+    # transfer control to sys.inside.pack.setup.sh
     * ) exec /tools/bin/bash /lfs-script/sys.inside.pack.setup.sh --login +h
 esac

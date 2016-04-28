@@ -7,15 +7,14 @@
 __dir__="$(dirname "$0")"
 build_temp_system_dir=$__dir__/tmp-sys.pack.setup
 
-# use configuration
-# use util
+# libs
 source $__dir__/configuration.sh
 source $__dir__/util.sh
 
-# define variables
+# variables
 task_name="tmp-sys"
 
-# log start build temp system
+# start
 log "$task_name.setup.start" 0
 
 # clean installed tools
