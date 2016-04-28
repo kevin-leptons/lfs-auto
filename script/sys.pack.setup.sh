@@ -3,16 +3,13 @@
 # using     : wrap all build system task
 # author    : kevin.leptons@bmail.com
 
-# locate location of this script
-__dir__="$(dirname "$0")"
-build_sysem_dir=$__dir__/sys.pack.setup
-
 # libs
-source $__dir__/configuration.sh
-source $__dir__/util.sh
+source configuration.sh
+source util.sh
 
 # variables
 task_name="sys.pack.setup"
+build_sysem_dir="sys.pack.setup"
 
 # start
 log "$task_name.start" 0
