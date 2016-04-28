@@ -5,7 +5,7 @@
 #             fork process depend on params
 # author    : kevin.leptons@gmail.com
 
-# exit on error
+# bash options
 set -e
 
 # working-dir.change

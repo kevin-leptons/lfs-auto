@@ -16,7 +16,7 @@ source util.sh
 export LC_ALL=C
 
 # define variables
-task_name="verify-host-env"
+task_name="box.pack.verify"
 bash_version_req="3.2"
 sh_link_req="/bin/bash"
 binutils_version_req="2.17"

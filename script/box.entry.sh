@@ -5,7 +5,7 @@
 #             active box.dev
 # author    : kevin.leptons@gmail.com
 
-# exit when error
+# bash options
 set -e
 
 # working-dir.change

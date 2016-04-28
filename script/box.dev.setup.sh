@@ -5,7 +5,7 @@
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
 
-# exit on error
+# bash options
 set -e
 
 # libs

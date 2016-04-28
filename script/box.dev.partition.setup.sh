@@ -9,7 +9,7 @@
 # libs
 source configuration.sh
 
-# exit on error
+# bash options
 set -e
 
 # create tools directory to build temporary system

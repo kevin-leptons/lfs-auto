@@ -3,6 +3,9 @@
 # using     : create disk file, using to make virtual disk on build
 # author    : kevin.leptons@gmail.com
 
+# exit on error
+set -e
+
 # libs
 source config.sh
 source util.sh
