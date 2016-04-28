@@ -85,7 +85,6 @@ nogroup:x:99:
 users:x:999:
 EOF
 
-# setup
 ls /
 touch /var/log/{btmp,lastlog,wtmp} &&
 chgrp -v utmp /var/log/lastlog &&
