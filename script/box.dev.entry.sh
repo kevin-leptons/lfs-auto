@@ -22,6 +22,7 @@ source ~/.bashrc
 mkdir -vp "$root_tmp_sources" "$root_sources/system-build"
 
 # continue process depend on params
+# allow jump to entry of tmp-sys or sys
 case "$1" in
 
     # transfer control to user under shell
@@ -30,20 +31,22 @@ case "$1" in
         bash;;
 
     # enter tmp-sys, transfer control to user under shell
+    # only enter when tmp-sys has build successfully
     "tmp-sys" )
-        pack_state=$(step_state "tmp-sys.setup.finish")
-        if [[ $pack_state != "ok" ]]; then
-            log "tmp-sys.enter" 1 "tmp-sys.pack.setup.no"
+        tmp_state=$(step_state "tmp-sys.pack.setup.finish")
+        if [[ $tmp_state != "ok" ]]; then
+            log "tmp-sys.active" 1 "tmp-sys.pack.setup.no"
         fi
-        bash tmp-sys.entry.sh bash;;
+        bash tmp-sys.active.sh bash;;
 
     # enter sys, transfer control to user under shell
+    # only enter when sys has build successfully
     "sys" )
-        sys_state=$(step_state "sys.setup.finish")
+        sys_state=$(step_state "sys.pack.setup.finish")
         if [[ $sys_state != "ok" ]]; then
-            log "sys.enter" 1 "sys.setup.no"
+            log "sys.active" 1 "sys.pack.setup.no"
         fi
-        bash sys.entry.sh bash;;
+        bash sys.active.sh bash;;
 
     # continue setup imediately
     * ) bash setup.sh;;

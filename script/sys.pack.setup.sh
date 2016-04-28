@@ -12,10 +12,10 @@ source $__dir__/configuration.sh
 source $__dir__/util.sh
 
 # variables
-task_name="sys"
+task_name="sys.pack.setup"
 
 # start
-log "$task_name.setup.start" 0
+log "$task_name.start" 0
 
 # hash-flag.off
 set +h
@@ -103,5 +103,5 @@ for package in ${packages[@]}; do
 done
 
 # successfully
-log "$task_name.setup.finish" $?
+log "$task_name.finish" $?
 exit 0

@@ -12,10 +12,10 @@ source $__dir__/configuration.sh
 source $__dir__/util.sh
 
 # variables
-task_name="tmp-sys"
+task_name="tmp-sys.package.setup"
 
 # start
-log "$task_name.setup.start" 0
+log "$task_name.start" 0
 
 # clean installed tools
 # to avoid error when use wrong tools link from /tools
@@ -72,5 +72,5 @@ for package in ${tool_packages[@]}; do
 done
 
 # successfully
-log "$task_name.setup.finish" $?
+log "$task_name.finish" $?
 exit 0
