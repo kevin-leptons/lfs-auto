@@ -5,11 +5,10 @@
 
 # locate location of this script
 cd /lfs-script
-__dir__="$(dirname "$0")"
 
 # libs
-source $__dir__/configuration.sh
-source $__dir__/util.sh
+source configuration.sh
+source util.sh
 
 # variables
 task_name="tmp-sys.entry"
@@ -21,6 +20,8 @@ set +h
 log "$task_name.start" 0
 
 # setup
+echo DDDDDDDDDDDDDDDDDD
+ls /
 touch /var/log/{btmp,lastlog,wtmp} &&
 chgrp -v utmp /var/log/lastlog &&
 chmod -v 664  /var/log/lastlog &&

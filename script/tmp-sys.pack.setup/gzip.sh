@@ -45,7 +45,7 @@ step_test() {
 }
 
 # step.install
-step_test() {
+step_install() {
     make install
 }
 
