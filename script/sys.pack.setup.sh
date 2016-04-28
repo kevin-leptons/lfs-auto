@@ -5,7 +5,7 @@
 
 # locate location of this script
 __dir__="$(dirname "$0")"
-build_sysem_dir=$__dir__/build-system
+build_sysem_dir=$__dir__/sys.pack.setup
 
 # libs
 source $__dir__/configuration.sh
