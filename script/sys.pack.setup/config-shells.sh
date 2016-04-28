@@ -10,15 +10,7 @@ source util.sh
 task_name="shell.configure"
 
 config_shell() {
-    # create /etc/shells
-    cat > /etc/shells << "EOF"
-    # Begin /etc/shells
-
-    /bin/sh
-    /bin/bash
-
-    # End /etc/shells
-    EOF
+    cp -vp asset/etc.shells.sh /etc/shells
 }
 
 run_step "$task_name" config_shell

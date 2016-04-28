@@ -12,13 +12,7 @@ task_name="profile.configure"
 
 config_profile() {
     # create /etc/profile
-    cat > /etc/profile << "EOF"
-    # Begin /etc/profile
-
-    export LANG=en_US.UTF-8
-
-    # End /etc/profile
-    EOF
+    cp -vp asset/etc.profile /etc/profile
 }
 
 run_step "$task_name" config_profile
