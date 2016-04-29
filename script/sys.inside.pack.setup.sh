@@ -33,7 +33,7 @@ packages=( \
     config-file-system \
     kernel \
     config-grub \
-    create-status-build \
+    create-build-status \
 )
 
 # build each package

@@ -4,6 +4,7 @@
 # author    : kevin.leptons@gmail.com
 
 # libs
+pwd
 source utils.sh
 
 # variables
