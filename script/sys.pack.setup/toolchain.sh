@@ -21,9 +21,9 @@ compile_log_file="/lfs-script/log/compile.log"
 
 # step./tools.backup
 step_tool_backup() {
-    mv -v /tools/bin/{ld,ld-old} &&
-    mv -v /tools/$(gcc -dumpmachine)/bin/{ld,ld-old} &&
-    mv -v /tools/bin/{ld-new,ld} &&
+    mv -v /tools/bin/{ld,ld-old}
+    mv -v /tools/$(gcc -dumpmachine)/bin/{ld,ld-old}
+    mv -v /tools/bin/{ld-new,ld}
     if [ -f /tools/bin/ld ]; then
         ln -sv /tools/bin/ld /tools/$(gcc -dumpmachine)/bin/ld
     fi
