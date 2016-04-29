@@ -3,6 +3,9 @@
 # using     : wrap all build tools task
 # author    : kevin.leptons@bmail.com
 
+# bash options
+set -e
+
 # libs
 source configuration.sh
 source util.sh

@@ -5,7 +5,7 @@
 # return    : 0 on successfull, 1 on error
 # author    : kevin.leptons@gmail.com
 
-# location.locate
+# locate location of this script
 __dir__="$(dirname "$0")"
 script_dir="$(dirname $__dir__)"
 

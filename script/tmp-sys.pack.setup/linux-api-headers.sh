@@ -35,7 +35,7 @@ step_mrproper() {
 
 # step.install
 step_install() {
-    make INSTALL_HDR_PATH=dest headers_install &&
+    make INSTALL_HDR_PATH=dest headers_install
     cp -rv dest/include/* /tools/include
 }
 
