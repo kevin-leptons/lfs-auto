@@ -15,6 +15,7 @@ source util.sh
 
 # variables
 task_name="sys.inside.setup"
+build_system_dir="sys.pack.setup"
 
 # unset hash
 set +h
@@ -39,7 +40,7 @@ packages=( \
 # log is generate by internal build script
 result=done
 for package in ${packages[@]}; do
-    $build_sysem_dir/$package.sh
+    $build_system_dir/$package.sh
 done
 
 # successfull
