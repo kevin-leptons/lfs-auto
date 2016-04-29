@@ -8,7 +8,7 @@ source configuration.sh
 source util.sh
 
 # variables
-task_name="profile.configure"
+task_name="sys.profile.configure"
 
 config_profile() {
     # create /etc/profile

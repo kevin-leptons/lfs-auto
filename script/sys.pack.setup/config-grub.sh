@@ -8,7 +8,7 @@ source configuration.sh
 source util.sh
 
 # variables
-task_name="grub.configure"
+task_name="sys.grub.configure"
 
 config_grub() {
     # install grub

@@ -8,7 +8,7 @@ source configuration.sh
 source util.sh
 
 # variables
-package_name="kernel"
+package_name="sys.kernel"
 source_file="../linux-4.2.tar.xz"
 source_dir="linux-4.2"
 

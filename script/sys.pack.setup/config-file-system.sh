@@ -7,7 +7,7 @@
 source util.sh
 
 # variables
-task_name="fs.configure"
+task_name="sys.fs.configure"
 
 config_fs() {
     cp -vp asset/etc.fstab /etc/fstab

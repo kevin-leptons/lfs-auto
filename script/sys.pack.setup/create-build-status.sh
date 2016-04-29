@@ -7,7 +7,7 @@
 source util.sh
 
 # variables
-task_name="build-status.config"
+task_name="sys.build-status.config"
 
 config_build_status() {
     # create /etc/lfs-release

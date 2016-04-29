@@ -7,7 +7,7 @@
 source util.sh
 
 # variables
-task_name="shell.configure"
+task_name="sys.shell.configure"
 
 config_shell() {
     cp -vp asset/etc.shells.sh /etc/shells

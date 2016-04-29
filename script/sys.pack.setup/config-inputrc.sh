@@ -11,7 +11,7 @@ source configuration.sh
 source util.sh
 
 # variables
-task_name="inputrc.configure"
+task_name="config.inputrc.configure"
 
 config_inputrc() {
     # create /etc/inputrc

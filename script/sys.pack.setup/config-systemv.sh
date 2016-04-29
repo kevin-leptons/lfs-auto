@@ -8,7 +8,7 @@ source configuration.sh
 source util.sh
 
 # variables
-task_name="systemv.configure"
+task_name="sys.systemv.configure"
 
 config_systemv() {
     # create /etc/initab

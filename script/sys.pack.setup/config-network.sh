@@ -8,7 +8,7 @@ source configuration.sh
 source util.sh
 
 # variables
-task_name="network.configure"
+task_name="sys.network.configure"
 
 config_network() {
     # create /etc/sysconfig/ifconfig.eth0
