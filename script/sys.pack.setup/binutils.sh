@@ -36,7 +36,7 @@ step_ptys_verify() {
 
 # step.build-dir.mkdir
 step_build_dir_mkdir() {
-    mkdir -v $build_dir
+    mkdir -vp $build_dir
 }
 
 # step.configure
