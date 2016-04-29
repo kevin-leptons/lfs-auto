@@ -56,6 +56,7 @@ step_doc_install() {
 
 # module.load-order
 step_module_load_order() {
+    pwd
     install -v -m755 -d /etc/modprobe.d
     cp -vp asset/etc.modprobe.d.usb.conf /etc/modprobe.d/usb.conf
 }
