@@ -9,7 +9,7 @@
 #       "other": run setup imediately
 # author    : kevin.leptons@gmail.com
 
-# exit on error
+# bash options
 set -e
 
 # script.verify
@@ -31,11 +31,11 @@ script_dir=$(realpath ./script)
 clear_log
 log "$task_name.start" 0
 
-# host.env.setup
-./host.env.setup.sh
+# host.pack.setup
+./host.pack.setup.sh
 
-# file-system.setup
-./file-system.setup.sh
+# host.fs.setup
+./host.fs.setup.sh
 
 # box.setup
 log "$task_name.box.setup.start" 0
@@ -57,6 +57,7 @@ log "$task_name.box.finish" $?
 
 # file-system.umount
 sudo umount /mnt/lfs
+log "lfs-disk.umount" $?
 
 # successfull
 log "$task_name.finish" $?

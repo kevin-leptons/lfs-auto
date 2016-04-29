@@ -3,14 +3,11 @@
 # using     : contains util functions
 # author    : kevin.leptons@gmail.com
 
-# locate location of this script
-__dir__="$(dirname "$0")"
-
-# define variables
-log_file=$__dir__/log/process.log
+# variables
+log_file=log/process.log
 
 # create directory to store log file
-mkdir -vp $__dir__/log
+mkdir -vp log
 
 # using     : current time by format
 # return    : date time string format by %Y-%m-%d %H:%M:%S
@@ -80,4 +77,13 @@ exit_on_error() {
     if [[ $? != 0 ]]; then
         exit 1
     fi
+}
+
+# escape string
+# params
+#   $1: string to escape
+# stdout
+#   string escaped
+escape_str() {
+    echo $1 | sed -e 's/[]\/$*.^|[]/\\&/g'
 }
