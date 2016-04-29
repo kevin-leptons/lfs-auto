@@ -8,7 +8,7 @@ source configuration.sh
 source util.sh
 
 # variables
-task_name="tmp-sys.package.setup"
+task_name="tmp-sys.pack.setup"
 build_temp_system_dir="tmp-sys.pack.setup"
 
 step_tmp_sys_pack_setup() {

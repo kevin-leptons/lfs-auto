@@ -33,7 +33,7 @@ case "$1" in
     # enter tmp-sys, transfer control to user under shell
     # only enter when tmp-sys has build successfully
     "tmp-sys" )
-        tmp_state=$(step_state "tmp-sys.pack.setup.finish")
+        tmp_state=$(step_state "tmp-sys.pack.setup")
         if [[ $tmp_state != "ok" ]]; then
             log "tmp-sys.active" 1 "tmp-sys.pack.setup.no"
         fi
@@ -42,7 +42,7 @@ case "$1" in
     # enter sys, transfer control to user under shell
     # only enter when sys has build successfully
     "sys" )
-        sys_state=$(step_state "sys.pack.setup.finish")
+        sys_state=$(step_state "sys.pack.setup")
         if [[ $sys_state != "ok" ]]; then
             log "sys.active" 1 "sys.pack.setup.no"
         fi

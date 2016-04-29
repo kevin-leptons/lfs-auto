@@ -148,7 +148,7 @@ step_state() {
     keywork=$(echo $1 | sed -e 's/[]\/$*.^|[]/\\&/g' )
 
     # state of step is idle
-    step_line=$(sed -ne "/$keywork\s/p" "$index_step_file")
+    step_line=$(sed -ne "/^$keywork\s/p" "$index_step_file")
     if [[ $step_line == '' ]]; then
         echo "idle"
         exit 0
