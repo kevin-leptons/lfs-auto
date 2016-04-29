@@ -43,6 +43,9 @@ step_gcc_compile() {
         -v -Wl,--verbose &> "$compile_log_file"
     readelf -l $simple_program_dest | grep ': /lib' | \
         grep "Requesting program interpreter"
+    echo $simple_program_dest
+    ls /lfs-script/tmp
+    exit 1
 }
 
 # step./usr/lib/.verify

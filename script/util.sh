@@ -151,26 +151,26 @@ step_state() {
     step_line=$(sed -ne "/^$keywork\s/p" "$index_step_file")
     if [[ $step_line == '' ]]; then
         echo "idle"
-        exit 0
+        return 0
     fi
 
     # state of step is ok
     step_ok=$(echo "$step_line" | sed -ne "/ok$/p")
     if [[ $step_ok != '' ]]; then
         echo "ok"
-        exit 0
+        return 0
     fi
 
     # state of step is no
     step_no=$(echo "$step_line" | sed -ne "/no$/p")
     if [[ $step_no != '' ]]; then
         echo 'no'
-        exit 0
+        return 0
     fi
 
     # state of step is undefined
     echo '?'
-    exit 0
+    return 0
 }
 
 # index state of step
@@ -189,11 +189,12 @@ index_step() {
     case $2 in
         0 ) state="ok";;
         1 ) state="no";;
-        * ) exit;;
+        * ) return 0;;
     esac
 
     # create new index
     printf "%-78s%2s\n\n" "$1" "$state" >> "$index_step_file"
+    return 0
 }
 
 # run function contains setup instructions
