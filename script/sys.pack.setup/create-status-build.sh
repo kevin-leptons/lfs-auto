@@ -14,7 +14,7 @@ config_build_status() {
     echo 7.8 > /etc/lfs-release
 
     # create /etc/lsb-release
-    cp -vp asset/lsb-release /etc/lsb-release
+    cp -vp /lfs-script/asset/lsb-release /etc/lsb-release
 }
 
 run_step "$task_name" config_build_status
