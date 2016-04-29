@@ -4,8 +4,7 @@
 # author    : kevin.leptons@gmail.com
 
 # libs
-pwd
-source utils.sh
+source util.sh
 
 # variables
 task_name="build-status.config"
