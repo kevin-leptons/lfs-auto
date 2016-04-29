@@ -15,7 +15,7 @@ task_name="inputrc.configure"
 
 config_inputrc() {
     # create /etc/inputrc
-    cp -vp asset/etc.inputrc /etc/inputrc
+    cp -vp asset/etc.inputrc.sh /etc/inputrc
 }
 
 run_step "$task_name" config_inputrc
