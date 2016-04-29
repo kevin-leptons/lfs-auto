@@ -40,7 +40,7 @@ step_gcc_amend() {
 # step.gcc.compile
 step_gcc_compile() {
     cc "$simple_program_src" -o $simple_program_dest \
-        -v -Wl,--verbose &> "$compile_log_file" &&
+        -v -Wl,--verbose &> "$compile_log_file"
     readelf -l $simple_program_dest | grep ': /lib' | \
         grep "Requesting program interpreter"
 }
