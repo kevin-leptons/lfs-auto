@@ -29,7 +29,7 @@ packages=( \
     config-systemv \
     config-profile \
     config-inputrc \
-    config-shell \
+    config-shells \
     config-file-system \
     kernel \
     config-grub \
