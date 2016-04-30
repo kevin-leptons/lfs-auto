@@ -42,6 +42,10 @@ step_build() {
 # allow test fail
 step_test() {
     make check
+    if [[ $? != 0 ]];then
+        log "$package_name.test.fail.allowed" 0
+        return 0
+    fi
 }
 
 # step.install
