@@ -22,3 +22,7 @@ source util.sh
 # enter system
 # continue setup system inside
 ./sys.active.sh
+
+# install-image.create
+# install boot loader
+./dist.setup.sh

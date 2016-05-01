@@ -27,7 +27,8 @@ run apt-get install -y \
    xz-utils \
    wget \
    gettext \
-   build-essential
+   build-essential \
+   genisoimage
 
 # make sure that docker meet requirements of lfs
 run ln -sf bash /bin/sh

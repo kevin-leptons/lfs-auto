@@ -25,6 +25,9 @@ partition_dev="/dev/sdb1"
 # use directory in standard mount point as /mnt or /media
 # this directory to know as root of lfs system
 root="/mnt/lfs"
+dist_dir="$root/dist"
+dist_src_dir="$dist_dir/src"
+dist_dest_dir="$dist_dir/dest"
 
 # directory store source code
 # source code will download from internet by wget program and wget-list file
