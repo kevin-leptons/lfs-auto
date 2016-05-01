@@ -13,6 +13,7 @@ build_user_bashrc_file="build_user_bashrc"
 docker_lfs_auto="/mnt/lfs-auto"
 docker_script_dir="/lfs-script"
 lfs_script_dir="/lfs-script"
+kernel_version="4.2.0"
 
 # disk device where lfs partition locate
 # must chose new partition without any important data

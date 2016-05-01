@@ -30,8 +30,10 @@ if ! mount -l | grep /mnt/lfs; then
 fi
 
 # remove early virtual machine
-if virsh list --all | grep $vm_name; then
+if virsh list | grep $vm_name; then
     virsh destroy $vm_name
+fi
+if virsh list --all | grep $vm_name; then
     virsh undefine $vm_name
 fi
 

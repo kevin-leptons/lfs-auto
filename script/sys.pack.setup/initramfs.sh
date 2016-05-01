@@ -15,7 +15,6 @@ source $script_dir/util.sh
 
 # variables
 task_name="sys.initramfs"
-kernel_version="4.2.0"
 
 # mkinitramfs.cp
 step_mkinitramfs_init_cp() {
@@ -31,6 +30,6 @@ step_install() {
 }
 
 # run
-run_step "$task_name.mkinitramfs.init.cp" step_mkinitramfs_init_cp
-run_step "$task_name.install" step_install
+run_step "$task_name.mkinitramfs.init.cp" step_mkinitramfs_init_cp force
+run_step "$task_name.install" step_install force
 exit 0

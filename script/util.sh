@@ -199,13 +199,14 @@ index_step() {
 
 # run function contains setup instructions
 # params
-#   $1: name of step
-#   $2: name of setup function
+#   $1 required: name of step
+#   $2 required: name of setup function
+#   $3 optionn: enum { force, <null> }
 run_step() {
 
     state=$(step_state "$1")
 
-    if [[ $state == "idle" || $state == "no" ]]; then
+    if [[ $state == "idle" || $state == "no" || $3 == "force" ]]; then
 
         #start
         log "$1.start" 0

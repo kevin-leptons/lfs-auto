@@ -57,5 +57,5 @@ run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.lib.install" step_lib_install
-run_step "$package_name.config.install" step_config_install
+run_step "$package_name.config.install" step_config_install force
 exit 0

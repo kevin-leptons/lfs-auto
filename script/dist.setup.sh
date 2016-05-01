@@ -27,10 +27,10 @@ step_dist_setup() {
     # build each package
     # log is generate by internal build script
     for package in ${packages[@]}; do
-        $dist_setup_dir/$package.sh
+        sudo $dist_setup_dir/$package.sh
     done
 }
 
 # run
-run_step "$task_name" step_dist_setup
+run_step "$task_name" step_dist_setup force
 exit 0

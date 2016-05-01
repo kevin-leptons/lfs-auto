@@ -23,8 +23,8 @@ task_name="dist.image.pack"
 dest_file="$dist_dest_dir/lfs-live.amd64.iso"
 
 step_image_pack() {
-    mkdir -vp $dist_dest_dir
     rm -rf "$dest_file"
+    mkdir -vp $dist_dest_dir
     genisoimage -r -o "$dest_file" \
         -b "boot/syslinux/isolinux.bin" \
         -c "boot/syslinux/boot.cat" \
@@ -33,5 +33,5 @@ step_image_pack() {
 }
 
 # run
-run_step "$task_name" step_image_pack
+run_step "$task_name" step_image_pack force
 exit 0
