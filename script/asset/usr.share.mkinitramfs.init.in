@@ -65,7 +65,6 @@ mount -n -t devtmpfs devtmpfs /dev
 mount -n -t proc     proc     /proc
 mount -n -t sysfs    sysfs    /sys
 mount -n -t tmpfs    tmpfs    /run
-mknod /dev/ram0    b  1  0
 
 read -r cmdline < /proc/cmdline
 
