@@ -19,12 +19,13 @@ vm_disk_size="8"
 on_exit() {
     echo "stop vm.$vm_name"
     virsh destroy $vm_name
+    sudo umount "/mnt/lfs"
 }
 
 # shen exit script, kill virtual machine
 trap on_exit EXIT
 
-# mount build image\
+# mount build image
 if ! mount -l | grep /mnt/lfs; then
     sudo mount "disk/lfs-disk.img" "/mnt/lfs"
 fi

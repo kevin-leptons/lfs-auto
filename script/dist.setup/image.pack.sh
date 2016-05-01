@@ -24,7 +24,12 @@ dest_file="$dist_dest_dir/lfs-live.amd64.iso"
 dest_fs_file="$dist_build_dir/filesystem.squashfs"
 
 step_fs_compress() {
+    rm -v $dest_fs_file
     mksquashfs $dist_src_dir $dest_fs_file
+}
+
+step_initrd_cp() {
+    cp -vp "$dist_src_dir/boot/initrd.img-$kernel_version" $dist_build_dir
 }
 
 step_image_pack() {
@@ -39,5 +44,6 @@ step_image_pack() {
 
 # run
 run_step "$task_name.fs.compress" step_fs_compress
+run_step "$package_name.initrd.cp" step_initrd_cp
 run_step "$task_name" step_image_pack force
 exit 0
