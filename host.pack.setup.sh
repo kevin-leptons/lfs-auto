@@ -3,6 +3,9 @@
 # using     : prepare packages will use
 # author    : kevin.leptons@gmail.com
 
+ # bash options
+ set -e
+
 # libs
 source config.sh
 source util.sh
@@ -13,6 +16,9 @@ host_packages=( \
     util-linux \
     e2fsprogs \
     docker-engine \
+    qemu-kvm \
+    libvirt-bin \
+    virt-viewer \
 )
 
 # start
@@ -48,6 +54,13 @@ for package in "${host_packages[@]}"; do
         log "$package.install.finish" $?
     fi
 done
+
+# libvirt.user.setup
+sudo adduser $USER kvm
+sudo adduser $USER libvirt
+
+# libvirt.test
+virsh --connect qemu:///system list --all
 
 # successfull
 log "$task_name.finish" 0
