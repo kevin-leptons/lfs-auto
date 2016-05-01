@@ -25,16 +25,9 @@ task_name="dist.src.setup"
 step_src_cp() {
 
     mkdir -vp "$root/sources/dist-build"
-
-    if [ -d $dist_src_dir ]; then
-        cp -vpr "$root/boot/initrd.img-$kernel_version" \
-            $dist_src_dir/boot
-    else
-        mkdir -vp $dist_src_dir
-        cp -vpr $root/{bin,boot,dev,etc,home,lib,lib64,media,mnt,opt} \
-            $dist_src_dir
-        cp -vpr $root/{proc,root,run,sbin,srv,sys,tmp,usr,var} $dist_src_dir
-    fi
+    mkdir -vp $dist_src_dir
+    cp -vpru $root/{bin,boot,etc,home,lib,lib64,mnt} $dist_src_dir
+    cp -vpru $root/{opt,root,run,sbin,srv,usr,var} $dist_src_dir
 }
 
 # run

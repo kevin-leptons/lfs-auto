@@ -28,7 +28,14 @@ no_mount()
 
 do_mount_root()
 {
-   mkdir /.root
+
+    # fix here
+    mkdir -vp /.root
+    mkdir -vp /mnt
+    mount -o loop /dev/cdrom /mnt
+    mount -t squashfs /mnt/filesystem.squashfs /.root
+    # end fix
+
    [ -n "$rootflags" ] && rootflags="$rootflags,"
    rootflags="$rootflags$ro"
 
