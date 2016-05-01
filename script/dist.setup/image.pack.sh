@@ -21,17 +21,23 @@ require_root
 # variables
 task_name="dist.image.pack"
 dest_file="$dist_dest_dir/lfs-live.amd64.iso"
+dest_fs_file="$dist_build_dir/filesystem.squashfs"
+
+step_fs_compress() {
+    mksquashfs $dist_src_dir $dest_fs_file
+}
 
 step_image_pack() {
     rm -rf "$dest_file"
     mkdir -vp $dist_dest_dir
     genisoimage -r -o "$dest_file" \
-        -b "boot/syslinux/isolinux.bin" \
-        -c "boot/syslinux/boot.cat" \
+        -b "syslinux/isolinux.bin" \
+        -c "syslinux/boot.cat" \
         -no-emul-boot -boot-load-size 4 -boot-info-table \
-        "$dist_src_dir"
+        "$dist_build_dir"
 }
 
 # run
+run_step "$task_name.fs.compress" step_fs_compress
 run_step "$task_name" step_image_pack force
 exit 0

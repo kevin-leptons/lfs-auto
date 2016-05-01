@@ -14,6 +14,7 @@ docker_lfs_auto="/mnt/lfs-auto"
 docker_script_dir="/lfs-script"
 lfs_script_dir="/lfs-script"
 kernel_version="4.2.0"
+kernel_name="vmlinuz-4.2-lfs-7.8"
 
 # disk device where lfs partition locate
 # must chose new partition without any important data
@@ -29,6 +30,7 @@ root="/mnt/lfs"
 dist_dir="$root/dist"
 dist_src_dir="$dist_dir/src"
 dist_dest_dir="$dist_dir/dest"
+dist_build_dir="$dist_dir/build"
 
 # directory store source code
 # source code will download from internet by wget program and wget-list file

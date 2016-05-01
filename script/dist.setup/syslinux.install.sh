@@ -22,7 +22,7 @@ require_root
 package_name="dist.syslinux"
 source_file="../syslinux-6.03.tar.gz"
 source_dir="syslinux-6.03"
-dest_dir="$dist_src_dir/boot/syslinux"
+dest_dir="$dist_build_dir/syslinux"
 
 # step.verify
 step_verify() {
@@ -51,6 +51,11 @@ step_config_install() {
     cp -vpr /lfs-script/asset/syslinux/* $dest_dir
 }
 
+# step.kernel.cp
+step_kernel_cp() {
+    cp -vpr "$root/boot/$kernel_name" $dist_build_dir
+}
+
 # run
 cd "$root/sources/dist-build"
 run_step "$package_name.verify" step_verify
@@ -58,4 +63,5 @@ run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.lib.install" step_lib_install
 run_step "$package_name.config.install" step_config_install force
+run_step "$package_name.kernel.cp" step_kernel_cp
 exit 0
