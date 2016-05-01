@@ -33,6 +33,7 @@ packages=( \
     config-file-system \
     kernel \
     config-grub \
+    initramfs \
     create-build-status \
 )
 
