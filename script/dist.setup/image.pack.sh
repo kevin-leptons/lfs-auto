@@ -20,7 +20,7 @@ require_root
 
 # variables
 task_name="dist.image.pack"
-dest_file="$dist_dest_dir/lfs-live.x64.iso"
+dest_file="$dist_dest_dir/lfs-live.amd64.iso"
 
 step_image_pack() {
     mkdir -vp $dist_dest_dir
