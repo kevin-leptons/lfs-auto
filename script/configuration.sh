@@ -57,5 +57,5 @@ log_build_file="/lfs-script/log/build.log"
 index_step_file="/lfs-script/tmp/step-index.txt"
 
 # dist
-dist_direct_fs_boot="$dist_dir/dest/lfs.ghost.amd64.iso"
-dist_direct_fs_boot_mnt="/mnt/lfs-direct-boot"
+dist_ghost_fs_boot="$dist_dir/dest/lfs.ghost.amd64.iso"
+dist_ghost_fs_boot_mnt="/mnt/lfs-ghost"

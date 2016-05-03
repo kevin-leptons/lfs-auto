@@ -52,7 +52,7 @@ log "$task_name.box.start" 0
 docker run -ti --privileged \
     -v "$root":"$root" \
     -v "$script_dir":"$docker_script_dir" "$docker_name" \
-    bash /lfs-script/box.entry.sh $1
+    bash /lfs-script/box.entry.sh "$@"
 log "$task_name.box.finish" $?
 
 # file-system.umount

@@ -25,4 +25,6 @@ source util.sh
 
 # install-image.create
 # install boot loader
-./dist.setup.sh
+args="$@"
+dists=$(param_name args[@] --dist)
+./dist.setup.sh $dists

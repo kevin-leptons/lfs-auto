@@ -49,5 +49,5 @@ case "$1" in
         bash sys.active.sh bash;;
 
     # continue setup imediately
-    * ) bash setup.sh;;
+    * ) bash setup.sh "$@";;
 esac

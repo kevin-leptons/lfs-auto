@@ -256,3 +256,28 @@ in_array() {
     done
     return $is_contain
 }
+
+# using     : parse param by name and split by comma to array
+# param     :
+#   $1: arguments
+#   $2: name of parameter to parse
+# return    : array
+param_name() {
+    local value=""
+    local params="${!1}"
+    local found=1
+    for param in ${params[@]}; do
+        if [[ $param == "$2=*" ]]; then
+            found=0
+            break
+        fi
+    done
+
+    if [[ ! found ]]; then
+        exit 1
+    else
+        echo $params | cut -d"=" -f2 | sed -e 's/,/ /g'
+    fi
+
+    return 0
+}

@@ -24,4 +24,4 @@ source configuration.sh
 ./box.dev.partition.setup.sh
 
 # box.dev.active
-sudo -u $build_user bash box.dev.entry.sh "$1"
+sudo -u $build_user bash box.dev.entry.sh "$@"
