@@ -29,7 +29,9 @@ run apt-get install -y \
    gettext \
    build-essential \
    genisoimage \
-   squashfs-tools
+   squashfs-tools \
+   syslinux \
+   extlinux
 
 # make sure that docker meet requirements of lfs
 run ln -sf bash /bin/sh

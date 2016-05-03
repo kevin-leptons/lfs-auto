@@ -27,5 +27,6 @@ mkdir -vp /mnt
 mount -o loop /dev/cdrom /mnt
 mount -t squashfs -n /mnt/filesystem.squashfs /.root
 
+killall -w /sbin/udev
 echo "SWITCH ROOT. RUN BASH INSTEAD OF /SBIN/INIT [TEST ONLY]"
 exec switch_root /.root /bin/bash

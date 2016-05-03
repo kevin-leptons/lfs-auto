@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # using     : pack system into an image
+# params    : list of distribution to build
 # author    : kevin.leptons@gmail.com
 
 # bash options
@@ -11,26 +12,25 @@ source configuration.sh
 source util.sh
 
 # variables
-task_name="dist.pack"
+task_name="dist"
 dist_setup_dir="dist.setup"
+dist_list="$@"
 
-step_dist_setup() {
+# dist.emtpy
+if [[ dist_list == "" ]]; then
+    (>&2 echo "distribution list is not specify")
+    exit 1
+fi
 
-    # list all script to build package in system
-    # each script not contains extension
-    packages=( \
-        src.setup \
-        syslinux.install\
-        image.pack
-    )
+# dist.ghost
+if in_array dist_list[@] ghost; then
+    $dist_setup_dir/dist.ghost.setup.sh
+fi
 
-    # build each package
-    # log is generate by internal build script
-    for package in ${packages[@]}; do
-        sudo $dist_setup_dir/$package.sh
-    done
-}
+# dist.live
+if in_array dist_list[@] live; then
+    $dist_setup_dir/dist.live.setup.sh
+fi
 
 # run
-run_step "$task_name" step_dist_setup force
-exit 0
+exit $?

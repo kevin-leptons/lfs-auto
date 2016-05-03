@@ -240,3 +240,19 @@ require_root() {
         exit 1
     fi
 }
+
+# using     : verify array contain element
+# param
+#   $1: array, pass by "array_name[@]"
+#   $2: element to verify
+in_array() {
+    local is_contain=1
+    local array="${!1}"
+    for elem in ${array[@]}; do
+        if [[ "$elem" == "$2" ]]; then
+            is_contain=0
+            break
+        fi
+    done
+    return $is_contain
+}

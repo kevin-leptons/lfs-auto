@@ -55,3 +55,7 @@ lfs_disk_size="32G"
 log_host_package_file="log/host-package.log"
 log_build_file="/lfs-script/log/build.log"
 index_step_file="/lfs-script/tmp/step-index.txt"
+
+# dist
+dist_direct_fs_boot="$dist_dir/dest/lfs.direct.amd64.iso"
+dist_direct_fs_boot_mnt="/mnt/lfs-direct-boot"
