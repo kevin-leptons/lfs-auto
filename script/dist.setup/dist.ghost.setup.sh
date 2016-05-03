@@ -53,13 +53,10 @@ step_syslinux_install() {
         "bios/com32/elflink/ldlinux/ldlinux.c32" \
         "/lfs-script/asset/syslinux.ghost/syslinux.cfg" \
         $syslinux_dest_dir
-    # sudo umount $dist_ghost_fs_boot_mnt
 
     # mbr.install
     sudo extlinux --install $dist_ghost_fs_boot_mnt
-    # mnt_dir=$(escape_str $dist_ghost_fs_boot)
-    # fs_dev=$(sudo losetup | sed -ne "/$mnt_dir/p" | cut -d" " -f1)
-    # sudo syslinux --directory /boot/syslinux/ --install $fs_dev
+    sudo umount $dist_ghost_fs_boot_mnt
 }
 
 # run
