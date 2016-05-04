@@ -86,6 +86,11 @@ step_custom_rules_install() {
     make -f udev-lfs-20140408/Makefile.lfs install
 }
 
+# step.configure
+step_eudev_config() {
+    LD_LIBRARY_PATH=/tools/lib udevadm hwdb --update
+}
+
 # run
 cd $root_system_sources
 run_step "$package_name.verify" step_verify
@@ -99,4 +104,5 @@ run_step "$package_name.test-dir.mkdir" step_test_dir_mkdir
 run_step "$package_name.test" step_test
 run_step "$package_name.install" step_install
 run_step "$package_name.custom-rules.install" step_custom_rules_install
+run_step "$package_name.eudev.config" step_eudev_config
 exit 0
