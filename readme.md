@@ -3,6 +3,10 @@
 - allow developer can test imediately linux distribution in virtual machine
 - new style of linux distribution
 
+# overview
+
+![vm.ghost](doc/img/vm.ghost.jpg "virtual machine screen")
+
 # requirements
 
 - linux from scratch version 7.8
