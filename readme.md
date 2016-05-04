@@ -4,8 +4,7 @@ document
 
 # news
 
-    - setup system has successful by run script ./run.sh. more work to do
-    - re construct project because it was become complicated
+    - 2016-05-04: active ghost distribution
 
 # documenation
 
@@ -43,9 +42,13 @@ see [doc directory](./doc)
 
 # instructions
 
-## run automated setup
+## run automated setup with ghost distribution
 ```shell
-./run.sh
+# setup
+./run.sh --dist=ghost
+
+# try in virtual machine
+./vm.active ghost
 ```
 
 ## enter box environment under dev user
