@@ -1,10 +1,10 @@
 # linux from scratch automated build
-    - automated build linux from scratch in docker environemnt
-    - allow developer can test imediately linux distribution in virtual machine
+- automated build linux from scratch in docker environemnt
+- allow developer can test imediately linux distribution in virtual machine
 
 # news
 
-    - 2016-05-04: active ghost distribution
+- 2016-05-04: active ghost distribution
 
 # documenation
 
@@ -12,14 +12,14 @@ see [doc directory](./doc)
 
 # specifications
 
-   - linux from scratch version 7.8
-   - docker version 1.10.3
-   - docker image debian:jessie
+- linux from scratch version 7.8
+- docker version 1.10.3
+- docker image debian:jessie
 
 # requirements
 
-    - operating system: debian
-    - disk space about 32GB
+- operating system: debian
+- disk space about 32GB
 
 # general architecture
 
