@@ -11,16 +11,13 @@
 
 see [doc directory](./doc)
 
-# specifications
+# requirements
 
 - linux from scratch version 7.8
 - docker version 1.10.3
 - docker image debian:jessie
-
-# requirements
-
 - operating system: debian
-- disk space about 32GB
+- disk space ~32GB
 
 # general architecture
 
