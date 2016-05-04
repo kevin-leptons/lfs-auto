@@ -1,6 +1,6 @@
 # linux from scratch automated build
-automated build linux from scratch in docker environemnt. allow developer can
-test imediately linux distribution in virtual machine
+    - automated build linux from scratch in docker environemnt
+    - allow developer can test imediately linux distribution in virtual machine
 
 # news
 
