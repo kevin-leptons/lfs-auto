@@ -31,3 +31,4 @@ run_step "$task_name.ifconfig.cp" step_ifconfig_cp
 run_step "$task_name.resolv.conf.cp" step_resolv_cp
 run_step "$task_name.hostname.cp" step_hostname_cp
 run_step "$task_name.hosts.cp" step_hosts_cp
+exit 0
