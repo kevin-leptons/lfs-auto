@@ -34,10 +34,15 @@ step_groups_disable() {
     find man -name Makefile.in -exec sed -i 's/groups\.1 / /' {} \;
 }
 
-# step.sha-512.active
-step_sha_512_active() {
+# step.login.defs.sed
+step_login_defs_sed() {
     sed -i -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' \
-       -e 's@/var/spool/mail@/var/mail@' etc/login.defs
+       -e 's@/var/spool/mail@/var/mail@' \
+       -e 's/PASS_ALWAYS_WARN.*yes$/PASS_ALWAYS_WARN no/' \
+       -e 's/PASS_MIN_LEN.*5$/PASS_MIN_LEN 3/' \
+       -e 's/LOGIN_RETRIES.*5$/LOGIN_RETRIES 1/' \
+       -e 's/PASS_CHANGE_TRIES.*5/PASS_CHANGE_TRIES 1/' \
+       etc/login.defs
 }
 
 # step.etc/useradd.add
@@ -75,9 +80,10 @@ step_shadow_pass_group_enable() {
     grpconv
 }
 
-# change password for root user
-# todo: this way not work
-#echo -e "lfs\nlfs" | passwd root
+# root.pass.change
+step_root_pass_change() {
+    echo 'root:root' | chpasswd
+}
 
 # run
 cd $root_system_sources
@@ -85,7 +91,7 @@ run_step "$package_name.verify" step_verify
 run_step "$package_name.extract" step_extract
 cd $source_dir
 run_step "$package_name.groups.disable" step_groups_disable
-run_step "$package_name.sha-512.active" step_sha_512_active
+run_step "$package_name.login.defs.sed" step_login_defs_sed
 run_step "$package_name.etc.useradd.add" step_etc_useradd_add
 run_step "$package_name.configure" step_configure
 run_step "$package_name.build" step_build
@@ -93,5 +99,6 @@ run_step "$package_name.install" step_install
 run_step "$package_name.passwd.mv" step_passwd_mv
 run_step "$package_name.shadow.pass.enable" step_shadow_pass_enable
 run_step "$package_name.shadow.pass-group.enable" step_shadow_pass_group_enable
+run_step "$package_name.root.pass.change" step_root_pass_change
 
 exit 0

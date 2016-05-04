@@ -56,8 +56,10 @@ step_image_mount() {
 
 # step.fs.cp
 step_fs_cp() {
-    sudo cp -vpru $root/{bin,boot,etc,home,lib,lib64,sbin,usr,var} \
-        $dist_ghost_fs_boot_mnt
+    sudo cp -vpru $root/{bin,boot,etc,home,lib,lib64,sbin,usr,var,root} \
+        $dist_ghost_fs_boot_mnt &&
+    sudo cp /lfs-script/asset/build-user-profile.sh \
+        $dist_ghost_fs_boot_mnt/root/.profile &&
     sudo mkdir -vp $dist_ghost_fs_boot_mnt/{dev,proc,sys,tmp}
 }
 

@@ -10,4 +10,4 @@
 # HOME: path to home directory, usually as '/home/<build-user>'
 # TERM: shell program will on login session
 # PS1: message show on shell
-exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ \' /bin/bash
+exec env -i HOME=$HOME TERM=$TERM PS1='\u@\h:\W$ ' /bin/bash
