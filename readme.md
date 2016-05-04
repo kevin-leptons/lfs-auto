@@ -3,7 +3,7 @@
 - allow developer can test imediately linux distribution in virtual machine
 - new style of linux distribution
 
-# overview
+# screen
 
 ![vm.ghost](doc/img/vm.ghost.jpg "virtual machine screen")
 
