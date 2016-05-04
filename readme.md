@@ -3,14 +3,6 @@
 - allow developer can test imediately linux distribution in virtual machine
 - new style of linux distribution
 
-# news
-
-- 2016-05-04: active ghost distribution
-
-# documenation
-
-see [doc directory](./doc)
-
 # requirements
 
 - linux from scratch version 7.8
@@ -18,6 +10,10 @@ see [doc directory](./doc)
 - docker image debian:jessie
 - operating system: debian
 - disk space ~32GB
+
+# news
+
+- 2016-05-04: active ghost distribution
 
 # general architecture
 
@@ -38,9 +34,14 @@ see [doc directory](./doc)
     - linux from scratch: contains instructions to build linux from scratch,
       write in shell script
 
+  # documenation
+
+  see [doc directory](./doc)
+
 # instructions
 
-## run automated setup with ghost distribution
+- run automated setup with ghost distribution
+
 ```shell
 # setup
 ./run.sh --dist=ghost
@@ -49,17 +50,20 @@ see [doc directory](./doc)
 ./vm.active ghost
 ```
 
-## enter box environment under dev user
+- enter box environment under dev user
+
 ```shell
 ./run.sh box
 ```
 
-## enter tmp-sys environment under root user
+- enter tmp-sys environment under root user
+
 ```shell
 ./run.sh tmp-sys
 ```
 
-## enter sys environment under root user
+- enter sys environment under root user
+
 ```shell
 ./run.sh sys
 ```
