@@ -34,9 +34,9 @@
     - linux from scratch: contains instructions to build linux from scratch,
       write in shell script
 
-  # documenation
+# documenation
 
-  see [doc directory](./doc)
+see [doc directory](./doc)
 
 # instructions
 
