@@ -10,9 +10,14 @@ source util.sh
 # variables
 task_name="sys.systemv.configure"
 
-config_systemv() {
-    # create /etc/initab
+step_inittab_cp() {
     cp -vp asset/etc.inittab /etc/inittab
 }
 
-run_step "$task_name" config_systemv
+step_clock_config() {
+    cp -vp asset/etc.sysconfig.clock /etc/sysconfig/clock
+}
+
+# run
+run_step "$task_name.clock.config" step_clock_config
+run_step "$task_name.inittab.cp" step_inittab_cp

@@ -24,26 +24,3 @@ su:S016:once:/sbin/sulogin
 6:2345:respawn:/sbin/agetty tty6 9600
 
 # End /etc/inittab
-EOF
-
-# create /etc/sysconfig/clock
-cat > /etc/sysconfig/clock << "EOF"
-# Begin /etc/sysconfig/clock
-
-UTC=1
-
-# Set this to any options you might need to give to hwclock,
-# such as machine hardware clock type for Alphas.
-CLOCKPARAMS=
-
-# End /etc/sysconfig/clock
-EOF
-
-# create /etc/sysconfig/console
-cat > /etc/sysconfig/console << "EOF"
-# Begin /etc/sysconfig/console
-
-KEYMAP="pl2"
-FONT="lat2a-16 -m 8859-2"
-
-# End /etc/sysconfig/console

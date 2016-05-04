@@ -15,9 +15,7 @@ vm_type="kvm"
 vm_name="lfs.ghost.amd64"
 vm_cpus="2"
 vm_ram="512"
-vm_cdrom="/mnt/lfs/dist/dest/lfs.ghost.amd64.iso"
-vm_disk_path="disk/lfs.ghost.amd64.vm.img"
-vm_disk_size="8"
+vm_disk_path="/mnt/lfs/dist/dest/lfs.ghost.amd64.iso"
 
 # handle for exit event
 on_exit() {
@@ -34,6 +32,9 @@ if ! mount -l | grep /mnt/lfs; then
     sudo mount "disk/lfs-disk.img" "/mnt/lfs"
 fi
 
+# chown image for bootable
+sudo chown $USER:$USER $vm_disk_path
+
 # remove early virtual machine
 if virsh list | grep $vm_name; then
     virsh destroy $vm_name
@@ -43,10 +44,12 @@ if virsh list --all | grep $vm_name; then
 fi
 
 # vm.install, show on window
+# --cdrom $vm_cdrom \
+ls /mnt/lfs/dist/dest
 virt-install \
     --virt-type $vm_type \
     --name $vm_name \
     --vcpus $vm_cpus \
     --ram $vm_ram \
-    --cdrom $vm_cdrom \
-    --disk path=$vm_disk_path,size=$vm_disk_size
+    --disk $vm_disk_path \
+    --boot hd
