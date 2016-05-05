@@ -53,21 +53,24 @@ table of contents
 
     model below show bulding of ghost distribution
 
+     1. create            |-------------| 2. mount     |-------------|
+    --------------------->| ghost image |------------->|             |
+                          |-------------|              |             |
+                                                       |             |
+    |----------------| 3. copy                         |             |
+    | os file system |-------------------------------->|             |
+    |----------------|                                 |             |
+                                                       |             |
+                                                       | mount point |
+    |----------------| 4. install                      |             |
+    | boot loader    |-------------------------------->|             |
+    |----------------|                                 |             |
+                                                       |             |
+    |----------------| 5. install                      |             |
+    | master boot    |-------------------------------->|             |
+    | recored        |                                 |             |
+    |----------------|                                 |-------------|
 
-    |-------------------|  (5)  |-------------|   (2)  |--------------------|
-    |                   | copy  |             |  mount |                    |
-    | build file system |------>| mount point |<-------| ghost distribution |
-    |                   |       |             |        | image              |
-    |-------------------|       |-------------|        |--------------------|
-                           (4)        ^    ^                     ^
-    |-------------------| install     |    |                     |
-    | boot loader       |-------------     |                     |  (1)
-    |-------------------|                  |                     | create
-                           (3)             |                     |
-    |-------------------| install          |                     |
-    | master boot       |------------------
-    | record            |
-    |-------------------|
 
         1 - create: use fallocate or dd to create image about 1.5GB. use fdisk
                     to format partiion with ext4 type and mark partion bootable
