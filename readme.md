@@ -54,6 +54,15 @@ see [doc directory](./doc)
 # try in virtual machine
 ./vm.active ghost
 ```
+- run automated setup with live distribution
+
+```shell
+# setup
+./run.sh --dist=live
+
+# try in virtual machine
+./vm.active live
+```
 
 - enter box environment under dev user
 
