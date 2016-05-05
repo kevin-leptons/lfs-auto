@@ -10,7 +10,7 @@ source util.sh
 task_name="sys.fs.configure"
 
 config_fs() {
-    cp -vp asset/etc.fstab /etc/fstab
+    cp -vpu asset/etc.fstab /etc/fstab
 }
 
-run_step "$task_name" config_fs
+run_step "$task_name" config_fs force

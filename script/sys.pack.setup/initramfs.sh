@@ -25,6 +25,7 @@ step_mkinitramfs_init_cp() {
 
 # install
 step_install() {
+    rm "/boot/initrd.img-$kernel_version"
     $script_dir/mkinitramfs.sh $kernel_version
     mv "initrd.img-$kernel_version" /boot/
 }

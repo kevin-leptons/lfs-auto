@@ -26,6 +26,7 @@ step_src_cp() {
 
     mkdir -vp "$root/sources/dist-build"
     mkdir -vp $dist_src_dir
+    mkdir -vp $dist_src_dir/{dev,proc,sys,tmp}
     cp -vpru $root/{bin,boot,etc,home,lib,lib64,mnt} $dist_src_dir
     cp -vpru $root/{opt,root,run,sbin,srv,usr,var} $dist_src_dir
 }

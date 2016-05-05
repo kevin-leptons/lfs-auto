@@ -32,6 +32,7 @@ packages=( \
     config-shells \
     config-file-system \
     kernel \
+    initramfs \
     create-build-status \
 )
 

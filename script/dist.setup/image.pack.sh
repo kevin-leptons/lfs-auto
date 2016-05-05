@@ -43,7 +43,7 @@ step_image_pack() {
 }
 
 # run
-run_step "$task_name.fs.compress" step_fs_compress
+run_step "$task_name.fs.compress" step_fs_compress force
 run_step "$task_name.initrd.cp" step_initrd_cp
 run_step "$task_name" step_image_pack force
 exit 0

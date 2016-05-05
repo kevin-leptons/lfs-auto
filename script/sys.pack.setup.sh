@@ -84,6 +84,7 @@ step_sys_pack_setup() {
         util-linux \
         man-db \
         vim \
+        config-user \
         cpio \
         clean \
     )
