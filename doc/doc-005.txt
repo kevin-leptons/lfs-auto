@@ -1,0 +1,89 @@
+no          : 005
+title       : os file system
+created     : 2016-05-05
+updated     : 2016-05-05
+author      : kevin.leptons@gmail.com
+
+
+table of contents
+
+    1. overview
+    2. target
+    3. file hierarchy standard
+    4. classify file system
+    5. references
+
+
+1. overview
+
+    this document specify file system of operating system for easy setup
+
+    section 2 specify target of this document. section 3 describe file system,
+    section 4 show hot to classify file system for easy setup. section 5
+    are references
+
+    
+2. target
+
+    - follow 'file hierarchy standard'
+    - recognize configuration file and other file, do not install configuration
+      file to os file system. configuration file must be install at setup step
+
+
+3. file hierarchy standard
+
+    follow 'file hierarchy standard', operating file system look like below
+
+        -/
+         |-bin
+         |-boot
+         |-dev
+         |-etc
+         |-home
+         |-lib
+         |-lib64
+         |-media
+         |-mnt
+         |-opt
+         |-proc
+         |-root
+         |-run
+         |-sbin
+         |-srv
+         |-sys
+         |-tmp
+         |-usr
+         |-var
+
+
+4. classify file system
+
+    file system is classify to three type
+
+        - executable: which file can execute, locate in /bin, /sbin and 
+          sub-directory of /usr
+
+        - library: which file contain function, locate in /lib, lib64 and
+          sub-directory of /usr
+
+        - configurarion: which file contain configuration, locate in /etc and
+          sub-directory of /usr
+
+    location of file are relatively. executable and library must be install
+    into os file system
+
+    should not install configuration file into os file sytem, it must be install
+    in some case
+        
+        - setup step, when install operating system from install device to
+          storage driver
+
+        - end-build in each type of distribution
+
+        - some common configuration file same as .vimrc, they are same at
+          every where
+
+    
+5. references
+
+    - file hierarchy standard: https://wiki.linuxfoundation.org/en/FHS

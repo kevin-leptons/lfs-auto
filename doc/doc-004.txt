@@ -1,0 +1,98 @@
+no          : 004
+title       : ghost distribution
+created     : 2016-05-05
+updated     : 2016-05-05
+author      : kevin.leptons@gmail.com
+
+
+table of contents
+
+    1. overview
+    2. target
+    3. using
+    4. building
+    5. manual
+
+
+1. overview
+
+    this document specify ghost distribution. document provide knowledge for
+    what is ghost distribute use for
+
+
+2. target
+
+    - follow doc-005 - os file system
+    - show what is ghost distribute is use for
+    - show how to use ghost distribute 
+    - show how to build ghost distribute
+
+
+3. using
+
+    ghost distribution is an file sytem image contains operating file system
+    and boot loader have configuration to boot direct to kernel
+
+        |------|    |---------------------------------------|
+        | bios |    | ghost distribution                    |
+        |      |    |---------------------------------------|
+        |      |------> boot loader | operating file system |
+        |      |    |               |     - kernel          |
+        |      |    |               |     - tools           |
+        |------|    |---------------------------------------|
+    
+
+    ghost distribution is use for developing for three reason
+
+        - fast building
+        - simple building
+        - simple boot
+
+
+4. building
+
+    model below show bulding of ghost distribution
+
+
+    |-------------------|  (5)  |-------------|   (2)  |--------------------|
+    |                   | copy  |             |  mount |                    |
+    | build file system |------>| mount point |<-------| ghost distribution |
+    |                   |       |             |        | image              |
+    |-------------------|       |-------------|        |--------------------|
+                           (4)        ^    ^                     ^
+    |-------------------| install     |    |                     |
+    | boot loader       |-------------     |                     |  (1)
+    |-------------------|                  |                     | create
+                           (3)             |                     |
+    |-------------------| install          |                     |
+    | master boot       |------------------
+    | record            |
+    |-------------------|
+
+        1 - create: use fallocate or dd to create image about 1.5GB. use fdisk
+                    to format partiion with ext4 type and mark partion bootable
+
+        2 - mount: mount image to mount point for installation
+
+        3 - install mbr: use dd to install mbr.bin of syslinux to image
+
+        4 - install boot loader: copy syslinux bootloader and configuration 
+            file to image
+
+        5. copy os fs: copy file system of operating system to image
+
+
+5. manual
+
+    when building is done, only point boot target to ghost distribution image,
+    system will be startup
+
+
+
+
+
+
+
+
+
+

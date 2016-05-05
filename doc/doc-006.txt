@@ -1,0 +1,122 @@
+no          : 006
+title       : live distribution
+created     : 2016-05-05
+updated     : 2016-05-05
+author      : kevin.leptons@gmail.com
+
+
+table of contents
+
+    1. overview
+    2. target
+    3. using
+    4. building
+    5. manual
+
+
+1. overview
+
+    this document specify live distribution. document provide knowledge for 
+    what is live distribute use for
+
+
+2. target
+
+    - follow doc-005 - os file system
+    - show what is live distribute is use for
+    - show how to use live distribution
+    - show how to build live distribution
+
+
+3. using
+
+    live distribution is an file system image contains mixed components
+    
+        - live image: contains temporaty system to install operating system to
+          storage
+
+        - install image: contain full operating system
+
+        |------|    |-------------------------------------------------------| 
+        |      |    | ghost distribution                                    |
+        | bios |    |-------------------------------------------------------| 
+        |      |------>boot loader | live image | installer | install image |
+        |      |    |             --->         --->         |               |
+        |------|    |-----------------------------------------------|-------| 
+                                                                    v
+                                                            |---------------|
+                                                            |    storage    |
+                                                            |---------------|
+
+
+    live distribution use to install linux operating system to storage 
+
+    
+4. building
+
+    model below show bulding of live distribution
+
+                                                           |-------------|
+                                                           |             |
+    |----------------| 1. compress  |-----------| 2. copy  |             |
+    |                |------------->| intall-fs |--------->| build dir   |
+    |                |              |-----------|          |             |
+    |                |                                     |             |
+    |                | 3. compress  |-----------| 4. copy  |             |
+    | os file system |------------->| live-fs   |--------->|             |
+    |                |              |-----------|          |             |
+    |                |                                     |             |
+    |                | 5. compress  |-----------| 6. copy  |             |
+    |                |------------->| initrd-fs |--------->|             |
+    |                |              |-----------|          |             |
+    |----------------|                                     |             |
+                                                           |             |
+    |----------------| 7. install                          |             |
+    | boot loader    |------------------------------------>|             |
+    |----------------|                                     |             |
+                                                           |             |
+    |----------------| 8. install                          |             |
+    | master boot    |------------------------------------>|             |
+    | record         |                                     |             |
+    |----------------|                                     |             |
+                                                           |             |
+    |----------------| 9. generate                         |             |
+    | live image     |<------------------------------------|             |
+    |----------------|                                     |-------------|
+
+        1. compress: compress os file system into squashfs format. it will 
+           install into storage target
+
+        2. copy: copy install-fs to build directory
+    
+        3. compress: compress os file system and installer into squashfs format.
+           it will use to start installer
+
+        4. copy: copy live-fs to build directory
+
+        5. compress: compress essential os file system into gzip format. it will
+           use to start installer
+
+        6. copy: copy initrd-fs to build directory
+
+        7. install: install boot loader
+
+        8. install: install master boot record
+
+        9. generate iso image
+
+
+5. manual
+
+    when live image has build, only point boot to live image, it start installer
+
+
+
+
+
+
+
+
+
+
+
