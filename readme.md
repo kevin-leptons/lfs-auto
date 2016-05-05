@@ -45,9 +45,13 @@ see [doc directory](./doc)
 
 # instructions
 
-warning: approximate build time about 6 hours. process run full test for both
+**warning**:
+- approximate build time about 6 hours. process run full test for both
 temporary tools and system
+- no installer present, if you want install to storage target, do it by hand.
+installer will present in next version
 
+**commands**
 - run automated setup with ghost distribution
 
 ```shell
