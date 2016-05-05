@@ -51,6 +51,7 @@ see [doc directory](./doc)
 temporary tools and system
 - no installer present, if you want install to storage target, do it by hand.
 installer will present in next version
+- user name/password to login: root/root
 
 **result in ./disk/lfs-disk.img when mount to /mnt/lfs**
 - ghost distribution file: ./dist/dest/lfs.ghost.amd64.iso
