@@ -18,6 +18,7 @@
 # news
 
 - 2016-05-04: active ghost distribution
+- 2016-05-05: active live distribution
 
 # general architecture
 
