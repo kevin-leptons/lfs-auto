@@ -40,7 +40,7 @@
     - linux from scratch: contains instructions to build linux from scratch,
       write in shell script
 
-# documenation
+# documentations
 
 see [doc directory](./doc)
 
