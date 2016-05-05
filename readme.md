@@ -45,6 +45,9 @@ see [doc directory](./doc)
 
 # instructions
 
+warning: approximate build time about 6 hours. process run full test for both
+temporary tools and system
+
 - run automated setup with ghost distribution
 
 ```shell
