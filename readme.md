@@ -51,7 +51,7 @@ temporary tools and system
 - no installer present, if you want install to storage target, do it by hand.
 installer will present in next version
 
-**result in ./disk/lfs-disk.im when mount to /mnt/lfs**
+**result in ./disk/lfs-disk.img when mount to /mnt/lfs**
 - ghost distribution file: ./dist/dest/lfs.ghost.amd64.iso
 - live distribution file: ./dist/dest/lfs-live.amd64.iso
 
