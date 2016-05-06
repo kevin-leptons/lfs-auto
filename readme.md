@@ -3,7 +3,7 @@ this is new gnu/linux system focus on two side
 - developer: make developing become easily
 - end-user: make work become easily
 
-**warning**
+**notes**
 
 - for first version v1.0, check [lfs branch](https://github.com/kevin-leptons/lfs-auto/tree/lfs)
 - target of lfs branch are different than master branch now
