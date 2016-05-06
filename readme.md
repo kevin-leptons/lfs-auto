@@ -59,18 +59,29 @@ source code of system. that is mean
 
 prove that in the same time, value is created by this gnu/linux system is more
 than other system above
-- s_sys > s_osys
+- **s_sys > s_osys**
 - s_sys: value is created by this system
 - s_osys: value is created by other system
 
+prove that time switch between system of this system less than other system
+- time_sswitch: time uses to switch between this system
+- time_osswitch: time uses to switch between other system
+
 # prove
+
+s_sys > s_osys
 - v_sys = h/c_sys: speed of developing of system
 - v_osys = h/c_osys: speed of developingof other system
-- c_sys < c_osys (specification above)
+- c_sys < c_osys (specification section)
 - **v_sys > v_osys**
 - s_sys = v_sys.t
 - s_osys = v_osys.t
 - **s_sys > s_osys (proved)**
+
+time_sswitch < time_osswitch
+- time_sswitch = 0 (because you can do real work, learning on this system)
+- time_osswitch > 0 (because you must chose compartive system with your work)
+- **time_sswitch < time_osswitch (proved)**
 
 # conclusions
 - **s_sys > s_osys** mean that value has created by this system more than other
@@ -78,8 +89,9 @@ than other system above
 - fedora have same as target - make developing more quickly, but it is only
   target. they are not descrease complexity of system low enough to make system
   stable
-- debian, ubuntu, centos make system stable but it is too complex, so they
-  spend more time to develop
+- debian, ubuntu, centos have same as target - make system stable ,
+  but it is too complex, so they spend more time to develop
+- **time_sswitch < time_osswitch** safe your time
 
 # benefit
 
@@ -87,6 +99,7 @@ than other system above
 - fast-developing
 - stable system
 - updated
+- safe time
 
 # mailing list
 - kevin.leptons@gmail.com
