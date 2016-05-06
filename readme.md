@@ -1,4 +1,5 @@
-# linux from scratch automated build
+# overview
+- this is an branch historical, mark an point during develope gnu/linux system
 - automated build linux from scratch in docker environemnt
 - allow developer can test imediately linux distribution in virtual machine
 - new style of linux distribution
@@ -94,4 +95,22 @@ installer will present in next version
 
 ```shell
 ./run.sh sys
+```
+
+- build package
+
+```shell
+# assume that enter box, tmp-sys or sys before
+
+# build all of tmp-sys package
+./tmp-sys.pack.setup.sh
+
+# build single tmp-sys package
+./tmp-sys.pack.setup/<package-name>
+
+# build all of sys package
+./sys.pack.setup.sh
+
+# build sing sys package
+./sys.pack.setup/<package-name>
 ```
