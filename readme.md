@@ -64,24 +64,25 @@ than other system above
 - s_osys: value is created by other system
 
 prove that time switch between system of this system less than other system
+- **time_sswitch < time_osswitch**
 - time_sswitch: time uses to switch between this system
 - time_osswitch: time uses to switch between other system
 
 # prove
 
-s_sys > s_osys
+**s_sys > s_osys**
 - v_sys = h/c_sys: speed of developing of system
 - v_osys = h/c_osys: speed of developingof other system
-- c_sys < c_osys (specification section)
-- **v_sys > v_osys**
+- c_sys < c_osys, reference to specification section
+- v_sys > v_osys
 - s_sys = v_sys.t
 - s_osys = v_osys.t
-- **s_sys > s_osys (proved)**
+- s_sys > s_osys (proved)
 
-time_sswitch < time_osswitch
-- time_sswitch = 0 (because you can do real work, learning on this system)
-- time_osswitch > 0 (because you must chose compartive system with your work)
-- **time_sswitch < time_osswitch (proved)**
+**time_sswitch < time_osswitch**
+- time_sswitch = 0, because you can do real work, learning on this system
+- time_osswitch > 0, because you must chose compartive system with your work
+- time_sswitch < time_osswitch (proved)
 
 # conclusions
 - **s_sys > s_osys** mean that value has created by this system more than other
@@ -95,11 +96,11 @@ time_sswitch < time_osswitch
 
 # benefit
 
-- fast-learing
+- fast-learning
 - fast-developing
-- stable system
-- updated
 - safe time
+- updated
+- stable system
 
 # mailing list
 - kevin.leptons@gmail.com
