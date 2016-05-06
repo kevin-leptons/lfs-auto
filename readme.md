@@ -1,96 +1,73 @@
-# linux from scratch automated build
-- automated build linux from scratch in docker environemnt
-- allow developer can test imediately linux distribution in virtual machine
-- new style of linux distribution
+# new linux distribution
+this is new gnu/linux system focus on two side
+- developer: make developing become easily
+- end-user: make work become easily
 
-# screen
+**warning**
 
-![vm.ghost](doc/img/vm.ghost.jpg "virtual machine screen")
+- for first version v1.0, check [lfs](https://github.com/kevin-leptons/lfs-auto/tree/lfs) branch
+- target of lfs branch are different than master branch now
+- this project must be rename (finding new name)
 
-# requirements
+# motivation
+each existing gnu/linux system have one advantage/disadvantage of them
+- debian, centos: stable/slow-develop
+- rhel: supported/fee, slow-develop
+- ubuntu: stable/fat system
+- fedora: updated/non-stable
+- arch: optimized, learning/hard-to-use
+- lfs: learning/non-real-uses
 
-- linux from scratch version 7.8
-- docker version 1.10.3
-- docker image debian:jessie
-- operating system: debian
-- disk space ~32GB
+depend on your work, you must moving on new system and pay by time
+- real product: debian, centos, rhel, ubuntu
+- learning: fedora, arch, lfs
 
-# news
+this target of gnu/linux system are get advantages of other gnu/linux
+system. this system will help developer stop pay for learning by time
+and end-user have an better system
+- fast-develop: fedora
+- stable: debian, centos, rhel, ubuntu
+- learning: lfs, fedora
+- optimized: arch
 
-- 2016-05-04: active ghost distribution
-- 2016-05-05: active live distribution
-- **2016-05-06: prepare to next version, detach from linux from scratch**
+**warning**: this is not an conflict with unix philosophy and will explain in
+below section
+- do one thing and do it well
+- worse is better
 
-# general architecture
+# specification (researching)
+costs as money, human, hardware and time can be convert to cost of time
+- time_learn: time span use to learn new system
+- time_dev: time span use to develop system
+- time_dev_on: time span use to develop other tools on new system
+- time: total of time uses
+- systems: set of system, sample systems = (debian, fedora, arch)
+- sys-i: system i-th
+- time_*(sys-i): time uses for sys-i
 
-    |----------------------------------------------------------------------|
-    | linux from scratch                                                   |
-    |----------------------------------------------------------------------|
-    | docker container                                                     |
-    |----------------------------------------------------------------------|
-    | host operating system                                                |
-    |----------------------------------------------------------------------|
+system developer side
 
-    - host operating system: provide environment to run docker and virtual
-      storage, where store linux from scratch
+    # multi system
+    time_msys = T(1-n)(time_learn(sys-i) + time_dev(sys-i))
 
-    - docker container: provide environment to build linux from scratch. it is
-      use to reduce damage and unnecessary tools to host operating system
+    # this system
+    time_sys = time_learn(sys) + time_dev(sys)
 
-    - linux from scratch: contains instructions to build linux from scratch,
-      write in shell script
+    # to prove
+    time_sys < time_msys
 
-# documentations
+tools developer side
 
-see [doc directory](./doc)
+    # multi system
+    time_mtools = T(1-n)(time_learn(sys-i) + time_dev_on(sys-i))
 
-# instructions
+    # this system
+    time_tools = time_learn(sys) + time_dev_on(sys)
 
-**warning**:
-- approximate build time about 6 hours. processing run full test for both
-temporary tools and system
-- no installer present, if you want install to storage target, do it by hand.
-installer will present in next version
-- user name/password to login: root/root
+    # to prove
+    time_tools < time_mtools
 
-**results in ./disk/lfs-disk.img when mount to /mnt/lfs**
-- ghost distribution file: ./dist/dest/lfs.ghost.amd64.iso
-- live distribution file: ./dist/dest/lfs-live.amd64.iso
+# prove (researching)
 
-**commands**
-- run automated setup with ghost distribution
-
-```shell
-# setup
-./run.sh --dist=ghost
-
-# try in virtual machine
-./vm.active ghost
-```
-- run automated setup with live distribution
-
-```shell
-# setup
-./run.sh --dist=live
-
-# try in virtual machine
-./vm.active live
-```
-
-- enter box environment under dev user
-
-```shell
-./run.sh box
-```
-
-- enter tmp-sys environment under root user
-
-```shell
-./run.sh tmp-sys
-```
-
-- enter sys environment under root user
-
-```shell
-./run.sh sys
-```
+# mailing list
+- kevin.leptons@gmail.com
