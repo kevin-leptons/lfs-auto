@@ -1,4 +1,4 @@
-# new linux distribution
+# new linux distribution (finding for distribution name)
 this is new gnu/linux system focus on two side
 - developer: make developing become easily
 - end-user: make work become easily
@@ -7,7 +7,7 @@ this is new gnu/linux system focus on two side
 
 - for first version v1.0, check [lfs branch](https://github.com/kevin-leptons/lfs-auto/tree/lfs)
 - target of lfs branch are different than master branch now
-- this project must be rename (finding new name)
+- this project must be rename
 
 # motivation
 each existing gnu/linux system have one advantage/disadvantage of them
