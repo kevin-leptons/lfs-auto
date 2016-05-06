@@ -47,13 +47,13 @@ see [doc directory](./doc)
 # instructions
 
 **warning**:
-- approximate build time about 6 hours. process run full test for both
+- approximate build time about 6 hours. processing run full test for both
 temporary tools and system
 - no installer present, if you want install to storage target, do it by hand.
 installer will present in next version
 - user name/password to login: root/root
 
-**result in ./disk/lfs-disk.img when mount to /mnt/lfs**
+**results in ./disk/lfs-disk.img when mount to /mnt/lfs**
 - ghost distribution file: ./dist/dest/lfs.ghost.amd64.iso
 - live distribution file: ./dist/dest/lfs-live.amd64.iso
 
