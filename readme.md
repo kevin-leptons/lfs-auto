@@ -5,7 +5,7 @@ this is new gnu/linux system focus on two side
 
 **warning**
 
-- for first version v1.0, check [lfs](https://github.com/kevin-leptons/lfs-auto/tree/lfs) branch
+- for first version v1.0, check [lfs branch](https://github.com/kevin-leptons/lfs-auto/tree/lfs)
 - target of lfs branch are different than master branch now
 - this project must be rename (finding new name)
 
@@ -35,39 +35,58 @@ below section
 - do one thing and do it well
 - worse is better
 
-# specification (researching)
-costs as money, human, hardware and time can be convert to cost of time
-- time_learn: time span use to learn new system
-- time_dev: time span use to develop system
-- time_dev_on: time span use to develop other tools on new system
-- time: total of time uses
-- systems: set of system, sample systems = (debian, fedora, arch)
-- sys-i: system i-th
-- time_*(sys-i): time uses for sys-i
+# specification
+from simple equation of physical: **s = v.t**
+- s: lenght of road which object move
+- v: speed of object
+- t: time which object moving
 
-system developer side
+now, use that equation with other meaning
+- s: value is created by developing system or develop tools for system
+- v: speed of developing
+- t: time span which developing has occur
 
-    # multi system
-    time_msys = T(1-n)(time_learn(sys-i) + time_dev(sys-i))
+specify v by two other quantity: **v = h/c**
+- v: speed of developing
+- h: work ability of human, it is same as intelligence quotient
+- c: complexity of work
 
-    # this system
-    time_sys = time_learn(sys) + time_dev(sys)
+target of this gnu/linux distribution is reduce complexity of archiecture and
+source code of system. that is mean
+- c_sys: complexity of this system
+- c_osys: complexity of other system
+- c_sys < c_osys
 
-    # to prove
-    time_sys < time_msys
+prove that in the same time, value is created by this gnu/linux system is more
+than other system above
+- s_sys > s_osys
+- s_sys: value is created by this system
+- s_osys: value is created by other system
 
-tools developer side
+# prove
+- v_sys = h/c_sys: speed of developing of system
+- v_osys = h/c_osys: speed of developingof other system
+- c_sys < c_osys (specification above)
+- **v_sys > v_osys**
+- s_sys = v_sys.t
+- s_osys = v_osys.t
+- **s_sys > s_osys (proved)**
 
-    # multi system
-    time_mtools = T(1-n)(time_learn(sys-i) + time_dev_on(sys-i))
+# conclusions
+- **s_sys > s_osys** mean that value has created by this system more than other
+  system. that value will split into feature as fast-develop, stable, leanrning
+- fedora have same as target - make developing more quickly, but it is only
+  target. they are not descrease complexity of system low enough to make system
+  stable
+- debian, ubuntu, centos make system stable but it is too complex, so they
+  spend more time to develop
 
-    # this system
-    time_tools = time_learn(sys) + time_dev_on(sys)
+# benefit
 
-    # to prove
-    time_tools < time_mtools
-
-# prove (researching)
+- fast-learing
+- fast-developing
+- stable system
+- updated
 
 # mailing list
 - kevin.leptons@gmail.com
