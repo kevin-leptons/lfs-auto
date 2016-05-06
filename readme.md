@@ -1,3 +1,4 @@
+<img src="doc/img/logo.png" width="128" height="128"/>
 # new linux distribution (finding for distribution name)
 this is new gnu/linux system focus on two side
 - developer: make developing become easily
