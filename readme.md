@@ -19,7 +19,8 @@
 
 - 2016-05-04: active ghost distribution
 - 2016-05-05: active live distribution
-- **2016-05-06: prepare to next version, detach from linux from scratch**
+- 2016-05-06: prepare to next version, detach from linux from scratch
+- **2016-05-06: detach current branch to lfs. lfs is brach historical**
 
 # general architecture
 
