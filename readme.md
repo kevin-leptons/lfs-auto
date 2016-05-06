@@ -22,18 +22,18 @@ depend on your work, you must moving on new system and pay by time
 - real product: debian, centos, rhel, ubuntu
 - learning: fedora, arch, lfs
 
-this target of gnu/linux system are get advantages of other gnu/linux
-system. this system will help developer stop pay for learning by time
-and end-user have an better system
+target of gnu/linux system are advantages of other gnu/linux system.
+this system will help developer safe time and end-user have an better system
 - fast-develop: fedora
 - stable: debian, centos, rhel, ubuntu
 - learning: lfs, fedora
 - optimized: arch
 
-**warning**: this is not an conflict with unix philosophy and will explain in
-below section
-- do one thing and do it well
-- worse is better
+**warning**: this is not an conflict with unix philosophy
+- do one thing and do it well. all of feature of system help together better.
+  each of them become more well than focus to single feature
+- worse is better. focus on simple to make system better, not make system
+  more complex to better
 
 # specification
 from simple equation of physical: **s = v.t**
