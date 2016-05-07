@@ -7,7 +7,7 @@ this is new gnu/linux system focus on two side
 **notes**
 
 - for first version v1.0, check [lfs branch](https://github.com/kevin-leptons/lfs-auto/tree/lfs)
-- target of lfs branch are different than master branch now
+- target of [lfs branch](https://github.com/kevin-leptons/lfs-auto/tree/lfs) are different than master branch now
 - this project must be rename
 
 # motivation
