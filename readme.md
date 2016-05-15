@@ -4,7 +4,7 @@ from kevin, 2016-05-15
 
 i recognize that current operating systems is good enough. so i pause this 
 project and focus on other problems. if any body want to continue this project,
-contact me
+you can contact me
 
 thanks
 
